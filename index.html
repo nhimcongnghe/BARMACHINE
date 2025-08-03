@@ -70,5 +70,43 @@
       <div class="led-frame"></div>
       <div class="inner-box"></div>
   </div>
+       <script>
+  const ledFrame = document.querySelector('.led-frame');
+  const positions = [];
+
+  // Top edge
+  for (let i = 0; i < 6; i++) {
+    positions.push({ top: 0, left: i * 100 + 25 });
+  }
+
+  // Right edge
+  for (let i = 0; i < 6; i++) {
+    positions.push({ top: i * 100 + 25, left: 550 });
+  }
+
+  // Bottom edge
+  for (let i = 5; i >= 0; i--) {
+    positions.push({ top: 550, left: i * 100 + 25 });
+  }
+
+  // Left edge
+  for (let i = 5; i >= 0; i--) {
+    positions.push({ top: i * 100 + 25, left: 0 });
+  }
+
+  positions.forEach((pos, index) => {
+    const led = document.createElement('div');
+    led.className = 'led-box';
+    led.style.top = pos.top + 'px';
+    led.style.left = pos.left + 'px';
+
+    // Gắn ảnh giả (có thể đổi sau)
+    const img = document.createElement('img');
+    img.src = `https://via.placeholder.com/50?text=${index+1}`;
+    led.appendChild(img);
+
+    ledFrame.appendChild(led);
+  });
+</script>
 </body>
 </html>
