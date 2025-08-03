@@ -84,61 +84,58 @@
     const ledFrame = document.querySelector('.led-frame');
     const ledSize = 14;
 
-    const centerX = 300;
-    const centerY = 300;
-    const offsetFromBox = 43 + 3; // 43 là nửa box, +3 để ra ngoài
+    const ledDefs = [
+      // --- Top row (7) ---
+      { top: 0, left: 0,          ledTop: -ledSize,     ledLeft: 36 },
+      { top: 0, left: 86,         ledTop: -ledSize,     ledLeft: 36 },
+      { top: 0, left: 172,        ledTop: -ledSize,     ledLeft: 36 },
+      { top: 0, left: 258,        ledTop: -ledSize,     ledLeft: 36 },
+      { top: 0, left: 344,        ledTop: -ledSize,     ledLeft: 36 },
+      { top: 0, left: 430,        ledTop: -ledSize,     ledLeft: 36 },
+      { top: 0, left: 516,        ledTop: -ledSize,     ledLeft: 36 },
 
-    const positions = [];
+      // --- Right column (6) ---
+      { top: 86, left: 514,       ledTop: 36,           ledLeft: 86 },
+      { top: 172, left: 514,      ledTop: 36,           ledLeft: 86 },
+      { top: 258, left: 514,      ledTop: 36,           ledLeft: 86 },
+      { top: 344, left: 514,      ledTop: 36,           ledLeft: 86 },
+      { top: 430, left: 514,      ledTop: 36,           ledLeft: 86 },
+      { top: 516, left: 514,      ledTop: 36,           ledLeft: 86 },
 
-    // Top edge (7)
-    for (let i = 0; i < 7; i++) {
-      positions.push({ top: 0, left: i * 86 });
-    }
+      // --- Bottom row (6) ---
+      { top: 514, left: 516,      ledTop: 86,           ledLeft: 36 },
+      { top: 514, left: 430,      ledTop: 86,           ledLeft: 36 },
+      { top: 514, left: 344,      ledTop: 86,           ledLeft: 36 },
+      { top: 514, left: 258,      ledTop: 86,           ledLeft: 36 },
+      { top: 514, left: 172,      ledTop: 86,           ledLeft: 36 },
+      { top: 514, left: 86,       ledTop: 86,           ledLeft: 36 },
+      { top: 514, left: 0,        ledTop: 86,           ledLeft: 36 },
 
-    // Right edge (6)
-    for (let i = 1; i < 7; i++) {
-      positions.push({ top: i * 86, left: 600 - 86 });
-    }
+      // --- Left column (5) ---
+      { top: 516, left: 0,        ledTop: 36,           ledLeft: -ledSize },
+      { top: 430, left: 0,        ledTop: 36,           ledLeft: -ledSize },
+      { top: 344, left: 0,        ledTop: 36,           ledLeft: -ledSize },
+      { top: 258, left: 0,        ledTop: 36,           ledLeft: -ledSize },
+      { top: 172, left: 0,        ledTop: 36,           ledLeft: -ledSize },
+    ];
 
-    // Bottom edge (6)
-    for (let i = 5; i >= 0; i--) {
-      positions.push({ top: 600 - 86, left: i * 86 });
-    }
-
-    // Left edge (5)
-    for (let i = 5; i >= 1; i--) {
-      positions.push({ top: i * 86, left: 0 });
-    }
-
-    positions.forEach((pos, index) => {
-      // 1. Tạo led-box (ô hình ảnh)
+    ledDefs.forEach((pos, index) => {
+      // Tạo led-box
       const box = document.createElement('div');
       box.className = 'led-box';
       box.style.top = pos.top + 'px';
       box.style.left = pos.left + 'px';
 
       const img = document.createElement('img');
-      img.src = `https://via.placeholder.com/86?text=${index + 1}`;
+      img.src = `https://via.placeholder.com/86?text=${index + 1}`; // Có thể thay bằng imageSources[index]
       box.appendChild(img);
       ledFrame.appendChild(box);
 
-      // 2. Tính tọa độ LED nằm ngoài, sát viền, hướng tâm
-      const boxCenterX = pos.left + 43;
-      const boxCenterY = pos.top + 43;
-      const dx = centerX - boxCenterX;
-      const dy = centerY - boxCenterY;
-      const length = Math.sqrt(dx * dx + dy * dy);
-      const unitX = dx / length;
-      const unitY = dy / length;
-
-      const ledX = boxCenterX + unitX * offsetFromBox - ledSize / 2;
-      const ledY = boxCenterY + unitY * offsetFromBox - ledSize / 2;
-
-      // 3. Tạo LED indicator
+      // Tạo LED
       const led = document.createElement('div');
       led.className = 'led-indicator';
-      led.style.left = ledX + 'px';
-      led.style.top = ledY + 'px';
+      led.style.left = (pos.left + pos.ledLeft) + 'px';
+      led.style.top = (pos.top + pos.ledTop) + 'px';
       container.appendChild(led);
     });
   </script>
