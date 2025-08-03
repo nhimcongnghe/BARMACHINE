@@ -72,86 +72,74 @@
       </div>
     </div>
   </div>
+ <script>
+  const ledFrame = document.querySelector('.led-frame');
+  const container = document.querySelector('.inner-box-container');
+  const positions = [];
 
-  <script>
-    const ledFrame = document.querySelector('.led-frame');
-    const container = document.querySelector('.inner-box-container');
-    const positions = [];
+  // Top edge (7)
+  for (let i = 0; i < 7; i++) {
+    positions.push({ top: 0, left: i * 86 });
+  }
 
-    // Top edge (7)
-    for (let i = 0; i < 7; i++) {
-      positions.push({ top: 0, left: i * 86 });
-    }
+  // Right edge (7)
+  for (let i = 1; i < 7; i++) {
+    positions.push({ top: i * 86, left: 600 - 86 });
+  }
 
-    // Right edge (7)
-    for (let i = 1; i < 7; i++) {
-      positions.push({ top: i * 86, left: 600 - 86 });
-    }
+  // Bottom edge (7)
+  for (let i = 5; i >= 0; i--) {
+    positions.push({ top: 600 - 86, left: i * 86 });
+  }
 
-    // Bottom edge (7)
-    for (let i = 5; i >= 0; i--) {
-      positions.push({ top: 600 - 86, left: i * 86 });
-    }
+  // Left edge (3)
+  for (let i = 5; i >= 1; i--) {
+    positions.push({ top: i * 86, left: 0 });
+  }
 
-    // Left edge (3)
-    for (let i = 5; i >= 1; i--) {
-      positions.push({ top: i * 86, left: 0 });
-    }
+  const centerX = 300; // tâm X của khung
+  const centerY = 300; // tâm Y của khung
 
-    positions.forEach((pos, index) => {
-      const ledBox = document.createElement('div');
-      ledBox.className = 'led-box';
-      ledBox.style.top = pos.top + 'px';
-      ledBox.style.left = pos.left + 'px';
+  positions.forEach((pos, index) => {
+    // Tạo led-box
+    const ledBox = document.createElement('div');
+    ledBox.className = 'led-box';
+    ledBox.style.top = pos.top + 'px';
+    ledBox.style.left = pos.left + 'px';
 
-      const img = document.createElement('img');
-      img.src = `https://via.placeholder.com/86?text=${index + 1}`;
-      ledBox.appendChild(img);
-      ledFrame.appendChild(ledBox);
+    const img = document.createElement('img');
+    img.src = `https://via.placeholder.com/86?text=${index + 1}`;
+    ledBox.appendChild(img);
+    ledFrame.appendChild(ledBox);
 
-      const ledIndicator = document.createElement('div');
-      ledIndicator.className = 'led-indicator';
+    // Tạo LED indicator
+    const led = document.createElement('div');
+    led.className = 'led-indicator';
 
-      const offset = 35; // Kéo vào trung tâm hơn nữa
-      const ledTop = pos.top;
-      const ledLeft = pos.left;
+    // Tính tâm ô hiện tại
+    const boxCenterX = pos.left + 43;
+    const boxCenterY = pos.top + 43;
 
-      const isCorner = (index === 0 || index === 6 || index === 12 || index === 18);
+    // Tính vector hướng vào tâm tổng thể
+    const dx = centerX - boxCenterX;
+    const dy = centerY - boxCenterY;
+    const length = Math.sqrt(dx * dx + dy * dy);
 
-      if (isCorner) {
-        if (index === 0) {
-          ledIndicator.style.top = (ledTop + offset) + 'px';
-          ledIndicator.style.left = (ledLeft + offset) + 'px';
-        } else if (index === 6) {
-          ledIndicator.style.top = (ledTop + offset) + 'px';
-          ledIndicator.style.left = (ledLeft + 86 - offset - 14) + 'px';
-        } else if (index === 12) {
-          ledIndicator.style.top = (ledTop + 86 - offset - 14) + 'px';
-          ledIndicator.style.left = (ledLeft + 86 - offset - 14) + 'px';
-        } else if (index === 18) {
-          ledIndicator.style.top = (ledTop + 86 - offset - 14) + 'px';
-          ledIndicator.style.left = (ledLeft + offset) + 'px';
-        }
-      } else if (index < 7) {
-        // Top edge
-        ledIndicator.style.top = (ledTop + offset) + 'px';
-        ledIndicator.style.left = (ledLeft + 36) + 'px';
-      } else if (index < 13) {
-        // Right edge
-        ledIndicator.style.top = (ledTop + 36) + 'px';
-        ledIndicator.style.left = (ledLeft + 86 - offset - 14) + 'px';
-      } else if (index < 19) {
-        // Bottom edge
-        ledIndicator.style.top = (ledTop + 86 - offset - 14) + 'px';
-        ledIndicator.style.left = (ledLeft + 36) + 'px';
-      } else {
-        // Left edge
-        ledIndicator.style.top = (ledTop + 36) + 'px';
-        ledIndicator.style.left = (ledLeft + offset) + 'px';
-      }
+    const inwardOffset = 28; // kéo LED vào tâm khoảng này
 
-      container.appendChild(ledIndicator);
-    });
-  </script>
+    // Normal hóa vector và nhân offset
+    const offsetX = (dx / length) * inwardOffset;
+    const offsetY = (dy / length) * inwardOffset;
+
+    // Vị trí LED mới
+    const ledX = boxCenterX + offsetX - 7; // -7 để canh giữa LED (14x14)
+    const ledY = boxCenterY + offsetY - 7;
+
+    led.style.left = ledX + 'px';
+    led.style.top = ledY + 'px';
+
+    container.appendChild(led);
+  });
+</script>
 </body>
 </html>
