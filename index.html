@@ -79,29 +79,29 @@
     </div>
     <script>
         const ledFrame = document.querySelector('.led-frame');
-        const innerBox = document.querySelector('.inner-box'); // Lấy phần tử inner-box
-        const boxSize = 86; // Kích thước của mỗi ô LED
-        const ledSize = 14; // Kích thước của đèn LED
-        const ledOffset = 8; // Khoảng cách đèn LED so với viền của ô LED
+        const innerBox = document.querySelector('.inner-box');
+        const boxSize = 86;
+        const ledSize = 14;
+        const ledOffset = 8; // Khoảng cách đèn LED so với viền của hộp đen
 
         const positions = [];
 
-        // Tạo mảng vị trí cho các ô LED
+        // Vị trí các ô LED
         for (let i = 0; i < 7; i++) {
-            positions.push({ top: 0, left: i * boxSize, dir: 'down' });
+            positions.push({ top: 0, left: i * boxSize, dir: 'top' });
         }
         for (let i = 1; i < 7; i++) {
-            positions.push({ top: i * boxSize, left: 600 - boxSize, dir: 'left' });
+            positions.push({ top: i * boxSize, left: 600 - boxSize, dir: 'right' });
         }
         for (let i = 5; i >= 0; i--) {
-            positions.push({ top: 600 - boxSize, left: i * boxSize, dir: 'up' });
+            positions.push({ top: 600 - boxSize, left: i * boxSize, dir: 'bottom' });
         }
         for (let i = 5; i >= 1; i--) {
-            positions.push({ top: i * boxSize, left: 0, dir: 'right' });
+            positions.push({ top: i * boxSize, left: 0, dir: 'left' });
         }
 
         positions.forEach((pos, index) => {
-            // Tạo ô LED (led-box)
+            // Tạo ô LED
             const ledBox = document.createElement('div');
             ledBox.className = 'led-box';
             ledBox.style.top = pos.top + 'px';
@@ -112,33 +112,32 @@
             ledBox.appendChild(img);
             ledFrame.appendChild(ledBox);
 
-            // Tạo đèn LED (led-indicator)
+            // Tạo đèn LED
             const led = document.createElement('div');
             led.className = 'led-indicator';
 
             let ledTop = pos.top;
             let ledLeft = pos.left;
 
-            // Tính toán vị trí chính xác cho đèn LED
-            if (pos.dir === 'down') {
+            // Điều chỉnh logic để đèn LED nằm ngoài ô LED và hướng vào trung tâm
+            if (pos.dir === 'top') {
                 ledTop = pos.top - ledOffset - ledSize;
                 ledLeft = pos.left + (boxSize / 2) - (ledSize / 2);
-            } else if (pos.dir === 'up') {
+            } else if (pos.dir === 'bottom') {
                 ledTop = pos.top + boxSize + ledOffset;
                 ledLeft = pos.left + (boxSize / 2) - (ledSize / 2);
             } else if (pos.dir === 'left') {
-                ledLeft = pos.left + boxSize + ledOffset;
+                ledLeft = pos.left - ledOffset - ledSize;
                 ledTop = pos.top + (boxSize / 2) - (ledSize / 2);
             } else if (pos.dir === 'right') {
-                ledLeft = pos.left - ledOffset - ledSize;
+                ledLeft = pos.left + boxSize + ledOffset;
                 ledTop = pos.top + (boxSize / 2) - (ledSize / 2);
             }
             
-            // Áp dụng vị trí
             led.style.top = ledTop + 'px';
             led.style.left = ledLeft + 'px';
 
-            innerBox.appendChild(led); // Thêm đèn LED vào inner-box để vị trí chính xác
+            innerBox.appendChild(led);
         });
     </script>
 </body>
