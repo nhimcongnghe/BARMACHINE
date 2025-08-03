@@ -59,7 +59,7 @@
       background-color: red;
       position: absolute;
       z-index: 15;
-      border-radius: 3px; /* LED vuông */
+      border-radius: 3px;
       box-shadow: 0 0 4px red;
     }
   </style>
@@ -112,12 +112,12 @@
       const ledIndicator = document.createElement('div');
       ledIndicator.className = 'led-indicator';
 
-      // Gần trung tâm hơn so với viền
-      const offset = 20;
+      const offset = 35; // Kéo vào trung tâm hơn nữa
       const ledTop = pos.top;
       const ledLeft = pos.left;
 
       const isCorner = (index === 0 || index === 6 || index === 12 || index === 18);
+
       if (isCorner) {
         if (index === 0) {
           ledIndicator.style.top = (ledTop + offset) + 'px';
