@@ -3,8 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Khung máy BAR</title>
+  <title>Máy BAR Hiện Đại</title>
   <style>
+    :root {
+      --led-size: 80px;
+      --frame-size: calc(var(--led-size) * 7);
+      --indicator-size: 12px;
+      --indicator-offset: 10px;
+    }
+    
     body {
       margin: 0;
       padding: 0;
@@ -12,146 +19,275 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
     }
+    
     .main-box {
-      width: 650px;
-      height: 750px;
-      background-color: white;
-      border: 4px solid #ccc;
+      width: min(90vw, 700px);
+      aspect-ratio: 650/750;
+      background: linear-gradient(145deg, #f0f0f0, #ffffff);
+      border: 4px solid #ddd;
       border-radius: 20px;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 30px rgba(0, 150, 255, 0.3);
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-top: 60px;
-    }
-    .inner-box-container {
+      padding: 3% 0;
       position: relative;
-      width: 600px;
-      height: 600px;
+      overflow: hidden;
     }
+    
+    .main-box::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 15%;
+      background: linear-gradient(90deg, #333, #555);
+      z-index: 1;
+    }
+    
+    .title {
+      position: relative;
+      z-index: 2;
+      color: white;
+      margin: 0;
+      font-size: 1.8rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    .inner-box-container {
+      width: 90%;
+      aspect-ratio: 1/1;
+      max-width: 600px;
+      position: relative;
+      margin-top: 2%;
+    }
+    
     .inner-box {
       width: 100%;
       height: 100%;
-      background-color: #eee;
-      border: 3px dashed #999;
+      background-color: #f8f8f8;
+      border: 3px dashed #aaa;
       border-radius: 10px;
       position: relative;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
     }
-    .led-frame .led-box {
-      width: 86px;
-      height: 86px;
+    
+    .led-box {
+      width: var(--led-size);
+      height: var(--led-size);
       position: absolute;
       background-color: white;
-      border: 2px solid #aaa;
+      border: 2px solid #bbb;
       border-radius: 8px;
       overflow: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      color: #333;
     }
-    .led-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    
+    .led-box:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(0, 150, 255, 0.5);
+      z-index: 10;
     }
-    .led-indicator {
-      width: 12px;
-      height: 12px;
+    
+    .led-box::after {
+      content: "";
+      width: var(--indicator-size);
+      height: var(--indicator-size);
       background-color: red;
       border-radius: 50%;
       position: absolute;
       z-index: 15;
+      opacity: 0.8;
+    }
+    
+    /* Position indicators */
+    .led-box[data-position^="top"]::after {
+      top: calc(-1 * var(--indicator-offset));
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .led-box[data-position^="right"]::after {
+      right: calc(-1 * var(--indicator-offset));
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    
+    .led-box[data-position^="bottom"]::after {
+      bottom: calc(-1 * var(--indicator-offset));
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .led-box[data-position^="left"]::after {
+      left: calc(-1 * var(--indicator-offset));
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    
+    .led-box[data-corner="true"]::after {
+      width: calc(var(--indicator-size) * 1.5);
+      height: calc(var(--indicator-size) * 1.5);
+    }
+    
+    .controls {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+    }
+    
+    button {
+      padding: 10px 20px;
+      background: linear-gradient(#4a6bff, #2541ff);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
     }
   </style>
 </head>
 <body>
   <div class="main-box">
+    <h1 class="title">MÁY BAR THẾ HỆ MỚI</h1>
     <div class="inner-box-container">
-      <div class="inner-box">
-        <div class="led-frame"></div>
-      </div>
+      <div class="inner-box" id="ledContainer"></div>
+    </div>
+    <div class="controls">
+      <button id="animateBtn">Kích Hoạt</button>
+      <button id="resetBtn">Thiết Lập Lại</button>
     </div>
   </div>
- <script>
-  const ledFrame = document.querySelector('.led-frame');
-  const positions = [];
 
-  // Top edge (7)
-  for (let i = 0; i < 7; i++) {
-    positions.push({ top: 0, left: i * 86 });
-  }
-
-  // Right edge (7)
-  for (let i = 1; i < 7; i++) {
-    positions.push({ top: i * 86, left: 600 - 86 });
-  }
-
-  // Bottom edge (7)
-  for (let i = 5; i >= 0; i--) {
-    positions.push({ top: 600 - 86, left: i * 86 });
-  }
-
-  // Left edge (3)
-  for (let i = 5; i >= 1; i--) {
-    positions.push({ top: i * 86, left: 0 });
-  }
-
-  const container = document.querySelector('.inner-box-container');
-
-  positions.forEach((pos, index) => {
-    const led = document.createElement('div');
-    led.className = 'led-box';
-    led.style.top = pos.top + 'px';
-    led.style.left = pos.left + 'px';
-
-    const img = document.createElement('img');
-    img.src = `https://via.placeholder.com/86?text=${index + 1}`;
-    led.appendChild(img);
-    ledFrame.appendChild(led);
-
-    // Create external LED indicator
-    const indicator = document.createElement('div');
-    indicator.className = 'led-indicator';
-
-    const offset = 10;
-    const ledTop = pos.top;
-    const ledLeft = pos.left;
-
-    const isCorner = (index === 0 || index === 6 || index === 12 || index === 18);
-
-    if (isCorner) {
-      if (index === 0) {
-        indicator.style.top = (ledTop - offset) + 'px';
-        indicator.style.left = (ledLeft - offset) + 'px';
-      } else if (index === 6) {
-        indicator.style.top = (ledTop - offset) + 'px';
-        indicator.style.left = (ledLeft + 86 + offset - 2) + 'px';
-      } else if (index === 12) {
-        indicator.style.top = (ledTop + 86 + offset - 2) + 'px';
-        indicator.style.left = (ledLeft + 86 + offset - 2) + 'px';
-      } else if (index === 18) {
-        indicator.style.top = (ledTop + 86 + offset - 2) + 'px';
-        indicator.style.left = (ledLeft - offset) + 'px';
-      }
-    } else if (index < 7) {
-      // Top row
-      indicator.style.top = (ledTop - offset) + 'px';
-      indicator.style.left = (ledLeft + 37) + 'px';
-    } else if (index < 13) {
-      // Right column
-      indicator.style.top = (ledTop + 37) + 'px';
-      indicator.style.left = (ledLeft + 86 + offset - 2) + 'px';
-    } else if (index < 19) {
-      // Bottom row
-      indicator.style.top = (ledTop + 86 + offset - 2) + 'px';
-      indicator.style.left = (ledLeft + 37) + 'px';
-    } else {
-      // Left column
-      indicator.style.top = (ledTop + 37) + 'px';
-      indicator.style.left = (ledLeft - offset) + 'px';
-    }
-
-    container.appendChild(indicator);
-  });
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const ledContainer = document.getElementById('ledContainer');
+      const animateBtn = document.getElementById('animateBtn');
+      const resetBtn = document.getElementById('resetBtn');
+      const LED_SIZE = 80;
+      const LED_COUNT = 24; // 7 top, 6 right, 7 bottom, 4 left
+      const CONTAINER_SIZE = LED_SIZE * 7;
+      
+      // Tạo các vị trí LED
+      const createLEDPositions = () => {
+        const positions = [];
+        
+        // Top edge (7 LEDs)
+        for (let i = 0; i < 7; i++) {
+          positions.push({
+            top: 0,
+            left: i * LED_SIZE,
+            position: `top-${i+1}`,
+            corner: i === 0 || i === 6
+          });
+        }
+        
+        // Right edge (6 LEDs - skip corners)
+        for (let i = 1; i < 7; i++) {
+          positions.push({
+            top: i * LED_SIZE,
+            left: CONTAINER_SIZE - LED_SIZE,
+            position: `right-${i}`,
+            corner: false
+          });
+        }
+        
+        // Bottom edge (7 LEDs)
+        for (let i = 6; i >= 0; i--) {
+          positions.push({
+            top: CONTAINER_SIZE - LED_SIZE,
+            left: i * LED_SIZE,
+            position: `bottom-${7-i}`,
+            corner: i === 6 || i === 0
+          });
+        }
+        
+        // Left edge (4 LEDs - skip corners and center)
+        for (let i = 5; i >= 2; i--) {
+          positions.push({
+            top: i * LED_SIZE,
+            left: 0,
+            position: `left-${6-i}`,
+            corner: false
+          });
+        }
+        
+        return positions;
+      };
+      
+      // Tạo LED elements
+      const renderLEDs = () => {
+        ledContainer.innerHTML = '';
+        const positions = createLEDPositions();
+        
+        positions.forEach((pos, index) => {
+          const led = document.createElement('div');
+          led.className = 'led-box';
+          led.style.top = `${pos.top}px`;
+          led.style.left = `${pos.left}px`;
+          led.dataset.position = pos.position;
+          led.dataset.corner = pos.corner;
+          led.textContent = index + 1;
+          
+          ledContainer.appendChild(led);
+        });
+      };
+      
+      // Hiệu ứng animation
+      const animateLEDs = () => {
+        const leds = document.querySelectorAll('.led-box');
+        let delay = 0;
+        
+        leds.forEach(led => {
+          setTimeout(() => {
+            led.style.backgroundColor = getRandomColor();
+            led.style.boxShadow = `0 0 20px ${getRandomColor(0.5)}`;
+            
+            // Reset sau 1s
+            setTimeout(() => {
+              led.style.backgroundColor = 'white';
+              led.style.boxShadow = 'none';
+            }, 1000);
+          }, delay);
+          
+          delay += 100;
+        });
+      };
+      
+      // Màu ngẫu nhiên
+      const getRandomColor = (alpha = 1) => {
+        const colors = [
+          `rgba(255, 99, 71, ${alpha})`, // tomato
+          `rgba(100, 149, 237, ${alpha})`, // cornflowerblue
+          `rgba(50, 205, 50, ${alpha})`, // limegreen
+          `rgba(255, 215, 0, ${alpha})`, // gold
+          `rgba(138, 43, 226, ${alpha})` // blueviolet
+        ];
+        return colors[Math.floor(Math.random() * colors.length)];
+      };
+      
+      // Sự kiện nút bấm
+      animateBtn.addEventListener('click', animateLEDs);
+      resetBtn.addEventListener('click', renderLEDs);
+      
+      // Khởi tạo ban đầu
+      renderLEDs();
+    });
   </script>
 </body>
 </html>
