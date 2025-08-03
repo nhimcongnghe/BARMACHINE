@@ -96,34 +96,43 @@
     }
 
     positions.forEach((pos, index) => {
-      const led = document.createElement('div');
-      led.className = 'led-box';
-      led.style.top = pos.top + 'px';
-      led.style.left = pos.left + 'px';
+  const led = document.createElement('div');
+  led.className = 'led-box';
+  led.style.top = pos.top + 'px';
+  led.style.left = pos.left + 'px';
 
-      // Placeholder image
-      const img = document.createElement('img');
-      img.src = `https://via.placeholder.com/86?text=${index + 1}`;
-      led.appendChild(img);
+  const img = document.createElement('img');
+  img.src = `https://via.placeholder.com/86?text=${index + 1}`;
+  led.appendChild(img);
 
-      // Create LED indicator
-      const indicator = document.createElement('div');
-      indicator.className = 'led-indicator';
+  const indicator = document.createElement('div');
+  indicator.className = 'led-indicator';
 
-      const isCorner = (index === 0 || index === 6 || index === 12 || index === 18);
-      if (isCorner) {
-        // Sát góc
-        indicator.style.top = '2px';
-        indicator.style.left = '2px';
-      } else {
-        // Gần tâm
-        indicator.style.top = '37px';
-        indicator.style.left = '37px';
-      }
+  const isCorner = (index === 0 || index === 6 || index === 12 || index === 18);
+  if (isCorner) {
+    indicator.style.top = '2px';
+    indicator.style.left = '2px';
+  } else if (index < 7) {
+    // Top row
+    indicator.style.top = '72px'; // Gần mép dưới ô
+    indicator.style.left = '37px';
+  } else if (index < 13) {
+    // Right column
+    indicator.style.top = '37px';
+    indicator.style.left = '2px'; // Gần mép trái ô
+  } else if (index < 19) {
+    // Bottom row
+    indicator.style.top = '2px'; // Gần mép trên ô
+    indicator.style.left = '37px';
+  } else {
+    // Left column
+    indicator.style.top = '37px';
+    indicator.style.left = '72px'; // Gần mép phải ô
+  }
 
-      led.appendChild(indicator);
-      ledFrame.appendChild(led);
-    });
+  led.appendChild(indicator);
+  ledFrame.appendChild(led);
+});
   </script>
 </body>
 </html>
