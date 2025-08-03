@@ -1,118 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Slot Machine LV Xóm Trọ</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khung máy BAR</title>
   <style>
     body {
-      background: #111;
-      color: #eee;
-      font-family: monospace;
-      text-align: center;
-      padding: 2rem;
+      margin: 0;
+      padding: 0;
+      background-color: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
-    .slot {
-      font-size: 4rem;
-      margin: 1rem;
-      display: inline-block;
-      width: 5rem;
-      height: 5rem;
-      background: #222;
-      border: 3px solid #666;
-      border-radius: 10px;
-      line-height: 5rem;
-    }
-    .led {
-      font-family: 'Digital-7', monospace;
-      color: red;
-      background: #000;
-      font-size: 3rem;
-      padding: 0.5rem 1rem;
-      border-radius: 10px;
-      margin: 1rem;
-      display: inline-block;
-      min-width: 6rem;
-    }
-    .button {
-      font-size: 1.5rem;
-      padding: 1rem 2rem;
-      margin: 1rem;
-      border: none;
-      border-radius: 5px;
-      background: #ff6600;
-      color: white;
-      cursor: pointer;
-    }
-    .win {
-      color: lime;
-      font-size: 1.5rem;
-      margin-top: 1rem;
+    .main-box {
+      width: 300px;
+      height: 600px;
+      background-color: white;
+      border: 4px solid #ccc;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
     }
   </style>
 </head>
 <body>
-  <h1>🎰 Máy BAR LV Xóm Trọ 🎰</h1>
-  <div>
-    <div class="slot" id="slot1">🍊</div>
-    <div class="slot" id="slot2">🍊</div>
-    <div class="slot" id="slot3">🍊</div>
-  </div>
-  <div>
-    <div class="led" id="points">100</div>
-    <div class="led" id="winpoints">+0</div>
-  </div>
-  <div>
-    <button class="button" onclick="spin()">▶️ QUAY</button>
-    <button class="button" onclick="resetGame()">🔄 RESET</button>
-  </div>
-  <div class="win" id="resultMsg"></div>
-
-  <script>
-    const icons = ["🍊", "🍎", "🍇", "🍒", "🍉", "🔔", "⭐", "77", "BAR"];
-    const payout = {
-      "🍊": 5,
-      "🍎": 5,
-      "🍇": 5,
-      "🍒": 10,
-      "🍉": 10,
-      "🔔": 10,
-      "⭐": 20,
-      "77": 20,
-      "BAR": 100
-    };
-
-    let points = 100;
-
-    function spin() {
-      if (points <= 0) return;
-      points--;
-      const s1 = icons[Math.floor(Math.random() * icons.length)];
-      const s2 = icons[Math.floor(Math.random() * icons.length)];
-      const s3 = icons[Math.floor(Math.random() * icons.length)];
-      document.getElementById("slot1").innerText = s1;
-      document.getElementById("slot2").innerText = s2;
-      document.getElementById("slot3").innerText = s3;
-
-      let win = 0;
-      if (s1 === s2 && s2 === s3) {
-        win = payout[s1] || 0;
-        points += win;
-        document.getElementById("resultMsg").innerText = `Bạn trúng ${win} điểm!`;
-      } else {
-        document.getElementById("resultMsg").innerText = "Không trúng, quay tiếp nào!";
-      }
-
-      document.getElementById("points").innerText = points;
-      document.getElementById("winpoints").innerText = `+${win}`;
-    }
-
-    function resetGame() {
-      points = 100;
-      document.getElementById("points").innerText = points;
-      document.getElementById("winpoints").innerText = "+0";
-      document.getElementById("resultMsg").innerText = "";
-    }
-  </script>
+  <div class="main-box"></div>
 </body>
 </html>
