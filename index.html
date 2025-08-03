@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Khung máy BAR</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Máy BAR - Fixed LEDs</title>
   <style>
     body {
       margin: 0;
@@ -14,7 +14,6 @@
       align-items: center;
       height: 100vh;
     }
-
     .main-box {
       width: 650px;
       height: 750px;
@@ -27,46 +26,40 @@
       align-items: center;
       padding-top: 60px;
     }
-
     .inner-box-container {
       position: relative;
       width: 600px;
       height: 600px;
     }
-
     .inner-box {
       width: 100%;
       height: 100%;
-      background-color: #222;
-      border: 3px dashed #666;
+      background-color: #111;
+      border: 3px dashed #999;
       border-radius: 10px;
       position: relative;
     }
-
     .led-frame .led-box {
       width: 86px;
       height: 86px;
       position: absolute;
-      background-color: #000;
-      border: 2px solid #888;
+      background-color: black;
+      border: 2px solid #555;
       border-radius: 8px;
       overflow: hidden;
     }
-
     .led-box img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-
     .led-indicator {
       width: 14px;
       height: 14px;
       background-color: red;
+      border-radius: 4px;
       position: absolute;
-      z-index: 20;
-      border-radius: 3px;
-      box-shadow: 0 0 5px red;
+      z-index: 10;
     }
   </style>
 </head>
@@ -78,64 +71,55 @@
       </div>
     </div>
   </div>
-
   <script>
-    const container = document.querySelector('.inner-box-container');
     const ledFrame = document.querySelector('.led-frame');
-    const ledSize = 14;
+    const container = document.querySelector('.inner-box-container');
+    const boxSize = 86;
+    const ledOffset = 8; // Dịch led ra ngoài viền box, hướng vào tâm
 
-    const ledDefs = [
-      // --- Top row (7) ---
-      { top: 0, left: 0,          ledTop: -ledSize,     ledLeft: 36 },
-      { top: 0, left: 86,         ledTop: -ledSize,     ledLeft: 36 },
-      { top: 0, left: 172,        ledTop: -ledSize,     ledLeft: 36 },
-      { top: 0, left: 258,        ledTop: -ledSize,     ledLeft: 36 },
-      { top: 0, left: 344,        ledTop: -ledSize,     ledLeft: 36 },
-      { top: 0, left: 430,        ledTop: -ledSize,     ledLeft: 36 },
-      { top: 0, left: 516,        ledTop: -ledSize,     ledLeft: 36 },
+    const positions = [];
 
-      // --- Right column (6) ---
-      { top: 86, left: 514,       ledTop: 36,           ledLeft: 86 },
-      { top: 172, left: 514,      ledTop: 36,           ledLeft: 86 },
-      { top: 258, left: 514,      ledTop: 36,           ledLeft: 86 },
-      { top: 344, left: 514,      ledTop: 36,           ledLeft: 86 },
-      { top: 430, left: 514,      ledTop: 36,           ledLeft: 86 },
-      { top: 516, left: 514,      ledTop: 36,           ledLeft: 86 },
+    for (let i = 0; i < 7; i++) {
+      positions.push({ top: 0, left: i * boxSize, dir: 'down' });
+    }
+    for (let i = 1; i < 7; i++) {
+      positions.push({ top: i * boxSize, left: 600 - boxSize, dir: 'left' });
+    }
+    for (let i = 5; i >= 0; i--) {
+      positions.push({ top: 600 - boxSize, left: i * boxSize, dir: 'up' });
+    }
+    for (let i = 5; i >= 1; i--) {
+      positions.push({ top: i * boxSize, left: 0, dir: 'right' });
+    }
 
-      // --- Bottom row (6) ---
-      { top: 514, left: 516,      ledTop: 86,           ledLeft: 36 },
-      { top: 514, left: 430,      ledTop: 86,           ledLeft: 36 },
-      { top: 514, left: 344,      ledTop: 86,           ledLeft: 36 },
-      { top: 514, left: 258,      ledTop: 86,           ledLeft: 36 },
-      { top: 514, left: 172,      ledTop: 86,           ledLeft: 36 },
-      { top: 514, left: 86,       ledTop: 86,           ledLeft: 36 },
-      { top: 514, left: 0,        ledTop: 86,           ledLeft: 36 },
-
-      // --- Left column (5) ---
-      { top: 516, left: 0,        ledTop: 36,           ledLeft: -ledSize },
-      { top: 430, left: 0,        ledTop: 36,           ledLeft: -ledSize },
-      { top: 344, left: 0,        ledTop: 36,           ledLeft: -ledSize },
-      { top: 258, left: 0,        ledTop: 36,           ledLeft: -ledSize },
-      { top: 172, left: 0,        ledTop: 36,           ledLeft: -ledSize },
-    ];
-
-    ledDefs.forEach((pos, index) => {
-      // Tạo led-box
-      const box = document.createElement('div');
-      box.className = 'led-box';
-      box.style.top = pos.top + 'px';
-      box.style.left = pos.left + 'px';
+    positions.forEach((pos, index) => {
+      const ledBox = document.createElement('div');
+      ledBox.className = 'led-box';
+      ledBox.style.top = pos.top + 'px';
+      ledBox.style.left = pos.left + 'px';
 
       const img = document.createElement('img');
-      img.src = `https://via.placeholder.com/86?text=${index + 1}`; // Có thể thay bằng imageSources[index]
-      box.appendChild(img);
-      ledFrame.appendChild(box);
+      img.src = `https://via.placeholder.com/86?text=${index + 1}`;
+      ledBox.appendChild(img);
+      ledFrame.appendChild(ledBox);
 
-      // Tạo LED
+      // LED indicator (nằm ngoài box, chung viền và hướng tâm)
       const led = document.createElement('div');
       led.className = 'led-indicator';
-      led.style.left = (pos.left + pos.ledLeft) + 'px';
-      led.style.top = (pos.top + pos.ledTop) + 'px';
+
+      let ledTop = pos.top;
+      let ledLeft = pos.left;
+      if (pos.dir === 'down') ledTop += boxSize + 1;
+      else if (pos.dir === 'up') ledTop -= ledOffset + 14;
+      else if (pos.dir === 'left') ledLeft -= ledOffset + 14;
+      else if (pos.dir === 'right') ledLeft += boxSize + 1;
+
+      if (pos.dir === 'up' || pos.dir === 'down') ledLeft += (boxSize / 2) - 7;
+      if (pos.dir === 'left' || pos.dir === 'right') ledTop += (boxSize / 2) - 7;
+
+      led.style.top = ledTop + 'px';
+      led.style.left = ledLeft + 'px';
+
       container.appendChild(led);
     });
   </script>
