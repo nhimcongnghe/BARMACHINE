@@ -40,14 +40,14 @@
       border-radius: 10px;
       position: relative;
     }
-    .led-frame .led-box {
-      width: 50px;
-      height: 50px;
-      position: absolute;
-      background-color: white;
-      border: 2px solid #aaa;
-      border-radius: 8px;
-      overflow: hidden;
+   .led-frame .led-box {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  background-color: white;
+  border: 1px solid #aaa;
+  box-sizing: border-box;
+}
     }
     .led-box img {
       width: 100%;
@@ -69,28 +69,31 @@
     <div class="inner-box">
       <div class="led-frame"></div>
   </div>
-       <script>
+      <script>
   const ledFrame = document.querySelector('.led-frame');
+  const boxSize = 600;
+  const ledSize = 100;
+
   const positions = [];
 
-  // Top edge
+  // Top edge (left to right)
   for (let i = 0; i < 6; i++) {
-    positions.push({ top: 0, left: i * 100 + 25 });
+    positions.push({ top: 0, left: i * ledSize });
   }
 
-  // Right edge
-  for (let i = 0; i < 6; i++) {
-    positions.push({ top: i * 100 + 25, left: 550 });
+  // Right edge (top to bottom)
+  for (let i = 1; i <= 5; i++) {
+    positions.push({ top: i * ledSize, left: boxSize - ledSize });
   }
 
-  // Bottom edge
+  // Bottom edge (right to left)
   for (let i = 5; i >= 0; i--) {
-    positions.push({ top: 550, left: i * 100 + 25 });
+    positions.push({ top: boxSize - ledSize, left: i * ledSize });
   }
 
-  // Left edge
-  for (let i = 5; i >= 0; i--) {
-    positions.push({ top: i * 100 + 25, left: 0 });
+  // Left edge (bottom to top)
+  for (let i = 4; i >= 1; i--) {
+    positions.push({ top: i * ledSize, left: 0 });
   }
 
   positions.forEach((pos, index) => {
@@ -99,9 +102,12 @@
     led.style.top = pos.top + 'px';
     led.style.left = pos.left + 'px';
 
-    // Gắn ảnh giả (có thể đổi sau)
+    // Gắn ảnh giả để con dễ test
     const img = document.createElement('img');
-    img.src = `https://via.placeholder.com/50?text=${index+1}`;
+    img.src = `https://via.placeholder.com/100?text=${index + 1}`;
+    img.style.width = "100%";
+    img.style.height = "100%";
+    img.style.objectFit = "cover";
     led.appendChild(img);
 
     ledFrame.appendChild(led);
