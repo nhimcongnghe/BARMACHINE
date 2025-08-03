@@ -60,7 +60,7 @@
       position: absolute;
       z-index: 15;
       border-radius: 3px;
-      box-shadow: 0 0 4px red;
+      box-shadow: 0 0 5px red;
     }
   </style>
 </head>
@@ -72,74 +72,75 @@
       </div>
     </div>
   </div>
- <script>
-  const ledFrame = document.querySelector('.led-frame');
-  const container = document.querySelector('.inner-box-container');
-  const positions = [];
 
-  // Top edge (7)
-  for (let i = 0; i < 7; i++) {
-    positions.push({ top: 0, left: i * 86 });
-  }
+  <script>
+    const ledFrame = document.querySelector('.led-frame');
+    const container = document.querySelector('.inner-box-container');
+    const positions = [];
 
-  // Right edge (7)
-  for (let i = 1; i < 7; i++) {
-    positions.push({ top: i * 86, left: 600 - 86 });
-  }
+    // Top edge (7)
+    for (let i = 0; i < 7; i++) {
+      positions.push({ top: 0, left: i * 86 });
+    }
 
-  // Bottom edge (7)
-  for (let i = 5; i >= 0; i--) {
-    positions.push({ top: 600 - 86, left: i * 86 });
-  }
+    // Right edge (7)
+    for (let i = 1; i < 7; i++) {
+      positions.push({ top: i * 86, left: 600 - 86 });
+    }
 
-  // Left edge (3)
-  for (let i = 5; i >= 1; i--) {
-    positions.push({ top: i * 86, left: 0 });
-  }
+    // Bottom edge (7)
+    for (let i = 5; i >= 0; i--) {
+      positions.push({ top: 600 - 86, left: i * 86 });
+    }
 
-  const centerX = 300; // tâm X của khung
-  const centerY = 300; // tâm Y của khung
+    // Left edge (3)
+    for (let i = 5; i >= 1; i--) {
+      positions.push({ top: i * 86, left: 0 });
+    }
 
-  positions.forEach((pos, index) => {
-    // Tạo led-box
-    const ledBox = document.createElement('div');
-    ledBox.className = 'led-box';
-    ledBox.style.top = pos.top + 'px';
-    ledBox.style.left = pos.left + 'px';
+    const centerX = 300;
+    const centerY = 300;
+    const ledSize = 14;
+    const inwardOffset = 40; // Điều chỉnh khoảng cách LED kéo vào trung tâm
 
-    const img = document.createElement('img');
-    img.src = `https://via.placeholder.com/86?text=${index + 1}`;
-    ledBox.appendChild(img);
-    ledFrame.appendChild(ledBox);
+    positions.forEach((pos, index) => {
+      // Tạo led box
+      const ledBox = document.createElement('div');
+      ledBox.className = 'led-box';
+      ledBox.style.top = pos.top + 'px';
+      ledBox.style.left = pos.left + 'px';
 
-    // Tạo LED indicator
-    const led = document.createElement('div');
-    led.className = 'led-indicator';
+      const img = document.createElement('img');
+      img.src = `https://via.placeholder.com/86?text=${index + 1}`;
+      ledBox.appendChild(img);
+      ledFrame.appendChild(ledBox);
 
-    // Tính tâm ô hiện tại
-    const boxCenterX = pos.left + 43;
-    const boxCenterY = pos.top + 43;
+      // Tạo LED indicator
+      const led = document.createElement('div');
+      led.className = 'led-indicator';
 
-    // Tính vector hướng vào tâm tổng thể
-    const dx = centerX - boxCenterX;
-    const dy = centerY - boxCenterY;
-    const length = Math.sqrt(dx * dx + dy * dy);
+      // Tính tâm của ô
+      const boxCenterX = pos.left + 43;
+      const boxCenterY = pos.top + 43;
 
-    const inwardOffset = 28; // kéo LED vào tâm khoảng này
+      // Vector hướng về tâm
+      const dx = centerX - boxCenterX;
+      const dy = centerY - boxCenterY;
+      const length = Math.sqrt(dx * dx + dy * dy);
 
-    // Normal hóa vector và nhân offset
-    const offsetX = (dx / length) * inwardOffset;
-    const offsetY = (dy / length) * inwardOffset;
+      // Nếu length = 0 (ở chính giữa) thì khỏi tính
+      if (length === 0) return;
 
-    // Vị trí LED mới
-    const ledX = boxCenterX + offsetX - 7; // -7 để canh giữa LED (14x14)
-    const ledY = boxCenterY + offsetY - 7;
+      // Tính vị trí LED đã kéo vào trong
+      const newX = boxCenterX + (dx / length) * inwardOffset;
+      const newY = boxCenterY + (dy / length) * inwardOffset;
 
-    led.style.left = ledX + 'px';
-    led.style.top = ledY + 'px';
+      // Căn giữa LED tại vị trí mới
+      led.style.left = (newX - ledSize / 2) + 'px';
+      led.style.top = (newY - ledSize / 2) + 'px';
 
-    container.appendChild(led);
-  });
-</script>
+      container.appendChild(led);
+    });
+  </script>
 </body>
 </html>
