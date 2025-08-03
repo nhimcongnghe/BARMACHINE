@@ -21,7 +21,6 @@
       border: 4px solid #ccc;
       border-radius: 20px;
       box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -40,77 +39,91 @@
       border-radius: 10px;
       position: relative;
     }
-.led-frame .led-box {
-  width: 86px;
-  height: 86px;
-  position: absolute;
-  background-color: white;
-  border: 1px solid #aaa;
-  box-sizing: border-box;
+    .led-frame .led-box {
+      width: 86px;
+      height: 86px;
+      position: absolute;
+      background-color: white;
+      border: 2px solid #aaa;
+      border-radius: 8px;
+      overflow: hidden;
     }
     .led-box img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-    .inner-box {
-      width: 600px;
-      height: 600px;
-      background-color: #eee;
-      border: 3px dashed #999;
-      border-radius: 10px;
+    .led-indicator {
+      width: 12px;
+      height: 12px;
+      background-color: red;
+      border-radius: 2px;
+      position: absolute;
+      z-index: 10;
     }
   </style>
 </head>
 <body>
   <div class="main-box">
-     <div class="inner-box-container">
-    <div class="inner-box">
-      <div class="led-frame"></div>
+    <div class="inner-box-container">
+      <div class="inner-box">
+        <div class="led-frame"></div>
+      </div>
+    </div>
   </div>
-   <script>
-  const ledFrame = document.querySelector('.led-frame');
-  const boxSize = 600;
-  const ledCountPerEdge = 7;
-  const ledSize = boxSize / ledCountPerEdge; // ≈ 85.71
+  <script>
+    const ledFrame = document.querySelector('.led-frame');
+    const positions = [];
 
-  const positions = [];
+    // Top edge (7)
+    for (let i = 0; i < 7; i++) {
+      positions.push({ top: 0, left: i * 86 });
+    }
 
-  // Top edge
-  for (let i = 0; i < ledCountPerEdge; i++) {
-    positions.push({ top: 0, left: i * ledSize });
-  }
+    // Right edge (7)
+    for (let i = 1; i < 7; i++) {
+      positions.push({ top: i * 86, left: 600 - 86 });
+    }
 
-  // Right edge
-  for (let i = 1; i < ledCountPerEdge; i++) {
-    positions.push({ top: i * ledSize, left: boxSize - ledSize });
-  }
+    // Bottom edge (7)
+    for (let i = 5; i >= 0; i--) {
+      positions.push({ top: 600 - 86, left: i * 86 });
+    }
 
-  // Bottom edge
-  for (let i = ledCountPerEdge - 2; i >= 0; i--) {
-    positions.push({ top: boxSize - ledSize, left: i * ledSize });
-  }
+    // Left edge (3)
+    for (let i = 5; i >= 1; i--) {
+      positions.push({ top: i * 86, left: 0 });
+    }
 
-  // Left edge
-  for (let i = ledCountPerEdge - 2; i >= 1; i--) {
-    positions.push({ top: i * ledSize, left: 0 });
-  }
+    positions.forEach((pos, index) => {
+      const led = document.createElement('div');
+      led.className = 'led-box';
+      led.style.top = pos.top + 'px';
+      led.style.left = pos.left + 'px';
 
-  positions.forEach((pos, index) => {
-    const led = document.createElement('div');
-    led.className = 'led-box';
-    led.style.top = pos.top + 'px';
-    led.style.left = pos.left + 'px';
+      // Placeholder image
+      const img = document.createElement('img');
+      img.src = `https://via.placeholder.com/86?text=${index + 1}`;
+      led.appendChild(img);
 
-    const img = document.createElement('img');
-    img.src = `https://via.placeholder.com/86?text=${index + 1}`;
-    img.style.width = "100%";
-    img.style.height = "100%";
-    img.style.objectFit = "cover";
+      // Create LED indicator
+      const indicator = document.createElement('div');
+      indicator.className = 'led-indicator';
 
-    led.appendChild(img);
-    ledFrame.appendChild(led);
-  });
-</script>
+      const isCorner = (index === 0 || index === 6 || index === 12 || index === 18);
+      if (isCorner) {
+        // Sát góc
+        indicator.style.top = '2px';
+        indicator.style.left = '2px';
+      } else {
+        // Gần tâm
+        indicator.style.top = '37px';
+        indicator.style.left = '37px';
+      }
+
+      led.appendChild(indicator);
+      ledFrame.appendChild(led);
+    });
+  </script>
 </body>
 </html>
