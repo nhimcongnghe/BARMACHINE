@@ -1,108 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Viền 24 Box + LED</title>
+  <title>Gió Trên Vách Núi</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: #111;
-      height: 100vh;
+      background: linear-gradient(to top, #c9d6ff, #e2e2e2);
+      font-family: 'Georgia', serif;
       display: flex;
       justify-content: center;
       align-items: center;
+      height: 100vh;
+      color: #333;
     }
 
-    .outer-box {
-      width: 600px;
-      height: 700px;
-      position: relative;
-      background: #fff;
-      border: 4px solid #999;
+    .poem-box {
+      background: rgba(255, 255, 255, 0.8);
       border-radius: 20px;
+      padding: 40px;
+      max-width: 600px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      line-height: 1.8;
+      animation: fadeIn 2s ease-out;
     }
 
-    .slot {
-      width: 85px;
-      height: 85px;
-      background: #ddd;
-      border: 2px solid #aaa;
-      position: absolute;
-      box-sizing: border-box;
+    h1 {
+      margin-top: 0;
+      font-size: 28px;
+      color: #555;
     }
 
-    .led {
-      width: 12px;
-      height: 12px;
-      background: red;
-      position: absolute;
-      border-radius: 3px;
-      z-index: 10;
+    .line {
+      font-style: italic;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <div class="outer-box" id="box"></div>
-
-  <script>
-    const box = document.getElementById("box");
-    const boxSize = 85;
-    const ledSize = 12;
-    const totalWidth = 600;
-    const totalHeight = 700;
-    const edgeX = Math.floor((totalWidth - boxSize) / boxSize); // 7
-    const edgeY = Math.floor((totalHeight - boxSize) / boxSize); // 8
-    const positions = [];
-
-    // Top row
-    for (let i = 0; i < edgeX; i++) {
-      positions.push({ top: 0, left: i * boxSize, dir: "down" });
-    }
-
-    // Right column
-    for (let i = 1; i < edgeY; i++) {
-      positions.push({ top: i * boxSize, left: totalWidth - boxSize, dir: "left" });
-    }
-
-    // Bottom row
-    for (let i = edgeX - 1; i >= 0; i--) {
-      positions.push({ top: totalHeight - boxSize, left: i * boxSize, dir: "up" });
-    }
-
-    // Left column
-    for (let i = edgeY - 1; i >= 1; i--) {
-      positions.push({ top: i * boxSize, left: 0, dir: "right" });
-    }
-
-    positions.slice(0, 24).forEach((pos, i) => {
-      const slot = document.createElement('div');
-      slot.className = 'slot';
-      slot.style.top = pos.top + 'px';
-      slot.style.left = pos.left + 'px';
-      box.appendChild(slot);
-
-      const led = document.createElement('div');
-      led.className = 'led';
-
-      // LED hướng về tâm
-      if (pos.dir === "down") {
-        led.style.top = (pos.top + boxSize) + 'px';
-        led.style.left = (pos.left + boxSize / 2 - ledSize / 2) + 'px';
-      } else if (pos.dir === "up") {
-        led.style.top = (pos.top - ledSize) + 'px';
-        led.style.left = (pos.left + boxSize / 2 - ledSize / 2) + 'px';
-      } else if (pos.dir === "left") {
-        led.style.top = (pos.top + boxSize / 2 - ledSize / 2) + 'px';
-        led.style.left = (pos.left - ledSize) + 'px';
-      } else if (pos.dir === "right") {
-        led.style.top = (pos.top + boxSize / 2 - ledSize / 2) + 'px';
-        led.style.left = (pos.left + boxSize) + 'px';
-      }
-
-      box.appendChild(led);
-    });
-  </script>
+  <div class="poem-box">
+    <h1>Gió Trên Vách Núi</h1>
+    <div class="line">Gió thổi qua đồi, qua cánh chim bay,</div>
+    <div class="line">Lá reo khe khẽ gọi trời thức dậy.</div>
+    <div class="line">Ta ngồi yên lặng, giữa mây bay đầy,</div>
+    <div class="line">Nghe tiếng thở của đá sườn vách gãy.</div>
+    <br/>
+    <div class="line">Có đôi khi, lòng như biển cạn,</div>
+    <div class="line">Nhưng ánh hoàng hôn lại vẽ lại màu trời.</div>
+    <div class="line">Cứ ngồi đó thôi, giữa muôn trùng lặng,</div>
+    <div class="line">Gió sẽ hát cho người một khúc chơi vơi...</div>
+  </div>
 </body>
 </html>
