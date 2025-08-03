@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Máy BAR - Fixed LEDs</title>
+    <title>Máy BAR - Manual LEDs</title>
     <style>
         body {
             margin: 0;
@@ -43,12 +43,7 @@
             position: relative;
         }
 
-        /* Đặt các led-box vào led-frame */
-        .led-frame {
-            position: relative;
-        }
-        
-        .led-frame .led-box {
+        .led-box {
             width: 86px;
             height: 86px;
             position: absolute;
@@ -64,8 +59,7 @@
             object-fit: cover;
         }
 
-        /* Đặt led-indicator vào bên trong từng led-box */
-        .led-box .led-indicator {
+        .led-indicator {
             width: 14px;
             height: 14px;
             background-color: red;
@@ -73,74 +67,67 @@
             position: absolute;
             z-index: 10;
         }
+
+        /* Vị trí của các bóng LED theo từng led-box */
+        .led-box .led-indicator {
+            position: absolute;
+        }
+        
+        .led-box[data-dir="top"] .led-indicator {
+            top: 64px; /* 86px - 8px offset - 14px size */
+            left: 36px; /* (86px / 2) - (14px / 2) */
+        }
+        .led-box[data-dir="bottom"] .led-indicator {
+            top: 8px;
+            left: 36px;
+        }
+        .led-box[data-dir="left"] .led-indicator {
+            top: 36px;
+            left: 64px;
+        }
+        .led-box[data-dir="right"] .led-indicator {
+            top: 36px;
+            left: 8px;
+        }
     </style>
 </head>
 <body>
     <div class="main-box">
         <div class="inner-box-container">
             <div class="inner-box">
-                <div class="led-frame"></div>
+                <div class="led-frame">
+
+                    <div class="led-box" style="top: 0; left: 0;" data-dir="top"><img src="https://via.placeholder.com/86?text=1"><div class="led-indicator"></div></div>
+                    <div class="led-box" style="top: 0; left: 86px;" data-dir="top"><img src="https://via.placeholder.com/86?text=2"><div class="led-indicator"></div></div>
+                    <div class="led-box" style="top: 0; left: 172px;" data-dir="top"><img src="https://via.placeholder.com/86?text=3"><div class="led-indicator"></div></div>
+                    <div class="led-box" style="top: 0; left: 258px;" data-dir="top"><img src="https://via.placeholder.com/86?text=4"><div class="led-indicator"></div></div>
+                    <div class="led-box" style="top: 0; left: 344px;" data-dir="top"><img src="https://via.placeholder.com/86?text=5"><div class="led-indicator"></div></div>
+                    <div class="led-box" style="top: 0; left: 430px;" data-dir="top"><img src="https://via.placeholder.com/86?text=6"><div class="led-indicator"></div></div>
+                    <div class="led-box" style="top: 0; left: 514px;" data-dir="top"><img src="https://via.placeholder.com/86?text=7"><div class="led-indicator"></div></div>
+
+                    <div class="led-box" style="top: 86px; left: 514px;" data-dir="right"><img src="https://via.placeholder.com/86?text=8"><div class="led-indicator"></div></div>
+                    <div class="led-box" style="top: 172px; left: 514px;" data-dir="right"><img src="https://via.placeholder.com/86?text=9"><div class="led-indicator"></div></div>
+                    <div class="led-box" style="top: 258px; left: 514px;" data-dir="right"><img src="https://via.placeholder.com/86?text=10"><div class="led-indicator"></div></div>
+                    <div class="led-box" style="top: 344px; left: 514px;" data-dir="right"><img src="https://via.placeholder.com/86?text=11"><div class="led-indicator"></div></div>
+                    <div class="led-box" style="top: 430px; left: 514px;" data-dir="right"><img src="https://via.placeholder.com/86?text=12"><div class="led-indicator"></div></div>
+                    <div class="led-box" style="top: 514px; left: 514px;" data-dir="right"><img src="https://via.placeholder.com/86?text=13"><div class="led-indicator"></div></div>
+                    
+                    <div class="led-box" style="top: 514px; left: 430px;" data-dir="bottom"><img src="https://via.placeholder.com/86?text=14"><div class="led-indicator"></div></div>
+                    <div class="led-box" style="top: 514px; left: 344px;" data-dir="bottom"><img src="https://via.placeholder.com/86?text=15"><div class="led-indicator"></div></div>
+                    <div class="led-box" style="top: 514px; left: 258px;" data-dir="bottom"><img src="https://via.placeholder.com/86?text=16"><div class="led-indicator"></div></div>
+                    <div class="led-box" style="top: 514px; left: 172px;" data-dir="bottom"><img src="https://via.placeholder.com/86?text=17"><div class="led-indicator"></div></div>
+                    <div class="led-box" style="top: 514px; left: 86px;" data-dir="bottom"><img src="https://via.placeholder.com/86?text=18"><div class="led-indicator"></div></div>
+                    <div class="led-box" style="top: 514px; left: 0;" data-dir="bottom"><img src="https://via.placeholder.com/86?text=19"><div class="led-indicator"></div></div>
+
+                    <div class="led-box" style="top: 430px; left: 0;" data-dir="left"><img src="https://via.placeholder.com/86?text=20"><div class="led-indicator"></div></div>
+                    <div class="led-box" style="top: 344px; left: 0;" data-dir="left"><img src="https://via.placeholder.com/86?text=21"><div class="led-indicator"></div></div>
+                    <div class="led-box" style="top: 258px; left: 0;" data-dir="left"><img src="https://via.placeholder.com/86?text=22"><div class="led-indicator"></div></div>
+                    <div class="led-box" style="top: 172px; left: 0;" data-dir="left"><img src="https://via.placeholder.com/86?text=23"><div class="led-indicator"></div></div>
+                    <div class="led-box" style="top: 86px; left: 0;" data-dir="left"><img src="https://via.placeholder.com/86?text=24"><div class="led-indicator"></div></div>
+
+                </div>
             </div>
         </div>
     </div>
-    <script>
-        const ledFrame = document.querySelector('.led-frame');
-        const boxSize = 86;
-        const ledSize = 14;
-        const ledOffset = 8; // Khoảng cách đèn LED so với viền của ô LED
-
-        const positions = [];
-
-        // Vị trí các ô LED
-        for (let i = 0; i < 7; i++) {
-            positions.push({ top: 0, left: i * boxSize, dir: 'top' });
-        }
-        for (let i = 1; i < 7; i++) {
-            positions.push({ top: i * boxSize, left: 600 - boxSize, dir: 'right' });
-        }
-        for (let i = 5; i >= 0; i--) {
-            positions.push({ top: 600 - boxSize, left: i * boxSize, dir: 'bottom' });
-        }
-        for (let i = 5; i >= 1; i--) {
-            positions.push({ top: i * boxSize, left: 0, dir: 'left' });
-        }
-
-        positions.forEach((pos, index) => {
-            // Tạo ô LED
-            const ledBox = document.createElement('div');
-            ledBox.className = 'led-box';
-            ledBox.style.top = pos.top + 'px';
-            ledBox.style.left = pos.left + 'px';
-
-            const img = document.createElement('img');
-            img.src = `https://via.placeholder.com/86?text=${index + 1}`;
-            ledBox.appendChild(img);
-            
-            // Tạo đèn LED
-            const led = document.createElement('div');
-            led.className = 'led-indicator';
-
-            // Tính toán vị trí chính xác cho đèn LED nằm bên trong led-box
-            if (pos.dir === 'top') {
-                led.style.top = `${boxSize - ledOffset - ledSize}px`;
-                led.style.left = `${(boxSize / 2) - (ledSize / 2)}px`;
-            } else if (pos.dir === 'bottom') {
-                led.style.top = `${ledOffset}px`;
-                led.style.left = `${(boxSize / 2) - (ledSize / 2)}px`;
-            } else if (pos.dir === 'left') {
-                led.style.left = `${boxSize - ledOffset - ledSize}px`;
-                led.style.top = `${(boxSize / 2) - (ledSize / 2)}px`;
-            } else if (pos.dir === 'right') {
-                led.style.left = `${ledOffset}px`;
-                led.style.top = `${(boxSize / 2) - (ledSize / 2)}px`;
-            }
-            
-            // Thêm đèn LED vào led-box (quan trọng!)
-            ledBox.appendChild(led);
-            
-            // Thêm led-box vào led-frame
-            ledFrame.appendChild(ledBox);
-        });
-    </script>
 </body>
 </html>
