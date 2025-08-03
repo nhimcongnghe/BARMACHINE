@@ -3,80 +3,106 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Thử LED 4 Góc</title>
+  <title>Viền 24 Box + LED</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background-color: #111;
+      background: #111;
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
     }
 
-    .main-box {
-      width: 650px;
-      height: 650px;
-      background-color: white;
-      border: 4px solid #ccc;
-      border-radius: 20px;
+    .outer-box {
+      width: 600px;
+      height: 700px;
       position: relative;
+      background: #fff;
+      border: 4px solid #999;
+      border-radius: 20px;
     }
 
-    .led-box {
-      width: 86px;
-      height: 86px;
-      background-color: #000;
-      border: 2px solid #555;
-      border-radius: 8px;
+    .slot {
+      width: 85px;
+      height: 85px;
+      background: #ddd;
+      border: 2px solid #aaa;
       position: absolute;
-      overflow: hidden;
+      box-sizing: border-box;
     }
 
-    .led-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .led-indicator {
-      width: 14px;
-      height: 14px;
-      background-color: red;
-      border-radius: 4px;
+    .led {
+      width: 12px;
+      height: 12px;
+      background: red;
       position: absolute;
+      border-radius: 3px;
       z-index: 10;
     }
   </style>
 </head>
 <body>
-  <div class="main-box">
+  <div class="outer-box" id="box"></div>
 
-    <!-- Góc trên trái -->
-    <div class="led-box" style="top: 20px; left: 20px;">
-      <img src="https://via.placeholder.com/86?text=1">
-      <div class="led-indicator" style="top: 64px; left: 64px;"></div>
-    </div>
+  <script>
+    const box = document.getElementById("box");
+    const boxSize = 85;
+    const ledSize = 12;
+    const totalWidth = 600;
+    const totalHeight = 700;
+    const edgeX = Math.floor((totalWidth - boxSize) / boxSize); // 7
+    const edgeY = Math.floor((totalHeight - boxSize) / boxSize); // 8
+    const positions = [];
 
-    <!-- Góc trên phải -->
-    <div class="led-box" style="top: 20px; left: 544px;">
-      <img src="https://via.placeholder.com/86?text=2">
-      <div class="led-indicator" style="top: 64px; left: 8px;"></div>
-    </div>
+    // Top row
+    for (let i = 0; i < edgeX; i++) {
+      positions.push({ top: 0, left: i * boxSize, dir: "down" });
+    }
 
-    <!-- Góc dưới trái -->
-    <div class="led-box" style="top: 544px; left: 20px;">
-      <img src="https://via.placeholder.com/86?text=3">
-      <div class="led-indicator" style="top: 8px; left: 64px;"></div>
-    </div>
+    // Right column
+    for (let i = 1; i < edgeY; i++) {
+      positions.push({ top: i * boxSize, left: totalWidth - boxSize, dir: "left" });
+    }
 
-    <!-- Góc dưới phải -->
-    <div class="led-box" style="top: 544px; left: 544px;">
-      <img src="https://via.placeholder.com/86?text=4">
-      <div class="led-indicator" style="top: 8px; left: 8px;"></div>
-    </div>
+    // Bottom row
+    for (let i = edgeX - 1; i >= 0; i--) {
+      positions.push({ top: totalHeight - boxSize, left: i * boxSize, dir: "up" });
+    }
 
-  </div>
+    // Left column
+    for (let i = edgeY - 1; i >= 1; i--) {
+      positions.push({ top: i * boxSize, left: 0, dir: "right" });
+    }
+
+    positions.slice(0, 24).forEach((pos, i) => {
+      const slot = document.createElement('div');
+      slot.className = 'slot';
+      slot.style.top = pos.top + 'px';
+      slot.style.left = pos.left + 'px';
+      box.appendChild(slot);
+
+      const led = document.createElement('div');
+      led.className = 'led';
+
+      // LED hướng về tâm
+      if (pos.dir === "down") {
+        led.style.top = (pos.top + boxSize) + 'px';
+        led.style.left = (pos.left + boxSize / 2 - ledSize / 2) + 'px';
+      } else if (pos.dir === "up") {
+        led.style.top = (pos.top - ledSize) + 'px';
+        led.style.left = (pos.left + boxSize / 2 - ledSize / 2) + 'px';
+      } else if (pos.dir === "left") {
+        led.style.top = (pos.top + boxSize / 2 - ledSize / 2) + 'px';
+        led.style.left = (pos.left - ledSize) + 'px';
+      } else if (pos.dir === "right") {
+        led.style.top = (pos.top + boxSize / 2 - ledSize / 2) + 'px';
+        led.style.left = (pos.left + boxSize) + 'px';
+      }
+
+      box.appendChild(led);
+    });
+  </script>
 </body>
 </html>
