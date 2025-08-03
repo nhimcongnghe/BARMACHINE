@@ -1,127 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Máy BAR - Fixed LEDs</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #111;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .main-box {
-      width: 650px;
-      height: 750px;
-      background-color: white;
-      border: 4px solid #ccc;
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 60px;
-    }
-    .inner-box-container {
-      position: relative;
-      width: 600px;
-      height: 600px;
-    }
-    .inner-box {
-      width: 100%;
-      height: 100%;
-      background-color: #111;
-      border: 3px dashed #999;
-      border-radius: 10px;
-      position: relative;
-    }
-    .led-frame .led-box {
-      width: 86px;
-      height: 86px;
-      position: absolute;
-      background-color: black;
-      border: 2px solid #555;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .led-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .led-indicator {
-      width: 14px;
-      height: 14px;
-      background-color: red;
-      border-radius: 4px;
-      position: absolute;
-      z-index: 10;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Máy BAR - Fixed LEDs</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .main-box {
+            width: 650px;
+            height: 750px;
+            background-color: white;
+            border: 4px solid #ccc;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 60px;
+        }
+
+        .inner-box-container {
+            position: relative;
+            width: 600px;
+            height: 600px;
+        }
+
+        .inner-box {
+            width: 100%;
+            height: 100%;
+            background-color: #111;
+            border: 3px dashed #999;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .led-frame .led-box {
+            width: 86px;
+            height: 86px;
+            position: absolute;
+            background-color: black;
+            border: 2px solid #555;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .led-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .led-indicator {
+            width: 14px;
+            height: 14px;
+            background-color: red;
+            border-radius: 4px;
+            position: absolute;
+            z-index: 10;
+        }
+    </style>
 </head>
 <body>
-  <div class="main-box">
-    <div class="inner-box-container">
-      <div class="inner-box">
-        <div class="led-frame"></div>
-      </div>
+    <div class="main-box">
+        <div class="inner-box-container">
+            <div class="inner-box">
+                <div class="led-frame"></div>
+            </div>
+        </div>
     </div>
-  </div>
-  <script>
-    const ledFrame = document.querySelector('.led-frame');
-    const container = document.querySelector('.inner-box-container');
-    const boxSize = 86;
-    const ledOffset = 8; // Dịch led ra ngoài viền box, hướng vào tâm
+    <script>
+        const ledFrame = document.querySelector('.led-frame');
+        const innerBox = document.querySelector('.inner-box'); // Lấy phần tử inner-box
+        const boxSize = 86; // Kích thước của mỗi ô LED
+        const ledSize = 14; // Kích thước của đèn LED
+        const ledOffset = 8; // Khoảng cách đèn LED so với viền của ô LED
 
-    const positions = [];
+        const positions = [];
 
-    for (let i = 0; i < 7; i++) {
-      positions.push({ top: 0, left: i * boxSize, dir: 'down' });
-    }
-    for (let i = 1; i < 7; i++) {
-      positions.push({ top: i * boxSize, left: 600 - boxSize, dir: 'left' });
-    }
-    for (let i = 5; i >= 0; i--) {
-      positions.push({ top: 600 - boxSize, left: i * boxSize, dir: 'up' });
-    }
-    for (let i = 5; i >= 1; i--) {
-      positions.push({ top: i * boxSize, left: 0, dir: 'right' });
-    }
+        // Tạo mảng vị trí cho các ô LED
+        for (let i = 0; i < 7; i++) {
+            positions.push({ top: 0, left: i * boxSize, dir: 'down' });
+        }
+        for (let i = 1; i < 7; i++) {
+            positions.push({ top: i * boxSize, left: 600 - boxSize, dir: 'left' });
+        }
+        for (let i = 5; i >= 0; i--) {
+            positions.push({ top: 600 - boxSize, left: i * boxSize, dir: 'up' });
+        }
+        for (let i = 5; i >= 1; i--) {
+            positions.push({ top: i * boxSize, left: 0, dir: 'right' });
+        }
 
-    positions.forEach((pos, index) => {
-      const ledBox = document.createElement('div');
-      ledBox.className = 'led-box';
-      ledBox.style.top = pos.top + 'px';
-      ledBox.style.left = pos.left + 'px';
+        positions.forEach((pos, index) => {
+            // Tạo ô LED (led-box)
+            const ledBox = document.createElement('div');
+            ledBox.className = 'led-box';
+            ledBox.style.top = pos.top + 'px';
+            ledBox.style.left = pos.left + 'px';
 
-      const img = document.createElement('img');
-      img.src = `https://via.placeholder.com/86?text=${index + 1}`;
-      ledBox.appendChild(img);
-      ledFrame.appendChild(ledBox);
+            const img = document.createElement('img');
+            img.src = `https://via.placeholder.com/86?text=${index + 1}`;
+            ledBox.appendChild(img);
+            ledFrame.appendChild(ledBox);
 
-      // LED indicator (nằm ngoài box, chung viền và hướng tâm)
-      const led = document.createElement('div');
-      led.className = 'led-indicator';
+            // Tạo đèn LED (led-indicator)
+            const led = document.createElement('div');
+            led.className = 'led-indicator';
 
-      let ledTop = pos.top;
-      let ledLeft = pos.left;
-      if (pos.dir === 'down') ledTop += boxSize + 1;
-      else if (pos.dir === 'up') ledTop -= ledOffset + 14;
-      else if (pos.dir === 'left') ledLeft -= ledOffset + 14;
-      else if (pos.dir === 'right') ledLeft += boxSize + 1;
+            let ledTop = pos.top;
+            let ledLeft = pos.left;
 
-      if (pos.dir === 'up' || pos.dir === 'down') ledLeft += (boxSize / 2) - 7;
-      if (pos.dir === 'left' || pos.dir === 'right') ledTop += (boxSize / 2) - 7;
+            // Tính toán vị trí chính xác cho đèn LED
+            if (pos.dir === 'down') {
+                ledTop = pos.top - ledOffset - ledSize;
+                ledLeft = pos.left + (boxSize / 2) - (ledSize / 2);
+            } else if (pos.dir === 'up') {
+                ledTop = pos.top + boxSize + ledOffset;
+                ledLeft = pos.left + (boxSize / 2) - (ledSize / 2);
+            } else if (pos.dir === 'left') {
+                ledLeft = pos.left + boxSize + ledOffset;
+                ledTop = pos.top + (boxSize / 2) - (ledSize / 2);
+            } else if (pos.dir === 'right') {
+                ledLeft = pos.left - ledOffset - ledSize;
+                ledTop = pos.top + (boxSize / 2) - (ledSize / 2);
+            }
+            
+            // Áp dụng vị trí
+            led.style.top = ledTop + 'px';
+            led.style.left = ledLeft + 'px';
 
-      led.style.top = ledTop + 'px';
-      led.style.left = ledLeft + 'px';
-
-      container.appendChild(led);
-    });
-  </script>
+            innerBox.appendChild(led); // Thêm đèn LED vào inner-box để vị trí chính xác
+        });
+    </script>
 </body>
 </html>
