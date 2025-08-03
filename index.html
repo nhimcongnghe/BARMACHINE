@@ -119,18 +119,18 @@
             let ledTop = pos.top;
             let ledLeft = pos.left;
 
-            // Điều chỉnh logic để đèn LED nằm ngoài ô LED và hướng vào trung tâm
+            // Điều chỉnh logic để đèn LED nằm trong ô vuông và hướng vào trung tâm
             if (pos.dir === 'top') {
-                ledTop = pos.top - ledOffset - ledSize;
+                ledTop = pos.top + boxSize - ledOffset - ledSize;
                 ledLeft = pos.left + (boxSize / 2) - (ledSize / 2);
             } else if (pos.dir === 'bottom') {
-                ledTop = pos.top + boxSize + ledOffset;
+                ledTop = pos.top + ledOffset;
                 ledLeft = pos.left + (boxSize / 2) - (ledSize / 2);
             } else if (pos.dir === 'left') {
-                ledLeft = pos.left - ledOffset - ledSize;
+                ledLeft = pos.left + boxSize - ledOffset - ledSize;
                 ledTop = pos.top + (boxSize / 2) - (ledSize / 2);
             } else if (pos.dir === 'right') {
-                ledLeft = pos.left + boxSize + ledOffset;
+                ledLeft = pos.left + ledOffset;
                 ledTop = pos.top + (boxSize / 2) - (ledSize / 2);
             }
             
