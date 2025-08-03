@@ -40,14 +40,13 @@
       border-radius: 10px;
       position: relative;
     }
-   .led-frame .led-box {
-  width: 100px;
-  height: 100px;
+.led-frame .led-box {
+  width: 86px;
+  height: 86px;
   position: absolute;
   background-color: white;
   border: 1px solid #aaa;
   box-sizing: border-box;
-}
     }
     .led-box img {
       width: 100%;
@@ -69,30 +68,31 @@
     <div class="inner-box">
       <div class="led-frame"></div>
   </div>
-      <script>
+   <script>
   const ledFrame = document.querySelector('.led-frame');
   const boxSize = 600;
-  const ledSize = 100;
+  const ledCountPerEdge = 7;
+  const ledSize = boxSize / ledCountPerEdge; // ≈ 85.71
 
   const positions = [];
 
-  // Top edge (left to right)
-  for (let i = 0; i < 6; i++) {
+  // Top edge
+  for (let i = 0; i < ledCountPerEdge; i++) {
     positions.push({ top: 0, left: i * ledSize });
   }
 
-  // Right edge (top to bottom)
-  for (let i = 1; i <= 5; i++) {
+  // Right edge
+  for (let i = 1; i < ledCountPerEdge; i++) {
     positions.push({ top: i * ledSize, left: boxSize - ledSize });
   }
 
-  // Bottom edge (right to left)
-  for (let i = 5; i >= 0; i--) {
+  // Bottom edge
+  for (let i = ledCountPerEdge - 2; i >= 0; i--) {
     positions.push({ top: boxSize - ledSize, left: i * ledSize });
   }
 
-  // Left edge (bottom to top)
-  for (let i = 4; i >= 1; i--) {
+  // Left edge
+  for (let i = ledCountPerEdge - 2; i >= 1; i--) {
     positions.push({ top: i * ledSize, left: 0 });
   }
 
@@ -102,14 +102,13 @@
     led.style.top = pos.top + 'px';
     led.style.left = pos.left + 'px';
 
-    // Gắn ảnh giả để con dễ test
     const img = document.createElement('img');
-    img.src = `https://via.placeholder.com/100?text=${index + 1}`;
+    img.src = `https://via.placeholder.com/86?text=${index + 1}`;
     img.style.width = "100%";
     img.style.height = "100%";
     img.style.objectFit = "cover";
-    led.appendChild(img);
 
+    led.appendChild(img);
     ledFrame.appendChild(led);
   });
 </script>
