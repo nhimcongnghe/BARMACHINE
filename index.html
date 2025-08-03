@@ -1,133 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Máy BAR - Manual LEDs</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #111;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thử LED 4 Góc</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-        .main-box {
-            width: 650px;
-            height: 750px;
-            background-color: white;
-            border: 4px solid #ccc;
-            border-radius: 20px;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 60px;
-        }
+    .main-box {
+      width: 650px;
+      height: 650px;
+      background-color: white;
+      border: 4px solid #ccc;
+      border-radius: 20px;
+      position: relative;
+    }
 
-        .inner-box-container {
-            position: relative;
-            width: 600px;
-            height: 600px;
-        }
+    .led-box {
+      width: 86px;
+      height: 86px;
+      background-color: #000;
+      border: 2px solid #555;
+      border-radius: 8px;
+      position: absolute;
+      overflow: hidden;
+    }
 
-        .inner-box {
-            width: 100%;
-            height: 100%;
-            background-color: #111;
-            border: 3px dashed #999;
-            border-radius: 10px;
-            position: relative;
-        }
+    .led-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-        .led-box {
-            width: 86px;
-            height: 86px;
-            position: absolute;
-            background-color: black;
-            border: 2px solid #555;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .led-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .led-indicator {
-            width: 14px;
-            height: 14px;
-            background-color: red;
-            border-radius: 4px;
-            position: absolute;
-            z-index: 10;
-        }
-
-        /* Vị trí của các bóng LED theo từng led-box */
-        .led-box .led-indicator {
-            position: absolute;
-        }
-        
-        .led-box[data-dir="top"] .led-indicator {
-            top: 64px; /* 86px - 8px offset - 14px size */
-            left: 36px; /* (86px / 2) - (14px / 2) */
-        }
-        .led-box[data-dir="bottom"] .led-indicator {
-            top: 8px;
-            left: 36px;
-        }
-        .led-box[data-dir="left"] .led-indicator {
-            top: 36px;
-            left: 64px;
-        }
-        .led-box[data-dir="right"] .led-indicator {
-            top: 36px;
-            left: 8px;
-        }
-    </style>
+    .led-indicator {
+      width: 14px;
+      height: 14px;
+      background-color: red;
+      border-radius: 4px;
+      position: absolute;
+      z-index: 10;
+    }
+  </style>
 </head>
 <body>
-    <div class="main-box">
-        <div class="inner-box-container">
-            <div class="inner-box">
-                <div class="led-frame">
+  <div class="main-box">
 
-                    <div class="led-box" style="top: 0; left: 0;" data-dir="top"><img src="https://via.placeholder.com/86?text=1"><div class="led-indicator"></div></div>
-                    <div class="led-box" style="top: 0; left: 86px;" data-dir="top"><img src="https://via.placeholder.com/86?text=2"><div class="led-indicator"></div></div>
-                    <div class="led-box" style="top: 0; left: 172px;" data-dir="top"><img src="https://via.placeholder.com/86?text=3"><div class="led-indicator"></div></div>
-                    <div class="led-box" style="top: 0; left: 258px;" data-dir="top"><img src="https://via.placeholder.com/86?text=4"><div class="led-indicator"></div></div>
-                    <div class="led-box" style="top: 0; left: 344px;" data-dir="top"><img src="https://via.placeholder.com/86?text=5"><div class="led-indicator"></div></div>
-                    <div class="led-box" style="top: 0; left: 430px;" data-dir="top"><img src="https://via.placeholder.com/86?text=6"><div class="led-indicator"></div></div>
-                    <div class="led-box" style="top: 0; left: 514px;" data-dir="top"><img src="https://via.placeholder.com/86?text=7"><div class="led-indicator"></div></div>
-
-                    <div class="led-box" style="top: 86px; left: 514px;" data-dir="right"><img src="https://via.placeholder.com/86?text=8"><div class="led-indicator"></div></div>
-                    <div class="led-box" style="top: 172px; left: 514px;" data-dir="right"><img src="https://via.placeholder.com/86?text=9"><div class="led-indicator"></div></div>
-                    <div class="led-box" style="top: 258px; left: 514px;" data-dir="right"><img src="https://via.placeholder.com/86?text=10"><div class="led-indicator"></div></div>
-                    <div class="led-box" style="top: 344px; left: 514px;" data-dir="right"><img src="https://via.placeholder.com/86?text=11"><div class="led-indicator"></div></div>
-                    <div class="led-box" style="top: 430px; left: 514px;" data-dir="right"><img src="https://via.placeholder.com/86?text=12"><div class="led-indicator"></div></div>
-                    <div class="led-box" style="top: 514px; left: 514px;" data-dir="right"><img src="https://via.placeholder.com/86?text=13"><div class="led-indicator"></div></div>
-                    
-                    <div class="led-box" style="top: 514px; left: 430px;" data-dir="bottom"><img src="https://via.placeholder.com/86?text=14"><div class="led-indicator"></div></div>
-                    <div class="led-box" style="top: 514px; left: 344px;" data-dir="bottom"><img src="https://via.placeholder.com/86?text=15"><div class="led-indicator"></div></div>
-                    <div class="led-box" style="top: 514px; left: 258px;" data-dir="bottom"><img src="https://via.placeholder.com/86?text=16"><div class="led-indicator"></div></div>
-                    <div class="led-box" style="top: 514px; left: 172px;" data-dir="bottom"><img src="https://via.placeholder.com/86?text=17"><div class="led-indicator"></div></div>
-                    <div class="led-box" style="top: 514px; left: 86px;" data-dir="bottom"><img src="https://via.placeholder.com/86?text=18"><div class="led-indicator"></div></div>
-                    <div class="led-box" style="top: 514px; left: 0;" data-dir="bottom"><img src="https://via.placeholder.com/86?text=19"><div class="led-indicator"></div></div>
-
-                    <div class="led-box" style="top: 430px; left: 0;" data-dir="left"><img src="https://via.placeholder.com/86?text=20"><div class="led-indicator"></div></div>
-                    <div class="led-box" style="top: 344px; left: 0;" data-dir="left"><img src="https://via.placeholder.com/86?text=21"><div class="led-indicator"></div></div>
-                    <div class="led-box" style="top: 258px; left: 0;" data-dir="left"><img src="https://via.placeholder.com/86?text=22"><div class="led-indicator"></div></div>
-                    <div class="led-box" style="top: 172px; left: 0;" data-dir="left"><img src="https://via.placeholder.com/86?text=23"><div class="led-indicator"></div></div>
-                    <div class="led-box" style="top: 86px; left: 0;" data-dir="left"><img src="https://via.placeholder.com/86?text=24"><div class="led-indicator"></div></div>
-
-                </div>
-            </div>
-        </div>
+    <!-- Góc trên trái -->
+    <div class="led-box" style="top: 20px; left: 20px;">
+      <img src="https://via.placeholder.com/86?text=1">
+      <div class="led-indicator" style="top: 64px; left: 64px;"></div>
     </div>
+
+    <!-- Góc trên phải -->
+    <div class="led-box" style="top: 20px; left: 544px;">
+      <img src="https://via.placeholder.com/86?text=2">
+      <div class="led-indicator" style="top: 64px; left: 8px;"></div>
+    </div>
+
+    <!-- Góc dưới trái -->
+    <div class="led-box" style="top: 544px; left: 20px;">
+      <img src="https://via.placeholder.com/86?text=3">
+      <div class="led-indicator" style="top: 8px; left: 64px;"></div>
+    </div>
+
+    <!-- Góc dưới phải -->
+    <div class="led-box" style="top: 544px; left: 544px;">
+      <img src="https://via.placeholder.com/86?text=4">
+      <div class="led-indicator" style="top: 8px; left: 8px;"></div>
+    </div>
+
+  </div>
 </body>
 </html>
