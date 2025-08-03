@@ -14,6 +14,7 @@
       align-items: center;
       height: 100vh;
     }
+
     .main-box {
       width: 650px;
       height: 750px;
@@ -26,39 +27,44 @@
       align-items: center;
       padding-top: 60px;
     }
+
     .inner-box-container {
       position: relative;
       width: 600px;
       height: 600px;
     }
+
     .inner-box {
       width: 100%;
       height: 100%;
-      background-color: #eee;
-      border: 3px dashed #999;
+      background-color: #222;
+      border: 3px dashed #666;
       border-radius: 10px;
       position: relative;
     }
-    .led-box {
+
+    .led-frame .led-box {
       width: 86px;
       height: 86px;
       position: absolute;
-      background-color: white;
-      border: 2px solid #aaa;
+      background-color: #000;
+      border: 2px solid #888;
       border-radius: 8px;
       overflow: hidden;
     }
+
     .led-box img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
+
     .led-indicator {
       width: 14px;
       height: 14px;
       background-color: red;
       position: absolute;
-      z-index: 15;
+      z-index: 20;
       border-radius: 3px;
       box-shadow: 0 0 5px red;
     }
@@ -73,73 +79,68 @@
     </div>
   </div>
 
-<script>
-  const container = document.querySelector('.inner-box-container');
-  const ledFrame = document.querySelector('.led-frame');
+  <script>
+    const container = document.querySelector('.inner-box-container');
+    const ledFrame = document.querySelector('.led-frame');
+    const ledSize = 14;
 
-  const centerX = 300;
-  const centerY = 300;
-  const ledSize = 14;
-  const ledOffset = 3; // khoảng cách từ viền led-box ra tới LED
+    const centerX = 300;
+    const centerY = 300;
+    const offsetFromBox = 43 + 3; // 43 là nửa box, +3 để ra ngoài
 
-  const positions = [];
+    const positions = [];
 
-  // Top edge (7)
-  for (let i = 0; i < 7; i++) {
-    positions.push({ top: 0, left: i * 86 });
-  }
+    // Top edge (7)
+    for (let i = 0; i < 7; i++) {
+      positions.push({ top: 0, left: i * 86 });
+    }
 
-  // Right edge (6)
-  for (let i = 1; i < 7; i++) {
-    positions.push({ top: i * 86, left: 600 - 86 });
-  }
+    // Right edge (6)
+    for (let i = 1; i < 7; i++) {
+      positions.push({ top: i * 86, left: 600 - 86 });
+    }
 
-  // Bottom edge (6)
-  for (let i = 5; i >= 0; i--) {
-    positions.push({ top: 600 - 86, left: i * 86 });
-  }
+    // Bottom edge (6)
+    for (let i = 5; i >= 0; i--) {
+      positions.push({ top: 600 - 86, left: i * 86 });
+    }
 
-  // Left edge (4)
-  for (let i = 5; i >= 1; i--) {
-    positions.push({ top: i * 86, left: 0 });
-  }
+    // Left edge (5)
+    for (let i = 5; i >= 1; i--) {
+      positions.push({ top: i * 86, left: 0 });
+    }
 
-  positions.forEach((pos, index) => {
-    // Tạo led-box
-    const box = document.createElement('div');
-    box.className = 'led-box';
-    box.style.top = pos.top + 'px';
-    box.style.left = pos.left + 'px';
+    positions.forEach((pos, index) => {
+      // 1. Tạo led-box (ô hình ảnh)
+      const box = document.createElement('div');
+      box.className = 'led-box';
+      box.style.top = pos.top + 'px';
+      box.style.left = pos.left + 'px';
 
-    const img = document.createElement('img');
-    img.src = `https://via.placeholder.com/86?text=${index + 1}`;
-    box.appendChild(img);
-    ledFrame.appendChild(box);
+      const img = document.createElement('img');
+      img.src = `https://via.placeholder.com/86?text=${index + 1}`;
+      box.appendChild(img);
+      ledFrame.appendChild(box);
 
-    // Tính tâm của box
-    const boxCenterX = pos.left + 43;
-    const boxCenterY = pos.top + 43;
+      // 2. Tính tọa độ LED nằm ngoài, sát viền, hướng tâm
+      const boxCenterX = pos.left + 43;
+      const boxCenterY = pos.top + 43;
+      const dx = centerX - boxCenterX;
+      const dy = centerY - boxCenterY;
+      const length = Math.sqrt(dx * dx + dy * dy);
+      const unitX = dx / length;
+      const unitY = dy / length;
 
-    // Vector hướng vào tâm
-    const dx = centerX - boxCenterX;
-    const dy = centerY - boxCenterY;
-    const length = Math.sqrt(dx * dx + dy * dy);
+      const ledX = boxCenterX + unitX * offsetFromBox - ledSize / 2;
+      const ledY = boxCenterY + unitY * offsetFromBox - ledSize / 2;
 
-    const unitX = dx / length;
-    const unitY = dy / length;
-
-    // Tọa độ LED = tâm box + vector hướng tâm * (43 + offset)
-    const ledX = boxCenterX + unitX * (43 + ledOffset) - ledSize / 2;
-    const ledY = boxCenterY + unitY * (43 + ledOffset) - ledSize / 2;
-
-    // Tạo LED
-    const led = document.createElement('div');
-    led.className = 'led-indicator';
-    led.style.left = ledX + 'px';
-    led.style.top = ledY + 'px';
-
-    container.appendChild(led);
-  });
-</script>
+      // 3. Tạo LED indicator
+      const led = document.createElement('div');
+      led.className = 'led-indicator';
+      led.style.left = ledX + 'px';
+      led.style.top = ledY + 'px';
+      container.appendChild(led);
+    });
+  </script>
 </body>
 </html>
