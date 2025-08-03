@@ -57,9 +57,9 @@
       width: 12px;
       height: 12px;
       background-color: red;
-      border-radius: 2px;
+      border-radius: 50%;
       position: absolute;
-      z-index: 10;
+      z-index: 15;
     }
   </style>
 </head>
@@ -129,9 +129,52 @@
     indicator.style.top = '37px';
     indicator.style.left = '72px'; // Gần mép phải ô
   }
+// Add led-box to frame
+ledFrame.appendChild(led);
 
-  led.appendChild(indicator);
-  ledFrame.appendChild(led);
+// Now create external LED
+const indicator = document.createElement('div');
+indicator.className = 'led-indicator';
+
+let ledTop = pos.top;
+let ledLeft = pos.left;
+const offset = 10; // khoảng cách đẩy ra ngoài
+
+const isCorner = (index === 0 || index === 6 || index === 12 || index === 18);
+if (isCorner) {
+  if (index === 0) {
+    indicator.style.top = (ledTop - offset) + 'px';
+    indicator.style.left = (ledLeft - offset) + 'px';
+  } else if (index === 6) {
+    indicator.style.top = (ledTop - offset) + 'px';
+    indicator.style.left = (ledLeft + 86 - 2) + 'px';
+  } else if (index === 12) {
+    indicator.style.top = (ledTop + 86 - 2) + 'px';
+    indicator.style.left = (ledLeft + 86 - 2) + 'px';
+  } else if (index === 18) {
+    indicator.style.top = (ledTop + 86 - 2) + 'px';
+    indicator.style.left = (ledLeft - offset) + 'px';
+  }
+} else if (index < 7) {
+  // Top row
+  indicator.style.top = (ledTop - offset) + 'px';
+  indicator.style.left = (ledLeft + 37) + 'px';
+} else if (index < 13) {
+  // Right column
+  indicator.style.top = (ledTop + 37) + 'px';
+  indicator.style.left = (ledLeft + 86 + offset - 2) + 'px';
+} else if (index < 19) {
+  // Bottom row
+  indicator.style.top = (ledTop + 86 + offset - 2) + 'px';
+  indicator.style.left = (ledLeft + 37) + 'px';
+} else {
+  // Left column
+  indicator.style.top = (ledTop + 37) + 'px';
+  indicator.style.left = (ledLeft - offset) + 'px';
+}
+
+// Add LED to container instead of led-box
+document.querySelector('.inner-box-container').appendChild(indicator);
 });
   </script>
 </body>
