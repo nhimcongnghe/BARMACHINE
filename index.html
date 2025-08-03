@@ -43,6 +43,11 @@
             position: relative;
         }
 
+        /* Đặt các led-box vào led-frame */
+        .led-frame {
+            position: relative;
+        }
+        
         .led-frame .led-box {
             width: 86px;
             height: 86px;
@@ -59,7 +64,8 @@
             object-fit: cover;
         }
 
-        .led-indicator {
+        /* Đặt led-indicator vào bên trong từng led-box */
+        .led-box .led-indicator {
             width: 14px;
             height: 14px;
             background-color: red;
@@ -79,10 +85,9 @@
     </div>
     <script>
         const ledFrame = document.querySelector('.led-frame');
-        const innerBox = document.querySelector('.inner-box');
         const boxSize = 86;
         const ledSize = 14;
-        const ledOffset = 8; // Khoảng cách đèn LED so với viền của hộp đen
+        const ledOffset = 8; // Khoảng cách đèn LED so với viền của ô LED
 
         const positions = [];
 
@@ -110,34 +115,31 @@
             const img = document.createElement('img');
             img.src = `https://via.placeholder.com/86?text=${index + 1}`;
             ledBox.appendChild(img);
-            ledFrame.appendChild(ledBox);
-
+            
             // Tạo đèn LED
             const led = document.createElement('div');
             led.className = 'led-indicator';
 
-            let ledTop = pos.top;
-            let ledLeft = pos.left;
-
-            // Điều chỉnh logic để đèn LED nằm trong ô vuông và hướng vào trung tâm
+            // Tính toán vị trí chính xác cho đèn LED nằm bên trong led-box
             if (pos.dir === 'top') {
-                ledTop = pos.top + boxSize - ledOffset - ledSize;
-                ledLeft = pos.left + (boxSize / 2) - (ledSize / 2);
+                led.style.top = `${boxSize - ledOffset - ledSize}px`;
+                led.style.left = `${(boxSize / 2) - (ledSize / 2)}px`;
             } else if (pos.dir === 'bottom') {
-                ledTop = pos.top + ledOffset;
-                ledLeft = pos.left + (boxSize / 2) - (ledSize / 2);
+                led.style.top = `${ledOffset}px`;
+                led.style.left = `${(boxSize / 2) - (ledSize / 2)}px`;
             } else if (pos.dir === 'left') {
-                ledLeft = pos.left + boxSize - ledOffset - ledSize;
-                ledTop = pos.top + (boxSize / 2) - (ledSize / 2);
+                led.style.left = `${boxSize - ledOffset - ledSize}px`;
+                led.style.top = `${(boxSize / 2) - (ledSize / 2)}px`;
             } else if (pos.dir === 'right') {
-                ledLeft = pos.left + ledOffset;
-                ledTop = pos.top + (boxSize / 2) - (ledSize / 2);
+                led.style.left = `${ledOffset}px`;
+                led.style.top = `${(boxSize / 2) - (ledSize / 2)}px`;
             }
             
-            led.style.top = ledTop + 'px';
-            led.style.left = ledLeft + 'px';
-
-            innerBox.appendChild(led);
+            // Thêm đèn LED vào led-box (quan trọng!)
+            ledBox.appendChild(led);
+            
+            // Thêm led-box vào led-frame
+            ledFrame.appendChild(ledBox);
         });
     </script>
 </body>
