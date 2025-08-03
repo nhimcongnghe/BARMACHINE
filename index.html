@@ -73,74 +73,70 @@
     </div>
   </div>
 
-  <script>
-    const ledFrame = document.querySelector('.led-frame');
-    const container = document.querySelector('.inner-box-container');
-    const positions = [];
+<script>
+  const ledFrame = document.querySelector('.led-frame');
 
-    // Top edge (7)
-    for (let i = 0; i < 7; i++) {
-      positions.push({ top: 0, left: i * 86 });
-    }
+  const ledPositions = [];
 
-    // Right edge (7)
-    for (let i = 1; i < 7; i++) {
-      positions.push({ top: i * 86, left: 600 - 86 });
-    }
-
-    // Bottom edge (7)
-    for (let i = 5; i >= 0; i--) {
-      positions.push({ top: 600 - 86, left: i * 86 });
-    }
-
-    // Left edge (3)
-    for (let i = 5; i >= 1; i--) {
-      positions.push({ top: i * 86, left: 0 });
-    }
-
-    const centerX = 300;
-    const centerY = 300;
-    const ledSize = 14;
-    const inwardOffset = 40; // Điều chỉnh khoảng cách LED kéo vào trung tâm
-
-    positions.forEach((pos, index) => {
-      // Tạo led box
-      const ledBox = document.createElement('div');
-      ledBox.className = 'led-box';
-      ledBox.style.top = pos.top + 'px';
-      ledBox.style.left = pos.left + 'px';
-
-      const img = document.createElement('img');
-      img.src = `https://via.placeholder.com/86?text=${index + 1}`;
-      ledBox.appendChild(img);
-      ledFrame.appendChild(ledBox);
-
-      // Tạo LED indicator
-      const led = document.createElement('div');
-      led.className = 'led-indicator';
-
-      // Tính tâm của ô
-      const boxCenterX = pos.left + 43;
-      const boxCenterY = pos.top + 43;
-
-      // Vector hướng về tâm
-      const dx = centerX - boxCenterX;
-      const dy = centerY - boxCenterY;
-      const length = Math.sqrt(dx * dx + dy * dy);
-
-      // Nếu length = 0 (ở chính giữa) thì khỏi tính
-      if (length === 0) return;
-
-      // Tính vị trí LED đã kéo vào trong
-      const newX = boxCenterX + (dx / length) * inwardOffset;
-      const newY = boxCenterY + (dy / length) * inwardOffset;
-
-      // Căn giữa LED tại vị trí mới
-      led.style.left = (newX - ledSize / 2) + 'px';
-      led.style.top = (newY - ledSize / 2) + 'px';
-
-      container.appendChild(led);
+  // Top row (7 LEDs)
+  for (let i = 0; i < 7; i++) {
+    ledPositions.push({
+      top: 0,
+      left: i * 86,
+      ledTop: '2px',
+      ledLeft: '36px' // LED nằm gần mép dưới của box
     });
-  </script>
+  }
+
+  // Right column (6 LEDs)
+  for (let i = 1; i < 7; i++) {
+    ledPositions.push({
+      top: i * 86,
+      left: 600 - 86,
+      ledTop: '36px',
+      ledLeft: '2px' // LED nằm gần mép trái
+    });
+  }
+
+  // Bottom row (6 LEDs)
+  for (let i = 5; i >= 0; i--) {
+    ledPositions.push({
+      top: 600 - 86,
+      left: i * 86,
+      ledTop: '70px',
+      ledLeft: '36px' // LED gần mép trên
+    });
+  }
+
+  // Left column (4 LEDs)
+  for (let i = 5; i >= 1; i--) {
+    ledPositions.push({
+      top: i * 86,
+      left: 0,
+      ledTop: '36px',
+      ledLeft: '70px' // LED gần mép phải
+    });
+  }
+
+  // Tạo box và led
+  ledPositions.forEach((pos, index) => {
+    const box = document.createElement('div');
+    box.className = 'led-box';
+    box.style.top = pos.top + 'px';
+    box.style.left = pos.left + 'px';
+
+    const img = document.createElement('img');
+    img.src = `https://via.placeholder.com/86?text=${index + 1}`;
+    box.appendChild(img);
+
+    const led = document.createElement('div');
+    led.className = 'led-indicator';
+    led.style.top = pos.ledTop;
+    led.style.left = pos.ledLeft;
+
+    box.appendChild(led);
+    ledFrame.appendChild(box);
+  });
+</script>
 </body>
 </html>
