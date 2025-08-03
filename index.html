@@ -132,29 +132,6 @@
 // Add led-box to frame
 ledFrame.appendChild(led);
 
-// Now create external LED
-const indicator = document.createElement('div');
-indicator.className = 'led-indicator';
-
-let ledTop = pos.top;
-let ledLeft = pos.left;
-const offset = 10; // khoảng cách đẩy ra ngoài
-
-const isCorner = (index === 0 || index === 6 || index === 12 || index === 18);
-if (isCorner) {
-  if (index === 0) {
-    indicator.style.top = (ledTop - offset) + 'px';
-    indicator.style.left = (ledLeft - offset) + 'px';
-  } else if (index === 6) {
-    indicator.style.top = (ledTop - offset) + 'px';
-    indicator.style.left = (ledLeft + 86 - 2) + 'px';
-  } else if (index === 12) {
-    indicator.style.top = (ledTop + 86 - 2) + 'px';
-    indicator.style.left = (ledLeft + 86 - 2) + 'px';
-  } else if (index === 18) {
-    indicator.style.top = (ledTop + 86 - 2) + 'px';
-    indicator.style.left = (ledLeft - offset) + 'px';
-  }
 } else if (index < 7) {
   // Top row
   indicator.style.top = (ledTop - offset) + 'px';
