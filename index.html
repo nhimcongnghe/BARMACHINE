@@ -23,10 +23,13 @@
         .animated-minibox {
             /* Add transition for smooth color and shadow changes */
             transition: background-color 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+            background-color: transparent; /* Transparent background when off */
+            border: 2px solid #f87171; /* Light red border when off */
         }
         .animated-minibox.active {
-            background-color: #facc15; /* Yellow color for active LED */
-            box-shadow: 0 0 8px 4px rgba(250, 204, 21, 0.7); /* Glow effect */
+            background-color: #dc2626; /* Red color for active LED */
+            box-shadow: 0 0 8px 4px rgba(220, 38, 38, 0.7); /* Glow effect, updated to red */
+            border-color: #dc2626; /* Solid red border when active */
         }
 
         /* Styles for 7-segment display */
@@ -36,19 +39,20 @@
             transition: background-color 0.1s ease-in-out; /* Smooth transition for color change */
         }
         .segment.on {
-            background-color: #facc15; /* Yellow color when active */
+            background-color: #dc2626; /* Red color when active, updated from yellow */
         }
         .seven-segment-digit {
             position: relative;
-            width: 35px; /* Width of a single digit */
-            height: 45px; /* Height of a single digit */
+            width: 30px; /* Width of a single digit, slightly smaller for betbox */
+            height: 40px; /* Height of a single digit, slightly smaller for betbox */
             margin: 0 1px; /* Small margin between digits */
         }
-        /* Segment positioning within a 35x45px digit */
+        /* Segment positioning within a 30x40px digit for betbox */
         .seven-segment-digit .segment {
             position: absolute;
         }
-        /* Segment positions for digits 1-5 */
+        /* Segment positions for all digits */
+        /* For 7-segment digits in scoreboxes (larger) */
         #digit-1-a, #digit-2-a, #digit-3-a, #digit-4-a, #digit-5-a,
         #digit-6-a, #digit-7-a, #digit-8-a, #digit-9-a, #digit-10-a { width: 25px; height: 5px; top: 0; left: 5px; }
         #digit-1-b, #digit-2-b, #digit-3-b, #digit-4-b, #digit-5-b,
@@ -63,6 +67,27 @@
         #digit-6-f, #digit-7-f, #digit-8-f, #digit-9-f, #digit-10-f { width: 5px; height: 15px; top: 5px; left: 0; }
         #digit-1-g, #digit-2-g, #digit-3-g, #digit-4-g, #digit-5-g,
         #digit-6-g, #digit-7-g, #digit-8-g, #digit-9-g, #digit-10-g { width: 25px; height: 5px; top: 20px; left: 5px; }
+
+        /* For 7-segment digits in betboxes (smaller) */
+        .betbox .seven-segment-digit {
+            width: 25px; /* Smaller width for betbox digits */
+            height: 35px; /* Smaller height for betbox digits */
+        }
+        .betbox .segment {
+            background-color: #333;
+            border-radius: 1px;
+        }
+        .betbox .segment.on {
+            background-color: #dc2626; /* Red color when active, updated from yellow */
+        }
+        /* Segment positions for digits 11-26 (within 25x35px digit) */
+        [id^="digit-"][id$="-a"] { width: 18px; height: 4px; top: 0; left: 3px; }
+        [id^="digit-"][id$="-b"] { width: 4px; height: 11px; top: 4px; right: 0; }
+        [id^="digit-"][id$="-c"] { width: 4px; height: 11px; top: 20px; right: 0; }
+        [id^="digit-"][id$="-d"] { width: 18px; height: 4px; bottom: 0; left: 3px; }
+        [id^="digit-"][id$="-e"] { width: 4px; height: 11px; top: 20px; left: 0; }
+        [id^="digit-"][id$="-f"] { width: 4px; height: 11px; top: 4px; left: 0; }
+        [id^="digit-"][id$="-g"] { width: 18px; height: 4px; top: 17px; left: 3px; }
     </style>
 </head>
 <body class="p-4">
@@ -80,7 +105,7 @@
         max-w-full
         max-h-full
         relative /* Add relative for positioning inner boxes */
-    " style="width: 650px; height: 1000px;"> <!-- Updated height to 1000px -->
+    " style="width: 650px; height: 1000px;">
         <!-- Scorebox 1 (right) -->
         <div class="absolute bg-gray-100 rounded-lg shadow-md border-4 border-gray-400 flex items-center justify-center"
              style="width: 200px; height: 50px; top: 20px; left: 385px;">
@@ -276,48 +301,39 @@
         </div>
         <!-- All mini-boxes with unique IDs and the animated-minibox class -->
         <!-- Top row (1.1 to 1.7) -->
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-1-1" style="top: 184px; left: 125px;"></div>
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-1-2" style="top: 184px; left: 159px;"></div>
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-1-3" style="top: 184px; left: 239px;"></div>
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-1-4" style="top: 184px; left: 319px;"></div>
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-1-5" style="top: 184px; left: 399px;"></div>
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-1-6" style="top: 184px; left: 479px;"></div>
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-1-7" style="top: 184px; left: 513px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-1-1" style="top: 184px; left: 125px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-1-2" style="top: 184px; left: 159px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-1-3" style="top: 184px; left: 239px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-1-4" style="top: 184px; left: 319px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-1-5" style="top: 184px; left: 399px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-1-6" style="top: 184px; left: 479px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-1-7" style="top: 184px; left: 513px;"></div>
 
         <!-- Right column (2.7 to 6.7) -->
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-2-7" style="top: 218px; left: 513px;"></div>
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-3-7" style="top: 298px; left: 513px;"></div>
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-4-7" style="top: 378px; left: 513px;"></div>
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-5-7" style="top: 458px; left: 513px;"></div>
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-6-7" style="top: 538px; left: 513px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-2-7" style="top: 218px; left: 513px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-3-7" style="top: 298px; left: 513px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-4-7" style="top: 378px; left: 513px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-5-7" style="top: 458px; left: 513px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-6-7" style="top: 538px; left: 513px;"></div>
 
         <!-- Bottom row (7.7 to 7.1) -->
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-7-7" style="top: 572px; left: 513px;"></div>
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-7-6" style="top: 572px; left: 479px;"></div>
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-7-5" style="top: 572px; left: 399px;"></div>
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-7-4" style="top: 572px; left: 319px;"></div>
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-7-3" style="top: 572px; left: 239px;"></div>
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-7-2" style="top: 572px; left: 159px;"></div>
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-7-1" style="top: 572px; left: 125px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-7-7" style="top: 572px; left: 513px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-7-6" style="top: 572px; left: 479px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-7-5" style="top: 572px; left: 399px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-7-4" style="top: 572px; left: 319px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-7-3" style="top: 572px; left: 239px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-7-2" style="top: 572px; left: 159px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-7-1" style="top: 572px; left: 125px;"></div>
 
         <!-- Left column (6.1 to 2.1) -->
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-6-1" style="top: 538px; left: 125px;"></div>
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-5-1" style="top: 458px; left: 125px;"></div>
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-4-1" style="top: 378px; left: 125px;"></div>
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-3-1" style="top: 298px; left: 125px;"></div>
-        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-2-1" style="top: 218px; left: 125px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-6-1" style="top: 538px; left: 125px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-5-1" style="top: 458px; left: 125px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-4-1" style="top: 378px; left: 125px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-3-1" style="top: 298px; left: 125px;"></div>
+        <div class="absolute w-3 h-3 rounded-full animated-minibox" id="mb-2-1" style="top: 218px; left: 125px;"></div>
 
-        <!-- New row of 8 boxes (70x70px with 2px border) -->
-        <!-- Each box is 70px width + 2*2px border = 74px total width.
-             8 boxes * 74px = 592px total width.
-             Main box width = 650px.
-             Remaining space = 650 - 592 = 58px.
-             Left offset for centering = 58px / 2 = 29px.
-             Top position = 1000px (main box height) - 100px (distance from bottom) - 74px (box height including border) = 826px.
-             New top position after moving up 40px = 826px - 40px = 786px.
-             Further up 70px = 786px - 70px = 716px.
-        -->
-        <div class="absolute flex" style="top: 716px; left: 29px;">
+        <!-- Row of 8 imgbox (70x70px) -->
+        <div class="absolute flex" style="top: 674px; left: 29px;">
             <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox"></div>
             <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox"></div>
             <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox"></div>
@@ -328,6 +344,81 @@
             <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox"></div>
         </div>
 
+        <!-- New row of 8 betbox (70x50px) -->
+        <div class="absolute flex betbox-row" style="top: 746px; left: 29px;">
+            <!-- Betbox 1 -->
+            <div class="w-[70px] h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 flex items-center justify-center betbox">
+                <div class="seven-segment-digit" id="digit-11">
+                    <div class="segment" id="digit-11-a"></div><div class="segment" id="digit-11-b"></div><div class="segment" id="digit-11-c"></div><div class="segment" id="digit-11-d"></div><div class="segment" id="digit-11-e"></div><div class="segment" id="digit-11-f"></div><div class="segment" id="digit-11-g"></div>
+                </div>
+                <div class="seven-segment-digit" id="digit-12">
+                    <div class="segment" id="digit-12-a"></div><div class="segment" id="digit-12-b"></div><div class="segment" id="digit-12-c"></div><div class="segment" id="digit-12-d"></div><div class="segment" id="digit-12-e"></div><div class="segment" id="digit-12-f"></div><div class="segment" id="digit-12-g"></div>
+                </div>
+            </div>
+            <!-- Betbox 2 -->
+            <div class="w-[70px] h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 flex items-center justify-center betbox">
+                <div class="seven-segment-digit" id="digit-13">
+                    <div class="segment" id="digit-13-a"></div><div class="segment" id="digit-13-b"></div><div class="segment" id="digit-13-c"></div><div class="segment" id="digit-13-d"></div><div class="segment" id="digit-13-e"></div><div class="segment" id="digit-13-f"></div><div class="segment" id="digit-13-g"></div>
+                </div>
+                <div class="seven-segment-digit" id="digit-14">
+                    <div class="segment" id="digit-14-a"></div><div class="segment" id="digit-14-b"></div><div class="segment" id="digit-14-c"></div><div class="segment" id="digit-14-d"></div><div class="segment" id="digit-14-e"></div><div class="segment" id="digit-14-f"></div><div class="segment" id="digit-14-g"></div>
+                </div>
+            </div>
+            <!-- Betbox 3 -->
+            <div class="w-[70px] h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 flex items-center justify-center betbox">
+                <div class="seven-segment-digit" id="digit-15">
+                    <div class="segment" id="digit-15-a"></div><div class="segment" id="digit-15-b"></div><div class="segment" id="digit-15-c"></div><div class="segment" id="digit-15-d"></div><div class="segment" id="digit-15-e"></div><div class="segment" id="digit-15-f"></div><div class="segment" id="digit-15-g"></div>
+                </div>
+                <div class="seven-segment-digit" id="digit-16">
+                    <div class="segment" id="digit-16-a"></div><div class="segment" id="digit-16-b"></div><div class="segment" id="digit-16-c"></div><div class="segment" id="digit-16-d"></div><div class="segment" id="digit-16-e"></div><div class="segment" id="digit-16-f"></div><div class="segment" id="digit-16-g"></div>
+                </div>
+            </div>
+            <!-- Betbox 4 -->
+            <div class="w-[70px] h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 flex items-center justify-center betbox">
+                <div class="seven-segment-digit" id="digit-17">
+                    <div class="segment" id="digit-17-a"></div><div class="segment" id="digit-17-b"></div><div class="segment" id="digit-17-c"></div><div class="segment" id="digit-17-d"></div><div class="segment" id="digit-17-e"></div><div class="segment" id="digit-17-f"></div><div class="segment" id="digit-17-g"></div>
+                </div>
+                <div class="seven-segment-digit" id="digit-18">
+                    <div class="segment" id="digit-18-a"></div><div class="segment" id="digit-18-b"></div><div class="segment" id="digit-18-c"></div><div class="segment" id="digit-18-d"></div><div class="segment" id="digit-18-e"></div><div class="segment" id="digit-18-f"></div><div class="segment" id="digit-18-g"></div>
+                </div>
+            </div>
+            <!-- Betbox 5 -->
+            <div class="w-[70px] h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 flex items-center justify-center betbox">
+                <div class="seven-segment-digit" id="digit-19">
+                    <div class="segment" id="digit-19-a"></div><div class="segment" id="digit-19-b"></div><div class="segment" id="digit-19-c"></div><div class="segment" id="digit-19-d"></div><div class="segment" id="digit-19-e"></div><div class="segment" id="digit-19-f"></div><div class="segment" id="digit-19-g"></div>
+                </div>
+                <div class="seven-segment-digit" id="digit-20">
+                    <div class="segment" id="digit-20-a"></div><div class="segment" id="digit-20-b"></div><div class="segment" id="digit-20-c"></div><div class="segment" id="digit-20-d"></div><div class="segment" id="digit-20-e"></div><div class="segment" id="digit-20-f"></div><div class="segment" id="digit-20-g"></div>
+                </div>
+            </div>
+            <!-- Betbox 6 -->
+            <div class="w-[70px] h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 flex items-center justify-center betbox">
+                <div class="seven-segment-digit" id="digit-21">
+                    <div class="segment" id="digit-21-a"></div><div class="segment" id="digit-21-b"></div><div class="segment" id="digit-21-c"></div><div class="segment" id="digit-21-d"></div><div class="segment" id="digit-21-e"></div><div class="segment" id="digit-21-f"></div><div class="segment" id="digit-21-g"></div>
+                </div>
+                <div class="seven-segment-digit" id="digit-22">
+                    <div class="segment" id="digit-22-a"></div><div class="segment" id="digit-22-b"></div><div class="segment" id="digit-22-c"></div><div class="segment" id="digit-22-d"></div><div class="segment" id="digit-22-e"></div><div class="segment" id="digit-22-f"></div><div class="segment" id="digit-22-g"></div>
+                </div>
+            </div>
+            <!-- Betbox 7 -->
+            <div class="w-[70px] h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 flex items-center justify-center betbox">
+                <div class="seven-segment-digit" id="digit-23">
+                    <div class="segment" id="digit-23-a"></div><div class="segment" id="digit-23-b"></div><div class="segment" id="digit-23-c"></div><div class="segment" id="digit-23-d"></div><div class="segment" id="digit-23-e"></div><div class="segment" id="digit-23-f"></div><div class="segment" id="digit-23-g"></div>
+                </div>
+                <div class="seven-segment-digit" id="digit-24">
+                    <div class="segment" id="digit-24-a"></div><div class="segment" id="digit-24-b"></div><div class="segment" id="digit-24-c"></div><div class="segment" id="digit-24-d"></div><div class="segment" id="digit-24-e"></div><div class="segment" id="digit-24-f"></div><div class="segment" id="digit-24-g"></div>
+                </div>
+            </div>
+            <!-- Betbox 8 -->
+            <div class="w-[70px] h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 flex items-center justify-center betbox">
+                <div class="seven-segment-digit" id="digit-25">
+                    <div class="segment" id="digit-25-a"></div><div class="segment" id="digit-25-b"></div><div class="segment" id="digit-25-c"></div><div class="segment" id="digit-25-d"></div><div class="segment" id="digit-25-e"></div><div class="segment" id="digit-25-f"></div><div class="segment" id="digit-25-g"></div>
+                </div>
+                <div class="seven-segment-digit" id="digit-26">
+                    <div class="segment" id="digit-26-a"></div><div class="segment" id="digit-26-b"></div><div class="segment" id="digit-26-c"></div><div class="segment" id="digit-26-d"></div><div class="segment" id="digit-26-e"></div><div class="segment" id="digit-26-f"></div><div class="segment" id="digit-26-g"></div>
+                </div>
+            </div>
+        </div>
 
         <!-- Control buttons -->
         <div class="absolute bottom-6 flex space-x-4">
@@ -386,11 +477,12 @@
         function initializeMiniBoxes() {
             // Map the IDs from animationPathIds to actual DOM elements
             miniBoxes = animationPathIds.map(id => document.getElementById(id));
-            // Reset all mini-boxes to their default state (red, not active)
+            // Reset all mini-boxes to their default state (transparent with red border)
             miniBoxes.forEach(box => {
                 if (box) {
-                    box.classList.remove('active', 'bg-yellow-400'); // Remove active and yellow color
-                    box.classList.add('bg-red-600'); // Add default red color
+                    box.classList.remove('active'); // Remove active class
+                    box.style.backgroundColor = 'transparent'; // Set background to transparent
+                    box.style.borderColor = '#f87171'; // Set border color to light red
                 }
             });
         }
@@ -448,8 +540,9 @@
             // Turn off all LEDs first to ensure a clean state for the current frame
             miniBoxes.forEach(box => {
                 if (box) {
-                    box.classList.remove('active', 'bg-yellow-400');
-                    box.classList.add('bg-red-600');
+                    box.classList.remove('active');
+                    box.style.backgroundColor = 'transparent'; // Reset to transparent
+                    box.style.borderColor = '#f87171'; // Reset border to light red
                 }
             });
 
@@ -458,8 +551,9 @@
 
             // Turn on the current LED (the "head" of the light trail)
             if (miniBoxes[currentLedIndex]) {
-                miniBoxes[currentLedIndex].classList.add('active', 'bg-yellow-400');
-                miniBoxes[currentLedIndex].classList.remove('bg-red-600');
+                miniBoxes[currentLedIndex].classList.add('active');
+                miniBoxes[currentLedIndex].style.backgroundColor = '#dc2626'; // Set background to red
+                miniBoxes[currentLedIndex].style.borderColor = '#dc2626'; // Set border to red
             }
 
             // If trailing is enabled, turn on the trailing LEDs
@@ -467,8 +561,9 @@
                 for (let i = 0; i < TRAIL_COUNT; i++) {
                     const trailLedIndex = (currentLedIndex - (i + 1) + miniBoxes.length) % miniBoxes.length;
                     if (miniBoxes[trailLedIndex]) {
-                        miniBoxes[trailLedIndex].classList.add('active', 'bg-yellow-400');
-                        miniBoxes[trailLedIndex].classList.remove('bg-red-600');
+                        miniBoxes[trailLedIndex].classList.add('active');
+                        miniBoxes[trailLedIndex].style.backgroundColor = '#dc2626'; // Set background to red
+                        miniBoxes[trailLedIndex].style.borderColor = '#dc2626'; // Set border to red
                     }
                 }
             }
@@ -489,15 +584,22 @@
             // Define digit ID arrays for each scorebox
             const scorebox1DigitIds = ['digit-1', 'digit-2', 'digit-3', 'digit-4', 'digit-5'];
             const scorebox2DigitIds = ['digit-6', 'digit-7', 'digit-8', 'digit-9', 'digit-10'];
+            const betboxDigitIdGroups = [
+                ['digit-11', 'digit-12'], ['digit-13', 'digit-14'], ['digit-15', 'digit-16'], ['digit-17', 'digit-18'],
+                ['digit-19', 'digit-20'], ['digit-21', 'digit-22'], ['digit-23', 'digit-24'], ['digit-25', 'digit-26']
+            ];
+
 
             displayNumber(0, scorebox1DigitIds); // Reset Scorebox 1 to 00000
             displayNumber(0, scorebox2DigitIds); // Reset Scorebox 2 to 00000
+            betboxDigitIdGroups.forEach(group => displayNumber(0, group)); // Initialize new betboxes to 00
+
 
             currentLedIndex = 0; // Start animation from the first LED
             animationStartTime = Date.now(); // Record the precise start time
 
             // Determine the total animation duration randomly (10-13 seconds)
-            const totalAnimationDuration = Math.random() * (MIN_TOTAL_DURATION - MIN_TOTAL_DURATION) + MIN_TOTAL_DURATION;
+            const totalAnimationDuration = Math.random() * (MAX_TOTAL_DURATION - MIN_TOTAL_DURATION) + MIN_TOTAL_DURATION;
 
             // Calculate when each phase should begin
             const slowDownPhaseStart = totalAnimationDuration - VERY_SLOW_PHASE_DURATION - SLOW_DOWN_DURATION;
@@ -531,13 +633,15 @@
                     // Ensure only the final LED is lit
                     miniBoxes.forEach(box => {
                         if (box) {
-                            box.classList.remove('active', 'bg-yellow-400');
-                            box.classList.add('bg-red-600');
+                            box.classList.remove('active');
+                            box.style.backgroundColor = 'transparent';
+                            box.style.borderColor = '#f87171';
                         }
                     });
                     if (miniBoxes[currentLedIndex]) {
-                        miniBoxes[currentLedIndex].classList.add('active', 'bg-yellow-400');
-                        miniBoxes[currentLedIndex].classList.remove('bg-red-600');
+                        miniBoxes[currentLedIndex].classList.add('active');
+                        miniBoxes[currentLedIndex].style.backgroundColor = '#dc2626';
+                        miniBoxes[currentLedIndex].style.borderColor = '#dc2626';
                     }
                     currentLedIndex = 0; // Reset index for next start
                     return; // Exit the loop
@@ -559,15 +663,17 @@
                 // Turn off all perimeter LEDs first to ensure only the final one remains lit
                 miniBoxes.forEach(box => {
                     if (box) {
-                        box.classList.remove('active', 'bg-yellow-400');
-                        box.classList.add('bg-red-600');
+                        box.classList.remove('active');
+                        box.style.backgroundColor = 'transparent';
+                        box.style.borderColor = '#f87171';
                     }
                 });
 
                 // Turn on only the LED at the final currentLedIndex
                 if (miniBoxes[currentLedIndex]) {
-                    miniBoxes[currentLedIndex].classList.add('active', 'bg-yellow-400');
-                    miniBoxes[currentLedIndex].classList.remove('bg-red-600');
+                    miniBoxes[currentLedIndex].classList.add('active');
+                    miniBoxes[currentLedIndex].style.backgroundColor = '#dc2626';
+                    miniBoxes[currentLedIndex].style.borderColor = '#dc2626';
                 }
 
                 // Display a random number on Scorebox 1 (0-99999)
@@ -577,6 +683,12 @@
                 // Display a random number on Scorebox 2 (0-99999)
                 const randomNumber2 = Math.floor(Math.random() * 100000);
                 displayNumber(randomNumber2, scorebox2DigitIds);
+
+                // Display random numbers on all betboxes (0-99)
+                betboxDigitIdGroups.forEach(group => {
+                    const randomBetNumber = Math.floor(Math.random() * 100); // For two digits (0-99)
+                    displayNumber(randomBetNumber, group);
+                });
 
                 currentLedIndex = 0; // Reset index for next start
             }, totalAnimationDuration);
@@ -591,8 +703,14 @@
             // Define digit ID arrays for each scorebox for initial display
             const scorebox1DigitIds = ['digit-1', 'digit-2', 'digit-3', 'digit-4', 'digit-5'];
             const scorebox2DigitIds = ['digit-6', 'digit-7', 'digit-8', 'digit-9', 'digit-10'];
+            const betboxDigitIdGroups = [
+                ['digit-11', 'digit-12'], ['digit-13', 'digit-14'], ['digit-15', 'digit-16'], ['digit-17', 'digit-18'],
+                ['digit-19', 'digit-20'], ['digit-21', 'digit-22'], ['digit-23', 'digit-24'], ['digit-25', 'digit-26']
+            ];
+
             displayNumber(0, scorebox1DigitIds); // Display "00000" initially for Scorebox 1
             displayNumber(0, scorebox2DigitIds); // Display "00000" initially for Scorebox 2
+            betboxDigitIdGroups.forEach(group => displayNumber(0, group)); // Display "00" initially for all betboxes
         };
     </script>
 </body>
