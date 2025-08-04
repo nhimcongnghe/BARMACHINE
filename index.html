@@ -1,61 +1,599 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gió Trên Vách Núi</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(to top, #c9d6ff, #e2e2e2);
-      font-family: 'Georgia', serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      color: #333;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Web Với Khung Hình</title>
+    <!-- Load Tailwind CSS CDN for easy styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Ensure minimum body height for vertical centering */
+        body {
+            min-height: 100vh;
+            display: flex; /* Use flexbox to center content */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            background-color: #f0f4f8; /* Light background color for the page */
+            font-family: 'Inter', sans-serif; /* Use Inter font */
+        }
+        /* Import Inter font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
-    .poem-box {
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 20px;
-      padding: 40px;
-      max-width: 600px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      line-height: 1.8;
-      animation: fadeIn 2s ease-out;
-    }
+        /* Custom style for active mini-box (glowing effect) */
+        .animated-minibox {
+            /* Add transition for smooth color and shadow changes */
+            transition: background-color 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+        }
+        .animated-minibox.active {
+            background-color: #facc15; /* Yellow color for active LED */
+            box-shadow: 0 0 8px 4px rgba(250, 204, 21, 0.7); /* Glow effect */
+        }
 
-    h1 {
-      margin-top: 0;
-      font-size: 28px;
-      color: #555;
-    }
-
-    .line {
-      font-style: italic;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+        /* Styles for 7-segment display */
+        .segment {
+            background-color: #333; /* Off color for segments */
+            border-radius: 2px; /* Slightly rounded corners for segments */
+            transition: background-color 0.1s ease-in-out; /* Smooth transition for color change */
+        }
+        .segment.on {
+            background-color: #facc15; /* Yellow color when active */
+        }
+        .seven-segment-digit {
+            position: relative;
+            width: 35px; /* Width of a single digit */
+            height: 45px; /* Height of a single digit */
+            margin: 0 1px; /* Small margin between digits */
+        }
+        /* Segment positioning within a 35x45px digit */
+        .seven-segment-digit .segment {
+            position: absolute;
+        }
+        /* Segment positions for digits 1-5 */
+        #digit-1-a, #digit-2-a, #digit-3-a, #digit-4-a, #digit-5-a,
+        #digit-6-a, #digit-7-a, #digit-8-a, #digit-9-a, #digit-10-a { width: 25px; height: 5px; top: 0; left: 5px; }
+        #digit-1-b, #digit-2-b, #digit-3-b, #digit-4-b, #digit-5-b,
+        #digit-6-b, #digit-7-b, #digit-8-b, #digit-9-b, #digit-10-b { width: 5px; height: 15px; top: 5px; right: 0; }
+        #digit-1-c, #digit-2-c, #digit-3-c, #digit-4-c, #digit-5-c,
+        #digit-6-c, #digit-7-c, #digit-8-c, #digit-9-c, #digit-10-c { width: 5px; height: 15px; top: 25px; right: 0; }
+        #digit-1-d, #digit-2-d, #digit-3-d, #digit-4-d, #digit-5-d,
+        #digit-6-d, #digit-7-d, #digit-8-d, #digit-9-d, #digit-10-d { width: 25px; height: 5px; bottom: 0; left: 5px; }
+        #digit-1-e, #digit-2-e, #digit-3-e, #digit-4-e, #digit-5-e,
+        #digit-6-e, #digit-7-e, #digit-8-e, #digit-9-e, #digit-10-e { width: 5px; height: 15px; top: 25px; left: 0; }
+        #digit-1-f, #digit-2-f, #digit-3-f, #digit-4-f, #digit-5-f,
+        #digit-6-f, #digit-7-f, #digit-8-f, #digit-9-f, #digit-10-f { width: 5px; height: 15px; top: 5px; left: 0; }
+        #digit-1-g, #digit-2-g, #digit-3-g, #digit-4-g, #digit-5-g,
+        #digit-6-g, #digit-7-g, #digit-8-g, #digit-9-g, #digit-10-g { width: 25px; height: 5px; top: 20px; left: 5px; }
+    </style>
 </head>
-<body>
-  <div class="poem-box">
-    <h1>Gió Trên Vách Núi</h1>
-    <div class="line">Gió thổi qua đồi, qua cánh chim bay,</div>
-    <div class="line">Lá reo khe khẽ gọi trời thức dậy.</div>
-    <div class="line">Ta ngồi yên lặng, giữa mây bay đầy,</div>
-    <div class="line">Nghe tiếng thở của đá sườn vách gãy.</div>
-    <br/>
-    <div class="line">Có đôi khi, lòng như biển cạn,</div>
-    <div class="line">Nhưng ánh hoàng hôn lại vẽ lại màu trời.</div>
-    <div class="line">Cứ ngồi đó thôi, giữa muôn trùng lặng,</div>
-    <div class="line">Gió sẽ hát cho người một khúc chơi vơi...</div>
-  </div>
+<body class="p-4">
+    <!-- Main container box -->
+    <div class="
+        bg-white
+        rounded-xl
+        shadow-xl
+        p-6
+        flex
+        flex-col
+        items-center
+        border
+        border-gray-200
+        max-w-full
+        max-h-full
+        relative /* Add relative for positioning inner boxes */
+    " style="width: 650px; height: 1000px;"> <!-- Updated height to 1000px -->
+        <!-- Scorebox 1 (right) -->
+        <div class="absolute bg-gray-100 rounded-lg shadow-md border-4 border-gray-400 flex items-center justify-center"
+             style="width: 200px; height: 50px; top: 20px; left: 385px;">
+            <!-- Container for 5 digits -->
+            <div class="flex justify-center items-center h-full">
+                <!-- Digit 1 -->
+                <div class="seven-segment-digit" id="digit-1">
+                    <div class="segment" id="digit-1-a"></div>
+                    <div class="segment" id="digit-1-b"></div>
+                    <div class="segment" id="digit-1-c"></div>
+                    <div class="segment" id="digit-1-d"></div>
+                    <div class="segment" id="digit-1-e"></div>
+                    <div class="segment" id="digit-1-f"></div>
+                    <div class="segment" id="digit-1-g"></div>
+                </div>
+                <!-- Digit 2 -->
+                <div class="seven-segment-digit" id="digit-2">
+                    <div class="segment" id="digit-2-a"></div>
+                    <div class="segment" id="digit-2-b"></div>
+                    <div class="segment" id="digit-2-c"></div>
+                    <div class="segment" id="digit-2-d"></div>
+                    <div class="segment" id="digit-2-e"></div>
+                    <div class="segment" id="digit-2-f"></div>
+                    <div class="segment" id="digit-2-g"></div>
+                </div>
+                <!-- Digit 3 -->
+                <div class="seven-segment-digit" id="digit-3">
+                    <div class="segment" id="digit-3-a"></div>
+                    <div class="segment" id="digit-3-b"></div>
+                    <div class="segment" id="digit-3-c"></div>
+                    <div class="segment" id="digit-3-d"></div>
+                    <div class="segment" id="digit-3-e"></div>
+                    <div class="segment" id="digit-3-f"></div>
+                    <div class="segment" id="digit-3-g"></div>
+                </div>
+                <!-- Digit 4 -->
+                <div class="seven-segment-digit" id="digit-4">
+                    <div class="segment" id="digit-4-a"></div>
+                    <div class="segment" id="digit-4-b"></div>
+                    <div class="segment" id="digit-4-c"></div>
+                    <div class="segment" id="digit-4-d"></div>
+                    <div class="segment" id="digit-4-e"></div>
+                    <div class="segment" id="digit-4-f"></div>
+                    <div class="segment" id="digit-4-g"></div>
+                </div>
+                <!-- Digit 5 -->
+                <div class="seven-segment-digit" id="digit-5">
+                    <div class="segment" id="digit-5-a"></div>
+                    <div class="segment" id="digit-5-b"></div>
+                    <div class="segment" id="digit-5-c"></div>
+                    <div class="segment" id="digit-5-d"></div>
+                    <div class="segment" id="digit-5-e"></div>
+                    <div class="segment" id="digit-5-f"></div>
+                    <div class="segment" id="digit-5-g"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scorebox 2 (left) -->
+        <div class="absolute bg-gray-100 rounded-lg shadow-md border-4 border-gray-400 flex items-center justify-center"
+             style="width: 200px; height: 50px; top: 20px; left: 65px;">
+            <!-- Container for 5 digits -->
+            <div class="flex justify-center items-center h-full">
+                <!-- Digit 6 -->
+                <div class="seven-segment-digit" id="digit-6">
+                    <div class="segment" id="digit-6-a"></div>
+                    <div class="segment" id="digit-6-b"></div>
+                    <div class="segment" id="digit-6-c"></div>
+                    <div class="segment" id="digit-6-d"></div>
+                    <div class="segment" id="digit-6-e"></div>
+                    <div class="segment" id="digit-6-f"></div>
+                    <div class="segment" id="digit-6-g"></div>
+                </div>
+                <!-- Digit 7 -->
+                <div class="seven-segment-digit" id="digit-7">
+                    <div class="segment" id="digit-7-a"></div>
+                    <div class="segment" id="digit-7-b"></div>
+                    <div class="segment" id="digit-7-c"></div>
+                    <div class="segment" id="digit-7-d"></div>
+                    <div class="segment" id="digit-7-e"></div>
+                    <div class="segment" id="digit-7-f"></div>
+                    <div class="segment" id="digit-7-g"></div>
+                </div>
+                <!-- Digit 8 -->
+                <div class="seven-segment-digit" id="digit-8">
+                    <div class="segment" id="digit-8-a"></div>
+                    <div class="segment" id="digit-8-b"></div>
+                    <div class="segment" id="digit-8-c"></div>
+                    <div class="segment" id="digit-8-d"></div>
+                    <div class="segment" id="digit-8-e"></div>
+                    <div class="segment" id="digit-8-f"></div>
+                    <div class="segment" id="digit-8-g"></div>
+                </div>
+                <!-- Digit 9 -->
+                <div class="seven-segment-digit" id="digit-9">
+                    <div class="segment" id="digit-9-a"></div>
+                    <div class="segment" id="digit-9-b"></div>
+                    <div class="segment" id="digit-9-c"></div>
+                    <div class="segment" id="digit-9-d"></div>
+                    <div class="segment" id="digit-9-e"></div>
+                    <div class="segment" id="digit-9-f"></div>
+                    <div class="segment" id="digit-9-g"></div>
+                </div>
+                <!-- Digit 10 -->
+                <div class="seven-segment-digit" id="digit-10">
+                    <div class="segment" id="digit-10-a"></div>
+                    <div class="segment" id="digit-10-b"></div>
+                    <div class="segment" id="digit-10-c"></div>
+                    <div class="segment" id="digit-10-d"></div>
+                    <div class="segment" id="digit-10-e"></div>
+                    <div class="segment" id="digit-10-f"></div>
+                    <div class="segment" id="digit-10-g"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Container for all 7 rows of small boxes -->
+        <div class="
+            absolute /* Absolute positioning relative to the large box */
+            top-20 /* 80px from the top edge (20 * 4px = 80px) */
+            flex
+            flex-col /* Stack rows vertically */
+            items-center /* Center rows horizontally */
+            w-full /* Take full width of the large box */
+            overflow-hidden /* Ensure no content overflow */
+        ">
+            <!-- Row 1 (all boxes) -->
+            <div class="flex justify-center w-full">
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+            </div>
+            <!-- Rows 2 to 6 (first and last box have borders, inner ones are empty) -->
+            <div class="flex justify-center w-full">
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+            </div>
+            <div class="flex justify-center w-full">
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+            </div>
+            <div class="flex justify-center w-full">
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+            </div>
+            <div class="flex justify-center w-full">
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+            </div>
+            <div class="flex justify-center w-full">
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+            </div>
+            <!-- Row 7 (all boxes) -->
+            <div class="flex justify-center w-full">
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+            </div>
+        </div>
+        <!-- All mini-boxes with unique IDs and the animated-minibox class -->
+        <!-- Top row (1.1 to 1.7) -->
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-1-1" style="top: 184px; left: 125px;"></div>
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-1-2" style="top: 184px; left: 159px;"></div>
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-1-3" style="top: 184px; left: 239px;"></div>
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-1-4" style="top: 184px; left: 319px;"></div>
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-1-5" style="top: 184px; left: 399px;"></div>
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-1-6" style="top: 184px; left: 479px;"></div>
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-1-7" style="top: 184px; left: 513px;"></div>
+
+        <!-- Right column (2.7 to 6.7) -->
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-2-7" style="top: 218px; left: 513px;"></div>
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-3-7" style="top: 298px; left: 513px;"></div>
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-4-7" style="top: 378px; left: 513px;"></div>
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-5-7" style="top: 458px; left: 513px;"></div>
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-6-7" style="top: 538px; left: 513px;"></div>
+
+        <!-- Bottom row (7.7 to 7.1) -->
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-7-7" style="top: 572px; left: 513px;"></div>
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-7-6" style="top: 572px; left: 479px;"></div>
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-7-5" style="top: 572px; left: 399px;"></div>
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-7-4" style="top: 572px; left: 319px;"></div>
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-7-3" style="top: 572px; left: 239px;"></div>
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-7-2" style="top: 572px; left: 159px;"></div>
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-7-1" style="top: 572px; left: 125px;"></div>
+
+        <!-- Left column (6.1 to 2.1) -->
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-6-1" style="top: 538px; left: 125px;"></div>
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-5-1" style="top: 458px; left: 125px;"></div>
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-4-1" style="top: 378px; left: 125px;"></div>
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-3-1" style="top: 298px; left: 125px;"></div>
+        <div class="absolute w-3 h-3 bg-red-600 rounded-full animated-minibox" id="mb-2-1" style="top: 218px; left: 125px;"></div>
+
+        <!-- New row of 8 boxes (70x70px with 2px border) -->
+        <!-- Each box is 70px width + 2*2px border = 74px total width.
+             8 boxes * 74px = 592px total width.
+             Main box width = 650px.
+             Remaining space = 650 - 592 = 58px.
+             Left offset for centering = 58px / 2 = 29px.
+             Top position = 1000px (main box height) - 100px (distance from bottom) - 74px (box height including border) = 826px.
+             New top position after moving up 40px = 826px - 40px = 786px.
+             Further up 70px = 786px - 70px = 716px.
+        -->
+        <div class="absolute flex" style="top: 716px; left: 29px;">
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox"></div>
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox"></div>
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox"></div>
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox"></div>
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox"></div>
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox"></div>
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox"></div>
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox"></div>
+        </div>
+
+
+        <!-- Control buttons -->
+        <div class="absolute bottom-6 flex space-x-4">
+            <button id="startButton" class="px-6 py-2 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105">
+                Bắt đầu
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let animationInterval; // Stores the ID for the main animation interval
+        let autoStopTimeout;   // Stores the ID for the auto-stop timer
+        let currentLedIndex = 0; // Tracks the currently active LED
+        let miniBoxes = [];      // Array to store mini-box DOM elements
+        let animationStartTime;  // Timestamp when the animation started
+
+        // Define the order of mini-boxes for the animation path (clockwise perimeter)
+        const animationPathIds = [
+            'mb-1-1', 'mb-1-2', 'mb-1-3', 'mb-1-4', 'mb-1-5', 'mb-1-6', 'mb-1-7',
+            'mb-2-7', 'mb-3-7', 'mb-4-7', 'mb-5-7', 'mb-6-7',
+            'mb-7-7', 'mb-7-6', 'mb-7-5', 'mb-7-4', 'mb-7-3', 'mb-7-2', 'mb-7-1',
+            'mb-6-1', 'mb-5-1', 'mb-4-1', 'mb-3-1', 'mb-2-1'
+        ];
+
+        const SLOW_SPEED = 200; // Milliseconds for the slowest phase animation speed
+        const FAST_SPEED = 50;  // Milliseconds for the fastest phase animation speed
+        const VERY_SLOW_SPEED = 400; // Speed for the 'very slow' phase
+
+        const SPEED_UP_DURATION = 1500; // Duration in milliseconds for the slow-to-fast transition
+        const SLOW_DOWN_DURATION = 2000; // Duration in milliseconds for the fast-to-slow transition
+        const VERY_SLOW_PHASE_DURATION = 3000; // New duration for the very slow phase (3 seconds)
+
+        // Updated total animation duration range
+        const MIN_TOTAL_DURATION = 10000; // Minimum total animation duration (10 seconds)
+        const MAX_TOTAL_DURATION = 13000; // Maximum total animation duration (13 seconds)
+
+        const TRAIL_COUNT = 2; // Number of trailing LEDs (excluding the head LED)
+
+        // Define segment patterns for each digit (0-9)
+        const digitPatterns = {
+            0: ['a', 'b', 'c', 'd', 'e', 'f'],
+            1: ['b', 'c'],
+            2: ['a', 'b', 'g', 'e', 'd'],
+            3: ['a', 'b', 'g', 'c', 'd'],
+            4: ['f', 'g', 'b', 'c'],
+            5: ['a', 'f', 'g', 'c', 'd'],
+            6: ['a', 'f', 'g', 'e', 'c', 'd'],
+            7: ['a', 'b', 'c'],
+            8: ['a', 'b', 'c', 'd', 'e', 'f', 'g'],
+            9: ['a', 'b', 'c', 'd', 'f', 'g']
+        };
+
+        /**
+         * Initializes the mini-box elements and ensures they start with the default red color.
+         */
+        function initializeMiniBoxes() {
+            // Map the IDs from animationPathIds to actual DOM elements
+            miniBoxes = animationPathIds.map(id => document.getElementById(id));
+            // Reset all mini-boxes to their default state (red, not active)
+            miniBoxes.forEach(box => {
+                if (box) {
+                    box.classList.remove('active', 'bg-yellow-400'); // Remove active and yellow color
+                    box.classList.add('bg-red-600'); // Add default red color
+                }
+            });
+        }
+
+        /**
+         * Updates a single 7-segment digit display.
+         * @param {HTMLElement} digitElement - The container element for the digit.
+         * @param {number} number - The digit to display (0-9).
+         */
+        function displaySingleDigit(digitElement, number) {
+            const segments = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
+            // Turn off all segments first
+            segments.forEach(segmentId => {
+                const segment = digitElement.querySelector(`#${digitElement.id}-${segmentId}`);
+                if (segment) {
+                    segment.classList.remove('on');
+                }
+            });
+
+            // Turn on segments for the given number
+            const pattern = digitPatterns[number];
+            if (pattern) {
+                pattern.forEach(segmentId => {
+                    const segment = digitElement.querySelector(`#${digitElement.id}-${segmentId}`);
+                    if (segment) {
+                        segment.classList.add('on');
+                    }
+                });
+            }
+        }
+
+        /**
+         * Displays a number across multiple 7-segment digits.
+         * @param {number} number - The number to display.
+         * @param {Array<string>} digitElementIds - An array of IDs for the digit container elements.
+         */
+        function displayNumber(number, digitElementIds) {
+            const numDigits = digitElementIds.length;
+            const numString = String(number).padStart(numDigits, '0'); // Pad with leading zeros
+
+            for (let i = 0; i < numDigits; i++) {
+                const digit = parseInt(numString[i], 10);
+                const digitElement = document.getElementById(digitElementIds[i]);
+                if (digitElement) {
+                    displaySingleDigit(digitElement, digit);
+                }
+            }
+        }
+
+        /**
+         * Animates a single step of the LED sequence.
+         * @param {boolean} isTrailing - True if trailing LEDs should be shown (during fast phase).
+         */
+        function animateStep(isTrailing) {
+            // Turn off all LEDs first to ensure a clean state for the current frame
+            miniBoxes.forEach(box => {
+                if (box) {
+                    box.classList.remove('active', 'bg-yellow-400');
+                    box.classList.add('bg-red-600');
+                }
+            });
+
+            // Move to the next LED in the sequence, wrapping around if at the end
+            currentLedIndex = (currentLedIndex + 1) % miniBoxes.length;
+
+            // Turn on the current LED (the "head" of the light trail)
+            if (miniBoxes[currentLedIndex]) {
+                miniBoxes[currentLedIndex].classList.add('active', 'bg-yellow-400');
+                miniBoxes[currentLedIndex].classList.remove('bg-red-600');
+            }
+
+            // If trailing is enabled, turn on the trailing LEDs
+            if (isTrailing) {
+                for (let i = 0; i < TRAIL_COUNT; i++) {
+                    const trailLedIndex = (currentLedIndex - (i + 1) + miniBoxes.length) % miniBoxes.length;
+                    if (miniBoxes[trailLedIndex]) {
+                        miniBoxes[trailLedIndex].classList.add('active', 'bg-yellow-400');
+                        miniBoxes[trailLedIndex].classList.remove('bg-red-600');
+                    }
+                }
+            }
+        }
+
+        /**
+         * Starts the LED animation.
+         * It progresses through a slow start, fast run with trailing LEDs,
+         * a slow-down phase, and finally stops automatically with one LED lit.
+         */
+        function startLedAnimation() {
+            // Clear any existing animation/timers to prevent conflicts
+            clearInterval(animationInterval);
+            clearTimeout(autoStopTimeout);
+
+            initializeMiniBoxes(); // Reset all perimeter boxes to their initial state (red, not active)
+            
+            // Define digit ID arrays for each scorebox
+            const scorebox1DigitIds = ['digit-1', 'digit-2', 'digit-3', 'digit-4', 'digit-5'];
+            const scorebox2DigitIds = ['digit-6', 'digit-7', 'digit-8', 'digit-9', 'digit-10'];
+
+            displayNumber(0, scorebox1DigitIds); // Reset Scorebox 1 to 00000
+            displayNumber(0, scorebox2DigitIds); // Reset Scorebox 2 to 00000
+
+            currentLedIndex = 0; // Start animation from the first LED
+            animationStartTime = Date.now(); // Record the precise start time
+
+            // Determine the total animation duration randomly (10-13 seconds)
+            const totalAnimationDuration = Math.random() * (MIN_TOTAL_DURATION - MIN_TOTAL_DURATION) + MIN_TOTAL_DURATION;
+
+            // Calculate when each phase should begin
+            const slowDownPhaseStart = totalAnimationDuration - VERY_SLOW_PHASE_DURATION - SLOW_DOWN_DURATION;
+            const verySlowPhaseStart = totalAnimationDuration - VERY_SLOW_PHASE_DURATION;
+
+            // Main animation loop function
+            function loop() {
+                const elapsed = Date.now() - animationStartTime; // Time elapsed since animation started
+                let delay; // Current delay for the next animation step
+                let showTrailing = false; // Flag to control trailing LEDs
+
+                if (elapsed < SPEED_UP_DURATION) {
+                    // Phase 1: Initial slow start
+                    delay = SLOW_SPEED;
+                } else if (elapsed < slowDownPhaseStart) {
+                    // Phase 2: Fast run with trailing LEDs
+                    delay = FAST_SPEED;
+                    showTrailing = true; // Enable trailing LEDs
+                } else if (elapsed < verySlowPhaseStart) {
+                    // Phase 3: Slow down before very slow phase
+                    const progress = (elapsed - slowDownPhaseStart) / SLOW_DOWN_DURATION; // Progress (0 to 1) through slow-down phase
+                    delay = FAST_SPEED + (VERY_SLOW_SPEED - FAST_SPEED) * progress; // Linear interpolation for delay
+                    showTrailing = false; // Disable trailing LEDs during slow down
+                } else if (elapsed < totalAnimationDuration) {
+                    // Phase 4: Very slow phase (new)
+                    delay = VERY_SLOW_SPEED;
+                    showTrailing = false;
+                } else {
+                    // This block acts as a safety net, but the main stop is handled by autoStopTimeout
+                    clearInterval(animationInterval);
+                    // Ensure only the final LED is lit
+                    miniBoxes.forEach(box => {
+                        if (box) {
+                            box.classList.remove('active', 'bg-yellow-400');
+                            box.classList.add('bg-red-600');
+                        }
+                    });
+                    if (miniBoxes[currentLedIndex]) {
+                        miniBoxes[currentLedIndex].classList.add('active', 'bg-yellow-400');
+                        miniBoxes[currentLedIndex].classList.remove('bg-red-600');
+                    }
+                    currentLedIndex = 0; // Reset index for next start
+                    return; // Exit the loop
+                }
+
+                // Perform the animation step with the calculated trailing flag
+                animateStep(showTrailing);
+                // Schedule the next animation step with the calculated delay
+                animationInterval = setTimeout(loop, delay);
+            }
+
+            // Start the first animation loop with the initial slow speed
+            animationInterval = setTimeout(loop, SLOW_SPEED);
+
+            // Set the auto-stop timeout for the total animation duration
+            autoStopTimeout = setTimeout(() => {
+                clearInterval(animationInterval); // Stop the animation loop at the end of total duration
+
+                // Turn off all perimeter LEDs first to ensure only the final one remains lit
+                miniBoxes.forEach(box => {
+                    if (box) {
+                        box.classList.remove('active', 'bg-yellow-400');
+                        box.classList.add('bg-red-600');
+                    }
+                });
+
+                // Turn on only the LED at the final currentLedIndex
+                if (miniBoxes[currentLedIndex]) {
+                    miniBoxes[currentLedIndex].classList.add('active', 'bg-yellow-400');
+                    miniBoxes[currentLedIndex].classList.remove('bg-red-600');
+                }
+
+                // Display a random number on Scorebox 1 (0-99999)
+                const randomNumber1 = Math.floor(Math.random() * 100000);
+                displayNumber(randomNumber1, scorebox1DigitIds);
+
+                // Display a random number on Scorebox 2 (0-99999)
+                const randomNumber2 = Math.floor(Math.random() * 100000);
+                displayNumber(randomNumber2, scorebox2DigitIds);
+
+                currentLedIndex = 0; // Reset index for next start
+            }, totalAnimationDuration);
+        }
+
+        // Event listener for the "Bắt đầu" button
+        document.getElementById('startButton').addEventListener('click', startLedAnimation);
+
+        // Initialize mini-boxes and display initial scores when the page loads
+        window.onload = function() {
+            initializeMiniBoxes();
+            // Define digit ID arrays for each scorebox for initial display
+            const scorebox1DigitIds = ['digit-1', 'digit-2', 'digit-3', 'digit-4', 'digit-5'];
+            const scorebox2DigitIds = ['digit-6', 'digit-7', 'digit-8', 'digit-9', 'digit-10'];
+            displayNumber(0, scorebox1DigitIds); // Display "00000" initially for Scorebox 1
+            displayNumber(0, scorebox2DigitIds); // Display "00000" initially for Scorebox 2
+        };
+    </script>
 </body>
 </html>
