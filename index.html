@@ -25,6 +25,10 @@
             transition: background-color 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
             background-color: transparent; /* Transparent background when off */
             border: 3px solid #f87171; /* Light red border when off, increased to 3px */
+            position: absolute; /* Keep absolute for precise positioning relative to parent */
+            z-index: 10; /* Ensure it's above the image */
+            width: 16px; /* Fixed size for mini-box */
+            height: 16px; /* Fixed size for mini-box */
         }
         .animated-minibox.active {
             background-color: #dc2626; /* Red color for active LED */
@@ -274,7 +278,7 @@
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-2-7">
-                    <img src="https://placehold.co/70x70/F0F4C3/827717?text=Img+9" alt="Image 9" onerror="this.src='https://placehold.co/70x70/F0F4C3/827717?text=Error'">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_2025080478b95d14b4ea92acceb5734bcd06db18.jpg" alt="Img 9" onerror="this.src='https://placehold.co/70x70/F0F4C3/827717?text=Error'">
                 </div>
             </div>
             <div class="flex justify-center w-full">
@@ -287,7 +291,7 @@
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-3-7">
-                    <img src="https://placehold.co/70x70/D1C4E9/4527A0?text=Img+11" alt="Image 11" onerror="this.src='https://placehold.co/70x70/D1C4E9/4527A0?text=Error'">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_202508049383c2d217fdfe39faa79e6e39f59720.jpg" alt="Img 11" onerror="this.src='https://placehold.co/70x70/D1C4E9/4527A0?text=Error'">
                 </div>
             </div>
             <div class="flex justify-center w-full">
@@ -300,7 +304,7 @@
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-4-7">
-                    <img src="https://placehold.co/70x70/FFCDD2/C62828?text=Img+13" alt="Image 13" onerror="this.src='https://placehold.co/70x70/FFCDD2/C62828?text=Error'">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_2025080494261b1471d9c28cb2aee6506c1363c3.jpg" alt="Img 13" onerror="this.src='https://placehold.co/70x70/FFCDD2/C62828?text=Error'">
                 </div>
             </div>
             <div class="flex justify-center w-full">
@@ -313,7 +317,7 @@
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-5-7">
-                    <img src="https://placehold.co/70x70/FFE0B2/EF6C00?text=Img+15" alt="Image 15" onerror="this.src='https://placehold.co/70x70/FFE0B2/EF6C00?text=Error'">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804e74b5209fc57a34cea1c7658583614d3.jpg" alt="Img 15" onerror="this.src='https://placehold.co/70x70/FFE0B2/EF6C00?text=Error'">
                 </div>
             </div>
             <div class="flex justify-center w-full">
@@ -326,7 +330,7 @@
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-6-7">
-                    <img src="https://placehold.co/70x70/C8E6C9/2E7D32?text=Img+17" alt="Image 17" onerror="this.src='https://placehold.co/70x70/C8E6C9/2E7D32?text=Error'">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804e9876e0bdc52937070d46decc4ac6760.jpg" alt="Img 17" onerror="this.src='https://placehold.co/70x70/C8E6C9/2E7D32?text=Error'">
                 </div>
             </div>
             <!-- Row 7 (all boxes) -->
@@ -335,22 +339,22 @@
                     <img src="https://sf-static.upanhlaylink.com/img/image_20250804c479a347beca125b807eb34e958acde4.jpg" alt="Img 18" onerror="this.src='https://placehold.co/70x70/BBDEFB/1565C0?text=Error'">
                 </div>
                 <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-7-2">
-                    <img src="https://placehold.co/70x70/FFECB3/EF6C00?text=Img+19" alt="Image 19" onerror="this.src='https://placehold.co/70x70/FFECB3/EF6C00?text=Error'">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804a305dbaa5e9e4eb400f71eefe0404aed.jpg" alt="Img 19" onerror="this.src='https://placehold.co/70x70/FFECB3/EF6C00?text=Error'">
                 </div>
                 <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-7-3">
-                    <img src="https://placehold.co/70x70/F3E5F5/6A1B9A?text=Img+20" alt="Image 20" onerror="this.src='https://placehold.co/70x70/F3E5F5/6A1B9A?text=Error'">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804e74b5209fc57a34cea1c7658583614d3.jpg" alt="Img 20" onerror="this.src='https://placehold.co/70x70/F3E5F5/6A1B9A?text=Error'">
                 </div>
                 <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-7-4">
-                    <img src="https://placehold.co/70x70/E0F7FA/00838F?text=Img+21" alt="Image 21" onerror="this.src='https://placehold.co/70x70/E0F7FA/00838F?text=Error'">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804d8c600a31725892e6147f6d6d4037d53.jpg" alt="Img 21" onerror="this.src='https://placehold.co/70x70/E0F7FA/00838F?text=Error'">
                 </div>
                 <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-7-5">
-                    <img src="https://placehold.co/70x70/FFCCBC/D84315?text=Img+22" alt="Image 22" onerror="this.src='https://placehold.co/70x70/FFCCBC/D84315?text=Error'">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_202508040fc7bea8ead9d438028098d9cdb77ae2.jpg" alt="Img 22" onerror="this.src='https://placehold.co/70x70/FFCCBC/D84315?text=Error'">
                 </div>
                 <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-7-6">
-                    <img src="https://placehold.co/70x70/FBE9E7/A1887F?text=Img+23" alt="Image 23" onerror="this.src='https://placehold.co/70x70/FBE9E7/A1887F?text=Error'">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_202508044f2bdf2109e2b73c138ac0654b6103fb.jpg" alt="Img 23" onerror="this.src='https://placehold.co/70x70/FBE9E7/A1887F?text=Error'">
                 </div>
                 <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-7-7">
-                    <img src="https://placehold.co/70x70/E3F2FD/1976D2?text=Img+24" alt="Image 24" onerror="this.src='https://placehold.co/70x70/E3F2FD/1976D2?text=Error'">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_2025080473285add5fe3eb02a035e4938ac28be3.jpg" alt="Img 24" onerror="this.src='https://placehold.co/70x70/E3F2FD/1976D2?text=Error'">
                 </div>
             </div>
         </div>
@@ -390,28 +394,28 @@
         <!-- Row of 8 imgbox (70x70px) -->
         <div class="absolute flex" style="top: 674px; left: 29px;">
             <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
-                <img src="https://placehold.co/70x70/E0F2F7/2C3E50?text=Icon+1" alt="Icon 1" onerror="this.src='https://placehold.co/70x70/E0F2F7/2C3E50?text=Error'">
+                <img src="https://sf-static.upanhlaylink.com/img/image_20250804dcc9a8aac743b9d2788a5abd4421e4e1.jpg" alt="Icon 1" onerror="this.src='https://placehold.co/70x70/E0F2F7/2C3E50?text=Error'">
             </div>
             <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
-                <img src="https://placehold.co/70x70/FCE4EC/880E4F?text=Icon+2" alt="Icon 2" onerror="this.src='https://placehold.co/70x70/FCE4EC/880E4F?text=Error'">
+                <img src="https://sf-static.upanhlaylink.com/img/image_20250804d8c600a31725892e6147f6d6d4037d53.jpg" alt="Icon 2" onerror="this.src='https://placehold.co/70x70/FCE4EC/880E4F?text=Error'">
             </div>
             <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
-                <img src="https://placehold.co/70x70/FFFDE7/FF6F00?text=Icon+3" alt="Icon 3" onerror="this.src='https://placehold.co/70x70/FFFDE7/FF6F00?text=Error'">
+                <img src="https://sf-static.upanhlaylink.com/img/image_2025080437509603a57e268c1f0685250f09ed7b.jpg" alt="Icon 3" onerror="this.src='https://placehold.co/70x70/FFFDE7/FF6F00?text=Error'">
             </div>
             <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
-                <img src="https://placehold.co/70x70/E8F5E9/1B5E20?text=Icon+4" alt="Icon 4" onerror="this.src='https://placehold.co/70x70/E8F5E9/1B5E20?text=Error'">
+                <img src="https://sf-static.upanhlaylink.com/img/image_2025080478b95d14b4ea92acceb5734bcd06db18.jpg" alt="Icon 4" onerror="this.src='https://placehold.co/70x70/E8F5E9/1B5E20?text=Error'">
             </div>
             <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
-                <img src="https://placehold.co/70x70/F3E5F5/4A148C?text=Icon+5" alt="Icon 5" onerror="this.src='https://placehold.co/70x70/F3E5F5/4A148C?text=Error'">
+                <img src="https://sf-static.upanhlaylink.com/img/image_202508044f2bdf2109e2b73c138ac0654b6103fb.jpg" alt="Icon 5" onerror="this.src='https://placehold.co/70x70/F3E5F5/4A148C?text=Error'">
             </div>
             <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
-                <img src="https://placehold.co/70x70/E1F5FE/01579B?text=Icon+6" alt="Icon 6" onerror="this.src='https://placehold.co/70x70/E1F5FE/01579B?text=Error'">
+                <img src="https://sf-static.upanhlaylink.com/img/image_20250804c479a347beca125b807eb34e958acde4.jpg" alt="Icon 6" onerror="this.src='https://placehold.co/70x70/E1F5FE/01579B?text=Error'">
             </div>
             <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
-                <img src="https://placehold.co/70x70/FFEBEE/B71C1C?text=Icon+7" alt="Icon 7" onerror="this.src='https://placehold.co/70x70/FFEBEE/B71C1C?text=Error'">
+                <img src="https://sf-static.upanhlaylink.com/img/image_2025080473285add5fe3eb02a035e4938ac28be3.jpg" alt="Icon 7" onerror="this.src='https://placehold.co/70x70/FFEBEE/B71C1C?text=Error'">
             </div>
             <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
-                <img src="https://placehold.co/70x70/DCEDC8/33691E?text=Icon+8" alt="Icon 8" onerror="this.src='https://placehold.co/70x70/DCEDC8/33691E?text=Error'">
+                <img src="https://sf-static.upanhlaylink.com/img/image_20250804e74b5209fc57a34cea1c7658583614d3.jpg" alt="Icon 8" onerror="this.src='https://placehold.co/70x70/DCEDC8/33691E?text=Error'">
             </div>
         </div>
 
@@ -520,6 +524,7 @@
         let animationStartTime;  // Timestamp when the animation started
 
         // Define the order of mini-boxes for the animation path (clockwise perimeter)
+        // These IDs now refer to the mini-box elements nested within content-boxes
         const animationPathIds = [
             'mb-1-1', 'mb-1-2', 'mb-1-3', 'mb-1-4', 'mb-1-5', 'mb-1-6', 'mb-1-7',
             'mb-2-7', 'mb-3-7', 'mb-4-7', 'mb-5-7', 'mb-6-7',
