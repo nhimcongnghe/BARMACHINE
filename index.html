@@ -88,6 +88,14 @@
         [id^="digit-"][id$="-e"] { width: 4px; height: 11px; top: 20px; left: 0; }
         [id^="digit-"][id$="-f"] { width: 4px; height: 11px; top: 4px; left: 0; }
         [id^="digit-"][id$="-g"] { width: 18px; height: 4px; top: 17px; left: 3px; }
+
+        /* Style for images inside content boxes (imgbox and perimeter boxes) */
+        .imgbox img, .content-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the image covers the area without distortion */
+            border-radius: 6px; /* Match parent's rounded corners */
+        }
     </style>
 </head>
 <body class="p-4">
@@ -216,8 +224,7 @@
                     <div class="segment" id="digit-10-c"></div>
                     <div class="segment" id="digit-10-d"></div>
                     <div class="segment" id="digit-10-e"></div>
-                    <div class="segment" id="digit-10-f"></div>
-                    <div class="segment" id="digit-10-g"></div>
+                    <div class="segment" id="digit-10-f"></div><div class="segment" id="digit-10-g"></div>
                 </div>
             </div>
         </div>
@@ -234,69 +241,117 @@
         ">
             <!-- Row 1 (all boxes) -->
             <div class="flex justify-center w-full">
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-1-1">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_2025080473285add5fe3eb02a035e4938ac28be3.jpg" alt="Img 1" onerror="this.src='https://placehold.co/70x70/E0F2F7/2C3E50?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-1-2">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_202508044f2bdf2109e2b73c138ac0654b6103fb.jpg" alt="Img 2" onerror="this.src='https://placehold.co/70x70/FCE4EC/880E4F?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-1-3">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804028703cfe6061d23208f0c775a815f33.jpg" alt="Img 3" onerror="this.src='https://placehold.co/70x70/FFFDE7/FF6F00?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-1-4">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804dcc9a8aac743b9d2788a5abd4421e4e1.jpg" alt="Img 4" onerror="this.src='https://placehold.co/70x70/E8F5E9/1B5E20?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-1-5">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804e74b5209fc57a34cea1c7658583614d3.jpg" alt="Img 5" onerror="this.src='https://placehold.co/70x70/F3E5F5/4A148C?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-1-6">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_202508045c8509c9ecd3460a3f874505a447c467.jpg" alt="Img 6" onerror="this.src='https://placehold.co/70x70/E1F5FE/01579B?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-1-7">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804c479a347beca125b807eb34e958acde4.jpg" alt="Img 7" onerror="this.src='https://placehold.co/70x70/FFEBEE/B71C1C?text=Error'">
+                </div>
             </div>
             <!-- Rows 2 to 6 (first and last box have borders, inner ones are empty) -->
             <div class="flex justify-center w-full">
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-2-1">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_2025080486354c7d7a98ca54a81a2cfd544cf294.jpg" alt="Img 8" onerror="this.src='https://placehold.co/70x70/DCEDC8/33691E?text=Error'">
+                </div>
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-2-7">
+                    <img src="https://placehold.co/70x70/F0F4C3/827717?text=Img+9" alt="Image 9" onerror="this.src='https://placehold.co/70x70/F0F4C3/827717?text=Error'">
+                </div>
             </div>
             <div class="flex justify-center w-full">
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-3-1">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804e74b5209fc57a34cea1c7658583614d3.jpg" alt="Img 10" onerror="this.src='https://placehold.co/70x70/FFCCBC/BF360C?text=Error'">
+                </div>
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-3-7">
+                    <img src="https://placehold.co/70x70/D1C4E9/4527A0?text=Img+11" alt="Image 11" onerror="this.src='https://placehold.co/70x70/D1C4E9/4527A0?text=Error'">
+                </div>
             </div>
             <div class="flex justify-center w-full">
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-4-1">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_202508046fb377a98132c53db6e823203cb79d8c.jpg" alt="Img 12" onerror="this.src='https://placehold.co/70x70/B2EBF2/006064?text=Error'">
+                </div>
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-4-7">
+                    <img src="https://placehold.co/70x70/FFCDD2/C62828?text=Img+13" alt="Image 13" onerror="this.src='https://placehold.co/70x70/FFCDD2/C62828?text=Error'">
+                </div>
             </div>
             <div class="flex justify-center w-full">
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-5-1">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804bead03263e897a8552586891bf4ba16a.jpg" alt="Img 14" onerror="this.src='https://placehold.co/70x70/CFD8DC/37474F?text=Error'">
+                </div>
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-5-7">
+                    <img src="https://placehold.co/70x70/FFE0B2/EF6C00?text=Img+15" alt="Image 15" onerror="this.src='https://placehold.co/70x70/FFE0B2/EF6C00?text=Error'">
+                </div>
             </div>
             <div class="flex justify-center w-full">
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-6-1">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_2025080437509603a57e268c1f0685250f09ed7b.jpg" alt="Img 16" onerror="this.src='https://placehold.co/70x70/F8BBD0/AD1457?text=Error'">
+                </div>
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
                 <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-6-7">
+                    <img src="https://placehold.co/70x70/C8E6C9/2E7D32?text=Img+17" alt="Image 17" onerror="this.src='https://placehold.co/70x70/C8E6C9/2E7D32?text=Error'">
+                </div>
             </div>
             <!-- Row 7 (all boxes) -->
             <div class="flex justify-center w-full">
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
-                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-7-1">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804c479a347beca125b807eb34e958acde4.jpg" alt="Img 18" onerror="this.src='https://placehold.co/70x70/BBDEFB/1565C0?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-7-2">
+                    <img src="https://placehold.co/70x70/FFECB3/EF6C00?text=Img+19" alt="Image 19" onerror="this.src='https://placehold.co/70x70/FFECB3/EF6C00?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-7-3">
+                    <img src="https://placehold.co/70x70/F3E5F5/6A1B9A?text=Img+20" alt="Image 20" onerror="this.src='https://placehold.co/70x70/F3E5F5/6A1B9A?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-7-4">
+                    <img src="https://placehold.co/70x70/E0F7FA/00838F?text=Img+21" alt="Image 21" onerror="this.src='https://placehold.co/70x70/E0F7FA/00838F?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-7-5">
+                    <img src="https://placehold.co/70x70/FFCCBC/D84315?text=Img+22" alt="Image 22" onerror="this.src='https://placehold.co/70x70/FFCCBC/D84315?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-7-6">
+                    <img src="https://placehold.co/70x70/FBE9E7/A1887F?text=Img+23" alt="Image 23" onerror="this.src='https://placehold.co/70x70/FBE9E7/A1887F?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-7-7">
+                    <img src="https://placehold.co/70x70/E3F2FD/1976D2?text=Img+24" alt="Image 24" onerror="this.src='https://placehold.co/70x70/E3F2FD/1976D2?text=Error'">
+                </div>
             </div>
         </div>
         <!-- All mini-boxes with unique IDs and the animated-minibox class -->
@@ -334,14 +389,30 @@
 
         <!-- Row of 8 imgbox (70x70px) -->
         <div class="absolute flex" style="top: 674px; left: 29px;">
-            <div class="w-[70px] h-[70px] bg-gray-100 border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
-            <div class="w-[70px] h-[70px] bg-gray-100 border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
-            <div class="w-[70px] h-[70px] bg-gray-100 border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
-            <div class="w-[70px] h-[70px] bg-gray-100 border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
-            <div class="w-[70px] h-[70px] bg-gray-100 border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
-            <div class="w-[70px] h-[70px] bg-gray-100 border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
-            <div class="w-[70px] h-[70px] bg-gray-100 border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
-            <div class="w-[70px] h-[70px] bg-gray-100 border-4 border-gray-300 rounded-lg shadow-md overflow-hidden"></div>
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
+                <img src="https://placehold.co/70x70/E0F2F7/2C3E50?text=Icon+1" alt="Icon 1" onerror="this.src='https://placehold.co/70x70/E0F2F7/2C3E50?text=Error'">
+            </div>
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
+                <img src="https://placehold.co/70x70/FCE4EC/880E4F?text=Icon+2" alt="Icon 2" onerror="this.src='https://placehold.co/70x70/FCE4EC/880E4F?text=Error'">
+            </div>
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
+                <img src="https://placehold.co/70x70/FFFDE7/FF6F00?text=Icon+3" alt="Icon 3" onerror="this.src='https://placehold.co/70x70/FFFDE7/FF6F00?text=Error'">
+            </div>
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
+                <img src="https://placehold.co/70x70/E8F5E9/1B5E20?text=Icon+4" alt="Icon 4" onerror="this.src='https://placehold.co/70x70/E8F5E9/1B5E20?text=Error'">
+            </div>
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
+                <img src="https://placehold.co/70x70/F3E5F5/4A148C?text=Icon+5" alt="Icon 5" onerror="this.src='https://placehold.co/70x70/F3E5F5/4A148C?text=Error'">
+            </div>
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
+                <img src="https://placehold.co/70x70/E1F5FE/01579B?text=Icon+6" alt="Icon 6" onerror="this.src='https://placehold.co/70x70/E1F5FE/01579B?text=Error'">
+            </div>
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
+                <img src="https://placehold.co/70x70/FFEBEE/B71C1C?text=Icon+7" alt="Icon 7" onerror="this.src='https://placehold.co/70x70/FFEBEE/B71C1C?text=Error'">
+            </div>
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
+                <img src="https://placehold.co/70x70/DCEDC8/33691E?text=Icon+8" alt="Icon 8" onerror="this.src='https://placehold.co/70x70/DCEDC8/33691E?text=Error'">
+            </div>
         </div>
 
         <!-- New row of 8 betbox (70x50px) -->
