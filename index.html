@@ -100,70 +100,6 @@
             object-fit: cover; /* Ensures the image covers the area without distortion */
             border-radius: 6px; /* Match parent's rounded corners */
         }
-
-        /* Responsive adjustments for content boxes */
-        .content-box-grid {
-            display: grid;
-            grid-template-columns: repeat(7, minmax(0, 1fr)); /* 7 equal columns */
-            gap: 0; /* No gap between boxes */
-            width: 100%;
-        }
-        .content-box {
-            position: relative; /* For positioning mini-boxes inside */
-            width: 100%; /* Fill grid cell */
-            padding-bottom: 100%; /* Maintain aspect ratio (1:1) */
-            height: 0; /* Collapse height */
-            overflow: hidden;
-            background-color: transparent;
-            border: 4px solid #d1d5db; /* gray-300 */
-            border-radius: 0.5rem; /* rounded-lg */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
-        }
-        .content-box > * {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Specific positioning for mini-boxes relative to their parent content-box */
-        /* Adjusted by 8px (half of mini-box size + border width) */
-        .content-box .animated-minibox.top-left { top: -8px; left: -8px; }
-        .content-box .animated-minibox.top-right { top: -8px; right: -8px; left: auto; }
-        .content-box .animated-minibox.bottom-left { bottom: -8px; left: -8px; top: auto; }
-        .content-box .animated-minibox.bottom-right { bottom: -8px; right: -8px; top: auto; left: auto; }
-
-        /* Hide empty boxes in the middle of the grid */
-        .content-box.empty {
-            background-color: transparent;
-            border: none;
-            box-shadow: none;
-        }
-
-        /* Responsive adjustments for bottom rows */
-        .bottom-row-item {
-            flex-basis: calc(25% - 8px); /* For 4 items per row on small screens, accounting for gap */
-            max-width: calc(25% - 8px);
-        }
-        @media (min-width: 640px) { /* sm breakpoint */
-            .bottom-row-item {
-                flex-basis: calc(20% - 8px); /* For 5 items per row */
-                max-width: calc(20% - 8px);
-            }
-        }
-        @media (min-width: 768px) { /* md breakpoint */
-            .bottom-row-item {
-                flex-basis: calc(12.5% - 8px); /* For 8 items per row */
-                max-width: calc(12.5% - 8px);
-            }
-        }
-        /* Ensure fixed max-width for consistency on very large screens if desired */
-        .bottom-row-item.max-fixed-width {
-            max-width: 70px; /* Original 70px */
-            flex-grow: 0; /* Prevent growing beyond max-width */
-            flex-shrink: 0; /* Prevent shrinking below content if needed */
-        }
     </style>
 </head>
 <body class="p-4">
@@ -172,273 +108,321 @@
         bg-white
         rounded-xl
         shadow-xl
-        p-4 /* Adjusted padding for responsiveness */
+        p-6
         flex
         flex-col
         items-center
         border
         border-gray-200
-        w-full /* Take full width of parent (body) */
-        max-w-screen-lg /* Max width for larger screens */
-        mx-auto /* Center horizontally */
-        min-h-[90vh] /* Minimum height for better appearance */
-    ">
-        <!-- Scoreboxes container -->
-        <div class="flex flex-wrap justify-between w-full mb-4 gap-2">
-            <!-- Scorebox 1 (left) -->
-            <div class="bg-gray-100 rounded-lg shadow-md border-4 border-gray-400 flex items-center justify-center flex-1 min-w-[150px] py-2">
-                <!-- Container for 5 digits -->
-                <div class="flex justify-center items-center h-full">
-                    <!-- Digit 6 -->
-                    <div class="seven-segment-digit" id="digit-6">
-                        <div class="segment" id="digit-6-a"></div><div class="segment" id="digit-6-b"></div><div class="segment" id="digit-6-c"></div><div class="segment" id="digit-6-d"></div><div class="segment" id="digit-6-e"></div><div class="segment" id="digit-6-f"></div><div class="segment" id="digit-6-g"></div>
-                    </div>
-                    <!-- Digit 7 -->
-                    <div class="seven-segment-digit" id="digit-7">
-                        <div class="segment" id="digit-7-a"></div><div class="segment" id="digit-7-b"></div><div class="segment" id="digit-7-c"></div><div class="segment" id="digit-7-d"></div><div class="segment" id="digit-7-e"></div><div class="segment" id="digit-7-f"></div><div class="segment" id="digit-7-g"></div>
-                    </div>
-                    <!-- Digit 8 -->
-                    <div class="seven-segment-digit" id="digit-8">
-                        <div class="segment" id="digit-8-a"></div><div class="segment" id="digit-8-b"></div><div class="segment" id="digit-8-c"></div><div class="segment" id="digit-8-d"></div><div class="segment" id="digit-8-e"></div><div class="segment" id="digit-8-f"></div><div class="segment" id="digit-8-g"></div>
-                    </div>
-                    <!-- Digit 9 -->
-                    <div class="seven-segment-digit" id="digit-9">
-                        <div class="segment" id="digit-9-a"></div><div class="segment" id="digit-9-b"></div><div class="segment" id="digit-9-c"></div><div class="segment" id="digit-9-d"></div><div class="segment" id="digit-9-e"></div><div class="segment" id="digit-9-f"></div><div class="segment" id="digit-9-g"></div>
-                    </div>
-                    <!-- Digit 10 -->
-                    <div class="seven-segment-digit" id="digit-10">
-                        <div class="segment" id="digit-10-a"></div><div class="segment" id="digit-10-b"></div><div class="segment" id="digit-10-c"></div><div class="segment" id="digit-10-d"></div><div class="segment" id="digit-10-e"></div><div class="segment" id="digit-10-f"></div><div class="segment" id="digit-10-g"></div>
-                    </div>
+        max-w-full
+        max-h-full
+        relative /* Add relative for positioning inner boxes */
+    " style="width: 650px; height: 1000px;">
+        <!-- Scorebox 1 (right) -->
+        <div class="absolute bg-gray-100 rounded-lg shadow-md border-4 border-gray-400 flex items-center justify-center"
+             style="width: 200px; height: 50px; top: 20px; left: 385px;">
+            <!-- Container for 5 digits -->
+            <div class="flex justify-center items-center h-full">
+                <!-- Digit 1 -->
+                <div class="seven-segment-digit" id="digit-1">
+                    <div class="segment" id="digit-1-a"></div>
+                    <div class="segment" id="digit-1-b"></div>
+                    <div class="segment" id="digit-1-c"></div>
+                    <div class="segment" id="digit-1-d"></div>
+                    <div class="segment" id="digit-1-e"></div>
+                    <div class="segment" id="digit-1-f"></div>
+                    <div class="segment" id="digit-1-g"></div>
                 </div>
-            </div>
-            <!-- Scorebox 2 (right) -->
-            <div class="bg-gray-100 rounded-lg shadow-md border-4 border-gray-400 flex items-center justify-center flex-1 min-w-[150px] py-2">
-                <!-- Container for 5 digits -->
-                <div class="flex justify-center items-center h-full">
-                    <!-- Digit 1 -->
-                    <div class="seven-segment-digit" id="digit-1">
-                        <div class="segment" id="digit-1-a"></div>
-                        <div class="segment" id="digit-1-b"></div>
-                        <div class="segment" id="digit-1-c"></div>
-                        <div class="segment" id="digit-1-d"></div>
-                        <div class="segment" id="digit-1-e"></div>
-                        <div class="segment" id="digit-1-f"></div>
-                        <div class="segment" id="digit-1-g"></div>
-                    </div>
-                    <!-- Digit 2 -->
-                    <div class="seven-segment-digit" id="digit-2">
-                        <div class="segment" id="digit-2-a"></div>
-                        <div class="segment" id="digit-2-b"></div>
-                        <div class="segment" id="digit-2-c"></div>
-                        <div class="segment" id="digit-2-d"></div>
-                        <div class="segment" id="digit-2-e"></div>
-                        <div class="segment" id="digit-2-f"></div>
-                        <div class="segment" id="digit-2-g"></div>
-                    </div>
-                    <!-- Digit 3 -->
-                    <div class="seven-segment-digit" id="digit-3">
-                        <div class="segment" id="digit-3-a"></div>
-                        <div class="segment" id="digit-3-b"></div>
-                        <div class="segment" id="digit-3-c"></div>
-                        <div class="segment" id="digit-3-d"></div>
-                        <div class="segment" id="digit-3-e"></div>
-                        <div class="segment" id="digit-3-f"></div>
-                        <div class="segment" id="digit-3-g"></div>
-                    </div>
-                    <!-- Digit 4 -->
-                    <div class="seven-segment-digit" id="digit-4">
-                        <div class="segment" id="digit-4-a"></div>
-                        <div class="segment" id="digit-4-b"></div>
-                        <div class="segment" id="digit-4-c"></div>
-                        <div class="segment" id="digit-4-d"></div>
-                        <div class="segment" id="digit-4-e"></div>
-                        <div class="segment" id="digit-4-f"></div>
-                        <div class="segment" id="digit-4-g"></div>
-                    </div>
-                    <!-- Digit 5 -->
-                    <div class="seven-segment-digit" id="digit-5">
-                        <div class="segment" id="digit-5-a"></div>
-                        <div class="segment" id="digit-5-b"></div>
-                        <div class="segment" id="digit-5-c"></div>
-                        <div class="segment" id="digit-5-d"></div>
-                        <div class="segment" id="digit-5-e"></div>
-                        <div class="segment" id="digit-5-f"></div>
-                        <div class="segment" id="digit-5-g"></div>
-                    </div>
+                <!-- Digit 2 -->
+                <div class="seven-segment-digit" id="digit-2">
+                    <div class="segment" id="digit-2-a"></div>
+                    <div class="segment" id="digit-2-b"></div>
+                    <div class="segment" id="digit-2-c"></div>
+                    <div class="segment" id="digit-2-d"></div>
+                    <div class="segment" id="digit-2-e"></div>
+                    <div class="segment" id="digit-2-f"></div>
+                    <div class="segment" id="digit-2-g"></div>
+                </div>
+                <!-- Digit 3 -->
+                <div class="seven-segment-digit" id="digit-3">
+                    <div class="segment" id="digit-3-a"></div>
+                    <div class="segment" id="digit-3-b"></div>
+                    <div class="segment" id="digit-3-c"></div>
+                    <div class="segment" id="digit-3-d"></div>
+                    <div class="segment" id="digit-3-e"></div>
+                    <div class="segment" id="digit-3-f"></div>
+                    <div class="segment" id="digit-3-g"></div>
+                </div>
+                <!-- Digit 4 -->
+                <div class="seven-segment-digit" id="digit-4">
+                    <div class="segment" id="digit-4-a"></div>
+                    <div class="segment" id="digit-4-b"></div>
+                    <div class="segment" id="digit-4-c"></div>
+                    <div class="segment" id="digit-4-d"></div>
+                    <div class="segment" id="digit-4-e"></div>
+                    <div class="segment" id="digit-4-f"></div>
+                    <div class="segment" id="digit-4-g"></div>
+                </div>
+                <!-- Digit 5 -->
+                <div class="seven-segment-digit" id="digit-5">
+                    <div class="segment" id="digit-5-a"></div>
+                    <div class="segment" id="digit-5-b"></div>
+                    <div class="segment" id="digit-5-c"></div>
+                    <div class="segment" id="digit-5-d"></div>
+                    <div class="segment" id="digit-5-e"></div>
+                    <div class="segment" id="digit-5-f"></div>
+                    <div class="segment" id="digit-5-g"></div>
                 </div>
             </div>
         </div>
 
-        <!-- Container for all 7 rows of content boxes (perimeter) -->
-        <div class="content-box-grid">
-            <!-- Row 1 -->
-            <div class="content-box" id="pb-1-1">
-                <img src="https://sf-static.upanhlaylink.com/img/image_2025080473285add5fe3eb02a035e4938ac28be3.jpg" alt="Img 1" onerror="this.src='https://placehold.co/70x70/E0F2F7/2C3E50?text=Error'">
-                <div class="animated-minibox top-left" id="mb-1-1"></div>
-            </div>
-            <div class="content-box" id="pb-1-2">
-                <img src="https://sf-static.upanhlaylink.com/img/image_202508044f2bdf2109e2b73c138ac0654b6103fb.jpg" alt="Img 2" onerror="this.src='https://placehold.co/70x70/FCE4EC/880E4F?text=Error'">
-                <div class="animated-minibox top-left" id="mb-1-2"></div>
-            </div>
-            <div class="content-box" id="pb-1-3">
-                <img src="https://sf-static.upanhlaylink.com/img/image_20250804028703cfe6061d23208f0c775a815f33.jpg" alt="Img 3" onerror="this.src='https://placehold.co/70x70/FFFDE7/FF6F00?text=Error'">
-                <div class="animated-minibox top-left" id="mb-1-3"></div>
-            </div>
-            <div class="content-box" id="pb-1-4">
-                <img src="https://sf-static.upanhlaylink.com/img/image_20250804dcc9a8aac743b9d2788a5abd4421e4e1.jpg" alt="Img 4" onerror="this.src='https://placehold.co/70x70/E8F5E9/1B5E20?text=Error'">
-                <div class="animated-minibox top-left" id="mb-1-4"></div>
-            </div>
-            <div class="content-box" id="pb-1-5">
-                <img src="https://sf-static.upanhlaylink.com/img/image_20250804e74b5209fc57a34cea1c7658583614d3.jpg" alt="Img 5" onerror="this.src='https://placehold.co/70x70/F3E5F5/4A148C?text=Error'">
-                <div class="animated-minibox top-left" id="mb-1-5"></div>
-            </div>
-            <div class="content-box" id="pb-1-6">
-                <img src="https://sf-static.upanhlaylink.com/img/image_202508045c8509c9ecd3460a3f874505a447c467.jpg" alt="Img 6" onerror="this.src='https://placehold.co/70x70/E1F5FE/01579B?text=Error'">
-                <div class="animated-minibox top-left" id="mb-1-6"></div>
-            </div>
-            <div class="content-box" id="pb-1-7">
-                <img src="https://sf-static.upanhlaylink.com/img/image_20250804c479a347beca125b807eb34e958acde4.jpg" alt="Img 7" onerror="this.src='https://placehold.co/70x70/FFEBEE/B71C1C?text=Error'">
-                <div class="animated-minibox top-right" id="mb-1-7"></div>
-            </div>
-
-            <!-- Row 2 -->
-            <div class="content-box" id="pb-2-1">
-                <img src="https://sf-static.upanhlaylink.com/img/image_2025080486354c7d7a98ca54a81a2cfd544cf294.jpg" alt="Img 8" onerror="this.src='https://placehold.co/70x70/DCEDC8/33691E?text=Error'">
-                <div class="animated-minibox top-left" id="mb-2-1"></div>
-            </div>
-            <div class="content-box empty"></div>
-            <div class="content-box empty"></div>
-            <div class="content-box empty"></div>
-            <div class="content-box empty"></div>
-            <div class="content-box empty"></div>
-            <div class="content-box" id="pb-2-7">
-                <img src="https://sf-static.upanhlaylink.com/img/image_2025080478b95d14b4ea92acceb5734bcd06db18.jpg" alt="Img 9" onerror="this.src='https://placehold.co/70x70/F0F4C3/827717?text=Error'">
-                <div class="animated-minibox top-right" id="mb-2-7"></div>
-            </div>
-
-            <!-- Row 3 -->
-            <div class="content-box" id="pb-3-1">
-                <img src="https://sf-static.upanhlaylink.com/img/image_20250804e74b5209fc57a34cea1c7658583614d3.jpg" alt="Img 10" onerror="this.src='https://placehold.co/70x70/FFCCBC/BF360C?text=Error'">
-                <div class="animated-minibox top-left" id="mb-3-1"></div>
-            </div>
-            <div class="content-box empty"></div>
-            <div class="content-box empty"></div>
-            <div class="content-box empty"></div>
-            <div class="content-box empty"></div>
-            <div class="content-box empty"></div>
-            <div class="content-box" id="pb-3-7">
-                <img src="https://sf-static.upanhlaylink.com/img/image_202508049383c2d217fdfe39faa79e6e39f59720.jpg" alt="Img 11" onerror="this.src='https://placehold.co/70x70/D1C4E9/4527A0?text=Error'">
-                <div class="animated-minibox top-right" id="mb-3-7"></div>
-            </div>
-
-            <!-- Row 4 -->
-            <div class="content-box" id="pb-4-1">
-                <img src="https://sf-static.upanhlaylink.com/img/image_202508046fb377a98132c53db6e823203cb79d8c.jpg" alt="Img 12" onerror="this.src='https://placehold.co/70x70/B2EBF2/006064?text=Error'">
-                <div class="animated-minibox top-left" id="mb-4-1"></div>
-            </div>
-            <div class="content-box empty"></div>
-            <div class="content-box empty"></div>
-            <div class="content-box empty"></div>
-            <div class="content-box empty"></div>
-            <div class="content-box empty"></div>
-            <div class="content-box" id="pb-4-7">
-                <img src="https://sf-static.upanhlaylink.com/img/image_2025080494261b1471d9c28cb2aee6506c1363c3.jpg" alt="Img 13" onerror="this.src='https://placehold.co/70x70/FFCDD2/C62828?text=Error'">
-                <div class="animated-minibox top-right" id="mb-4-7"></div>
-            </div>
-
-            <!-- Row 5 -->
-            <div class="content-box" id="pb-5-1">
-                <img src="https://sf-static.upanhlaylink.com/img/image_20250804bead03263e897a8552586891bf4ba16a.jpg" alt="Img 14" onerror="this.src='https://placehold.co/70x70/CFD8DC/37474F?text=Error'">
-                <div class="animated-minibox top-left" id="mb-5-1"></div>
-            </div>
-            <div class="content-box empty"></div>
-            <div class="content-box empty"></div>
-            <div class="content-box empty"></div>
-            <div class="content-box empty"></div>
-            <div class="content-box empty"></div>
-            <div class="content-box" id="pb-5-7">
-                <img src="https://sf-static.upanhlaylink.com/img/image_20250804e74b5209fc57a34cea1c7658583614d3.jpg" alt="Img 15" onerror="this.src='https://placehold.co/70x70/FFE0B2/EF6C00?text=Error'">
-                <div class="animated-minibox top-right" id="mb-5-7"></div>
-            </div>
-
-            <!-- Row 6 -->
-            <div class="content-box" id="pb-6-1">
-                <img src="https://sf-static.upanhlaylink.com/img/image_2025080437509603a57e268c1f0685250f09ed7b.jpg" alt="Img 16" onerror="this.src='https://placehold.co/70x70/F8BBD0/AD1457?text=Error'">
-                <div class="animated-minibox top-left" id="mb-6-1"></div>
-            </div>
-            <div class="content-box empty"></div>
-            <div class="content-box empty"></div>
-            <div class="content-box empty"></div>
-            <div class="content-box empty"></div>
-            <div class="content-box empty"></div>
-            <div class="content-box" id="pb-6-7">
-                <img src="https://sf-static.upanhlaylink.com/img/image_20250804e9876e0bdc52937070d46decc4ac6760.jpg" alt="Img 17" onerror="this.src='https://placehold.co/70x70/C8E6C9/2E7D32?text=Error'">
-                <div class="animated-minibox top-right" id="mb-6-7"></div>
-            </div>
-
-            <!-- Row 7 -->
-            <div class="content-box" id="pb-7-1">
-                <img src="https://sf-static.upanhlaylink.com/img/image_20250804c479a347beca125b807eb34e958acde4.jpg" alt="Img 18" onerror="this.src='https://placehold.co/70x70/BBDEFB/1565C0?text=Error'">
-                <div class="animated-minibox bottom-left" id="mb-7-1"></div>
-            </div>
-            <div class="content-box" id="pb-7-2">
-                <img src="https://sf-static.upanhlaylink.com/img/image_20250804a305dbaa5e9e4eb400f71eefe0404aed.jpg" alt="Img 19" onerror="this.src='https://placehold.co/70x70/FFECB3/EF6C00?text=Error'">
-                <div class="animated-minibox bottom-left" id="mb-7-2"></div>
-            </div>
-            <div class="content-box" id="pb-7-3">
-                <img src="https://sf-static.upanhlaylink.com/img/image_20250804e74b5209fc57a34cea1c7658583614d3.jpg" alt="Img 20" onerror="this.src='https://placehold.co/70x70/F3E5F5/6A1B9A?text=Error'">
-                <div class="animated-minibox bottom-left" id="mb-7-3"></div>
-            </div>
-            <div class="content-box" id="pb-7-4">
-                <img src="https://sf-static.upanhlaylink.com/img/image_20250804d8c600a31725892e6147f6d6d4037d53.jpg" alt="Img 21" onerror="this.src='https://placehold.co/70x70/E0F7FA/00838F?text=Error'">
-                <div class="animated-minibox bottom-left" id="mb-7-4"></div>
-            </div>
-            <div class="content-box" id="pb-7-5">
-                <img src="https://sf-static.upanhlaylink.com/img/image_202508040fc7bea8ead9d438028098d9cdb77ae2.jpg" alt="Img 22" onerror="this.src='https://placehold.co/70x70/FFCCBC/D84315?text=Error'">
-                <div class="animated-minibox bottom-left" id="mb-7-5"></div>
-            </div>
-            <div class="content-box" id="pb-7-6">
-                <img src="https://sf-static.upanhlaylink.com/img/image_202508044f2bdf2109e2b73c138ac0654b6103fb.jpg" alt="Img 23" onerror="this.src='https://placehold.co/70x70/FBE9E7/A1887F?text=Error'">
-                <div class="animated-minibox bottom-left" id="mb-7-6"></div>
-            </div>
-            <div class="content-box" id="pb-7-7">
-                <img src="https://sf-static.upanhlaylink.com/img/image_2025080473285add5fe3eb02a035e4938ac28be3.jpg" alt="Img 24" onerror="this.src='https://placehold.co/70x70/E3F2FD/1976D2?text=Error'">
-                <div class="animated-minibox bottom-right" id="mb-7-7"></div>
+        <!-- Scorebox 2 (left) -->
+        <div class="absolute bg-gray-100 rounded-lg shadow-md border-4 border-gray-400 flex items-center justify-center"
+             style="width: 200px; height: 50px; top: 20px; left: 65px;">
+            <!-- Container for 5 digits -->
+            <div class="flex justify-center items-center h-full">
+                <!-- Digit 6 -->
+                <div class="seven-segment-digit" id="digit-6">
+                    <div class="segment" id="digit-6-a"></div>
+                    <div class="segment" id="digit-6-b"></div>
+                    <div class="segment" id="digit-6-c"></div>
+                    <div class="segment" id="digit-6-d"></div>
+                    <div class="segment" id="digit-6-e"></div>
+                    <div class="segment" id="digit-6-f"></div>
+                    <div class="segment" id="digit-6-g"></div>
+                </div>
+                <!-- Digit 7 -->
+                <div class="seven-segment-digit" id="digit-7">
+                    <div class="segment" id="digit-7-a"></div>
+                    <div class="segment" id="digit-7-b"></div>
+                    <div class="segment" id="digit-7-c"></div>
+                    <div class="segment" id="digit-7-d"></div>
+                    <div class="segment" id="digit-7-e"></div>
+                    <div class="segment" id="digit-7-f"></div>
+                    <div class="segment" id="digit-7-g"></div>
+                </div>
+                <!-- Digit 8 -->
+                <div class="seven-segment-digit" id="digit-8">
+                    <div class="segment" id="digit-8-a"></div>
+                    <div class="segment" id="digit-8-b"></div>
+                    <div class="segment" id="digit-8-c"></div>
+                    <div class="segment" id="digit-8-d"></div>
+                    <div class="segment" id="digit-8-e"></div>
+                    <div class="segment" id="digit-8-f"></div>
+                    <div class="segment" id="digit-8-g"></div>
+                </div>
+                <!-- Digit 9 -->
+                <div class="seven-segment-digit" id="digit-9">
+                    <div class="segment" id="digit-9-a"></div>
+                    <div class="segment" id="digit-9-b"></div>
+                    <div class="segment" id="digit-9-c"></div>
+                    <div class="segment" id="digit-9-d"></div>
+                    <div class="segment" id="digit-9-e"></div>
+                    <div class="segment" id="digit-9-f"></div>
+                    <div class="segment" id="digit-9-g"></div>
+                </div>
+                <!-- Digit 10 -->
+                <div class="seven-segment-digit" id="digit-10">
+                    <div class="segment" id="digit-10-a"></div>
+                    <div class="segment" id="digit-10-b"></div>
+                    <div class="segment" id="digit-10-c"></div>
+                    <div class="segment" id="digit-10-d"></div>
+                    <div class="segment" id="digit-10-e"></div>
+                    <div class="segment" id="digit-10-f"></div><div class="segment" id="digit-10-g"></div>
+                </div>
             </div>
         </div>
+
+        <!-- Container for all 7 rows of small boxes -->
+        <div class="
+            absolute /* Absolute positioning relative to the large box */
+            top-20 /* 80px from the top edge (20 * 4px = 80px) */
+            flex
+            flex-col /* Stack rows vertically */
+            items-center /* Center rows horizontally */
+            w-full /* Take full width of the large box */
+            overflow-hidden /* Ensure no content overflow */
+        ">
+            <!-- Row 1 (all boxes) -->
+            <div class="flex justify-center w-full">
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-1-1">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_2025080473285add5fe3eb02a035e4938ac28be3.jpg" alt="Img 1" onerror="this.src='https://placehold.co/70x70/E0F2F7/2C3E50?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-1-2">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_202508044f2bdf2109e2b73c138ac0654b6103fb.jpg" alt="Img 2" onerror="this.src='https://placehold.co/70x70/FCE4EC/880E4F?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-1-3">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804028703cfe6061d23208f0c775a815f33.jpg" alt="Img 3" onerror="this.src='https://placehold.co/70x70/FFFDE7/FF6F00?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-1-4">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804dcc9a8aac743b9d2788a5abd4421e4e1.jpg" alt="Img 4" onerror="this.src='https://placehold.co/70x70/E8F5E9/1B5E20?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-1-5">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804e74b5209fc57a34cea1c7658583614d3.jpg" alt="Img 5" onerror="this.src='https://placehold.co/70x70/F3E5F5/4A148C?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-1-6">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_202508045c8509c9ecd3460a3f874505a447c467.jpg" alt="Img 6" onerror="this.src='https://placehold.co/70x70/E1F5FE/01579B?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-1-7">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804c479a347beca125b807eb34e958acde4.jpg" alt="Img 7" onerror="this.src='https://placehold.co/70x70/FFEBEE/B71C1C?text=Error'">
+                </div>
+            </div>
+            <!-- Rows 2 to 6 (first and last box have borders, inner ones are empty) -->
+            <div class="flex justify-center w-full">
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-2-1">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_2025080486354c7d7a98ca54a81a2cfd544cf294.jpg" alt="Img 8" onerror="this.src='https://placehold.co/70x70/DCEDC8/33691E?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-2-7">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_2025080478b95d14b4ea92acceb5734bcd06db18.jpg" alt="Img 9" onerror="this.src='https://placehold.co/70x70/F0F4C3/827717?text=Error'">
+                </div>
+            </div>
+            <div class="flex justify-center w-full">
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-3-1">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804e74b5209fc57a34cea1c7658583614d3.jpg" alt="Img 10" onerror="this.src='https://placehold.co/70x70/FFCCBC/BF360C?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-3-7">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_202508049383c2d217fdfe39faa79e6e39f59720.jpg" alt="Img 11" onerror="this.src='https://placehold.co/70x70/D1C4E9/4527A0?text=Error'">
+                </div>
+            </div>
+            <div class="flex justify-center w-full">
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-4-1">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_202508046fb377a98132c53db6e823203cb79d8c.jpg" alt="Img 12" onerror="this.src='https://placehold.co/70x70/B2EBF2/006064?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-4-7">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_2025080494261b1471d9c28cb2aee6506c1363c3.jpg" alt="Img 13" onerror="this.src='https://placehold.co/70x70/FFCDD2/C62828?text=Error'">
+                </div>
+            </div>
+            <div class="flex justify-center w-full">
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-5-1">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804bead03263e897a8552586891bf4ba16a.jpg" alt="Img 14" onerror="this.src='https://placehold.co/70x70/CFD8DC/37474F?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-5-7">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804e74b5209fc57a34cea1c7658583614d3.jpg" alt="Img 15" onerror="this.src='https://placehold.co/70x70/FFE0B2/EF6C00?text=Error'">
+                </div>
+            </div>
+            <div class="flex justify-center w-full">
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-6-1">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_2025080437509603a57e268c1f0685250f09ed7b.jpg" alt="Img 16" onerror="this.src='https://placehold.co/70x70/F8BBD0/AD1457?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent"></div> <!-- Empty space -->
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-6-7">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804e9876e0bdc52937070d46decc4ac6760.jpg" alt="Img 17" onerror="this.src='https://placehold.co/70x70/C8E6C9/2E7D32?text=Error'">
+                </div>
+            </div>
+            <!-- Row 7 (all boxes) -->
+            <div class="flex justify-center w-full">
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-7-1">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804c479a347beca125b807eb34e958acde4.jpg" alt="Img 18" onerror="this.src='https://placehold.co/70x70/BBDEFB/1565C0?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-7-2">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804a305dbaa5e9e4eb400f71eefe0404aed.jpg" alt="Img 19" onerror="this.src='https://placehold.co/70x70/FFECB3/EF6C00?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-7-3">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804e74b5209fc57a34cea1c7658583614d3.jpg" alt="Img 20" onerror="this.src='https://placehold.co/70x70/F3E5F5/6A1B9A?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-7-4">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20250804d8c600a31725892e6147f6d6d4037d53.jpg" alt="Img 21" onerror="this.src='https://placehold.co/70x70/E0F7FA/00838F?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-7-5">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_202508040fc7bea8ead9d438028098d9cdb77ae2.jpg" alt="Img 22" onerror="this.src='https://placehold.co/70x70/FFCCBC/D84315?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-7-6">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_202508044f2bdf2109e2b73c138ac0654b6103fb.jpg" alt="Img 23" onerror="this.src='https://placehold.co/70x70/FBE9E7/A1887F?text=Error'">
+                </div>
+                <div class="w-20 h-20 bg-transparent border-4 border-gray-300 rounded-lg shadow-md overflow-hidden content-box" id="pb-7-7">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_2025080473285add5fe3eb02a035e4938ac28be3.jpg" alt="Img 24" onerror="this.src='https://placehold.co/70x70/E3F2FD/1976D2?text=Error'">
+                </div>
+            </div>
+        </div>
+        <!-- All mini-boxes with unique IDs and the animated-minibox class -->
+        <!-- Top row (1.1 to 1.7) -->
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-1-1" style="top: 182px; left: 123px;"></div>
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-1-2" style="top: 182px; left: 157px;"></div>
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-1-3" style="top: 182px; left: 237px;"></div>
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-1-4" style="top: 182px; left: 317px;"></div>
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-1-5" style="top: 182px; left: 397px;"></div>
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-1-6" style="top: 182px; left: 477px;"></div>
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-1-7" style="top: 182px; left: 511px;"></div>
+
+        <!-- Right column (2.7 to 6.7) -->
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-2-7" style="top: 216px; left: 511px;"></div>
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-3-7" style="top: 296px; left: 511px;"></div>
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-4-7" style="top: 376px; left: 511px;"></div>
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-5-7" style="top: 456px; left: 511px;"></div>
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-6-7" style="top: 536px; left: 511px;"></div>
+
+        <!-- Bottom row (7.7 to 7.1) -->
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-7-7" style="top: 570px; left: 511px;"></div>
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-7-6" style="top: 570px; left: 477px;"></div>
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-7-5" style="top: 570px; left: 397px;"></div>
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-7-4" style="top: 570px; left: 317px;"></div>
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-7-3" style="top: 570px; left: 237px;"></div>
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-7-2" style="top: 570px; left: 157px;"></div>
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-7-1" style="top: 570px; left: 123px;"></div>
+
+        <!-- Left column (6.1 to 2.1) -->
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-6-1" style="top: 536px; left: 123px;"></div>
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-5-1" style="top: 456px; left: 123px;"></div>
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-4-1" style="top: 376px; left: 123px;"></div>
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-3-1" style="top: 296px; left: 123px;"></div>
+        <div class="absolute w-4 h-4 rounded-full animated-minibox" id="mb-2-1" style="top: 216px; left: 123px;"></div>
 
         <!-- Row of 8 imgbox (70x70px) -->
-        <div class="flex flex-wrap justify-center w-full mt-8 gap-2">
-            <div class="bottom-row-item max-fixed-width aspect-square bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md imgbox">
+        <div class="absolute flex" style="top: 674px; left: 29px;">
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
                 <img src="https://sf-static.upanhlaylink.com/img/image_20250804dcc9a8aac743b9d2788a5abd4421e4e1.jpg" alt="Icon 1" onerror="this.src='https://placehold.co/70x70/E0F2F7/2C3E50?text=Error'">
             </div>
-            <div class="bottom-row-item max-fixed-width aspect-square bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md imgbox">
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
                 <img src="https://sf-static.upanhlaylink.com/img/image_20250804d8c600a31725892e6147f6d6d4037d53.jpg" alt="Icon 2" onerror="this.src='https://placehold.co/70x70/FCE4EC/880E4F?text=Error'">
             </div>
-            <div class="bottom-row-item max-fixed-width aspect-square bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md imgbox">
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
                 <img src="https://sf-static.upanhlaylink.com/img/image_2025080437509603a57e268c1f0685250f09ed7b.jpg" alt="Icon 3" onerror="this.src='https://placehold.co/70x70/FFFDE7/FF6F00?text=Error'">
             </div>
-            <div class="bottom-row-item max-fixed-width aspect-square bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md imgbox">
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
                 <img src="https://sf-static.upanhlaylink.com/img/image_2025080478b95d14b4ea92acceb5734bcd06db18.jpg" alt="Icon 4" onerror="this.src='https://placehold.co/70x70/E8F5E9/1B5E20?text=Error'">
             </div>
-            <div class="bottom-row-item max-fixed-width aspect-square bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md imgbox">
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
                 <img src="https://sf-static.upanhlaylink.com/img/image_202508044f2bdf2109e2b73c138ac0654b6103fb.jpg" alt="Icon 5" onerror="this.src='https://placehold.co/70x70/F3E5F5/4A148C?text=Error'">
             </div>
-            <div class="bottom-row-item max-fixed-width aspect-square bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md imgbox">
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
                 <img src="https://sf-static.upanhlaylink.com/img/image_20250804c479a347beca125b807eb34e958acde4.jpg" alt="Icon 6" onerror="this.src='https://placehold.co/70x70/E1F5FE/01579B?text=Error'">
             </div>
-            <div class="bottom-row-item max-fixed-width aspect-square bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md imgbox">
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
                 <img src="https://sf-static.upanhlaylink.com/img/image_2025080473285add5fe3eb02a035e4938ac28be3.jpg" alt="Icon 7" onerror="this.src='https://placehold.co/70x70/FFEBEE/B71C1C?text=Error'">
             </div>
-            <div class="bottom-row-item max-fixed-width aspect-square bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md imgbox">
+            <div class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 imgbox">
                 <img src="https://sf-static.upanhlaylink.com/img/image_20250804e74b5209fc57a34cea1c7658583614d3.jpg" alt="Icon 8" onerror="this.src='https://placehold.co/70x70/DCEDC8/33691E?text=Error'">
             </div>
         </div>
 
         <!-- New row of 8 betbox (70x50px) -->
-        <div class="flex flex-wrap justify-center w-full mt-4 gap-2">
+        <div class="absolute flex betbox-row" style="top: 746px; left: 29px;">
             <!-- Betbox 1 -->
-            <div class="bottom-row-item max-fixed-width h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md flex items-center justify-center betbox">
+            <div class="w-[70px] h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 flex items-center justify-center betbox">
                 <div class="seven-segment-digit" id="digit-11">
                     <div class="segment" id="digit-11-a"></div><div class="segment" id="digit-11-b"></div><div class="segment" id="digit-11-c"></div><div class="segment" id="digit-11-d"></div><div class="segment" id="digit-11-e"></div><div class="segment" id="digit-11-f"></div><div class="segment" id="digit-11-g"></div>
                 </div>
@@ -447,7 +431,7 @@
                 </div>
             </div>
             <!-- Betbox 2 -->
-            <div class="bottom-row-item max-fixed-width h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md flex items-center justify-center betbox">
+            <div class="w-[70px] h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 flex items-center justify-center betbox">
                 <div class="seven-segment-digit" id="digit-13">
                     <div class="segment" id="digit-13-a"></div><div class="segment" id="digit-13-b"></div><div class="segment" id="digit-13-c"></div><div class="segment" id="digit-13-d"></div><div class="segment" id="digit-13-e"></div><div class="segment" id="digit-13-f"></div><div class="segment" id="digit-13-g"></div>
                 </div>
@@ -456,7 +440,7 @@
                 </div>
             </div>
             <!-- Betbox 3 -->
-            <div class="bottom-row-item max-fixed-width h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md flex items-center justify-center betbox">
+            <div class="w-[70px] h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 flex items-center justify-center betbox">
                 <div class="seven-segment-digit" id="digit-15">
                     <div class="segment" id="digit-15-a"></div><div class="segment" id="digit-15-b"></div><div class="segment" id="digit-15-c"></div><div class="segment" id="digit-15-d"></div><div class="segment" id="digit-15-e"></div><div class="segment" id="digit-15-f"></div><div class="segment" id="digit-15-g"></div>
                 </div>
@@ -465,7 +449,7 @@
                 </div>
             </div>
             <!-- Betbox 4 -->
-            <div class="bottom-row-item max-fixed-width h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md flex items-center justify-center betbox">
+            <div class="w-[70px] h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 flex items-center justify-center betbox">
                 <div class="seven-segment-digit" id="digit-17">
                     <div class="segment" id="digit-17-a"></div><div class="segment" id="digit-17-b"></div><div class="segment" id="digit-17-c"></div><div class="segment" id="digit-17-d"></div><div class="segment" id="digit-17-e"></div><div class="segment" id="digit-17-f"></div><div class="segment" id="digit-17-g"></div>
                 </div>
@@ -474,7 +458,7 @@
                 </div>
             </div>
             <!-- Betbox 5 -->
-            <div class="bottom-row-item max-fixed-width h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md flex items-center justify-center betbox">
+            <div class="w-[70px] h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 flex items-center justify-center betbox">
                 <div class="seven-segment-digit" id="digit-19">
                     <div class="segment" id="digit-19-a"></div><div class="segment" id="digit-19-b"></div><div class="segment" id="digit-19-c"></div><div class="segment" id="digit-19-d"></div><div class="segment" id="digit-19-e"></div><div class="segment" id="digit-19-f"></div><div class="segment" id="digit-19-g"></div>
                 </div>
@@ -483,7 +467,7 @@
                 </div>
             </div>
             <!-- Betbox 6 -->
-            <div class="bottom-row-item max-fixed-width h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md flex items-center justify-center betbox">
+            <div class="w-[70px] h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 flex items-center justify-center betbox">
                 <div class="seven-segment-digit" id="digit-21">
                     <div class="segment" id="digit-21-a"></div><div class="segment" id="digit-21-b"></div><div class="segment" id="digit-21-c"></div><div class="segment" id="digit-21-d"></div><div class="segment" id="digit-21-e"></div><div class="segment" id="digit-21-f"></div><div class="segment" id="digit-21-g"></div>
                 </div>
@@ -492,7 +476,7 @@
                 </div>
             </div>
             <!-- Betbox 7 -->
-            <div class="bottom-row-item max-fixed-width h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md flex items-center justify-center betbox">
+            <div class="w-[70px] h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 flex items-center justify-center betbox">
                 <div class="seven-segment-digit" id="digit-23">
                     <div class="segment" id="digit-23-a"></div><div class="segment" id="digit-23-b"></div><div class="segment" id="digit-23-c"></div><div class="segment" id="digit-23-d"></div><div class="segment" id="digit-23-e"></div><div class="segment" id="digit-23-f"></div><div class="segment" id="digit-23-g"></div>
                 </div>
@@ -501,7 +485,7 @@
                 </div>
             </div>
             <!-- Betbox 8 -->
-            <div class="bottom-row-item max-fixed-width h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md flex items-center justify-center betbox">
+            <div class="w-[70px] h-[50px] bg-gray-100 border-2 border-gray-400 rounded-lg shadow-md m-0.5 flex items-center justify-center betbox">
                 <div class="seven-segment-digit" id="digit-25">
                     <div class="segment" id="digit-25-a"></div><div class="segment" id="digit-25-b"></div><div class="segment" id="digit-25-c"></div><div class="segment" id="digit-25-d"></div><div class="segment" id="digit-25-e"></div><div class="segment" id="digit-25-f"></div><div class="segment" id="digit-25-g"></div>
                 </div>
@@ -512,20 +496,20 @@
         </div>
 
         <!-- New row of 8 circular boxes (70x70px) -->
-        <div class="flex flex-wrap justify-center w-full mt-4 gap-2">
-            <div id="circlebox-1" class="bottom-row-item max-fixed-width aspect-square bg-gray-100 border-2 border-gray-400 rounded-full shadow-md circlebox"></div>
-            <div id="circlebox-2" class="bottom-row-item max-fixed-width aspect-square bg-gray-100 border-2 border-gray-400 rounded-full shadow-md circlebox"></div>
-            <div id="circlebox-3" class="bottom-row-item max-fixed-width aspect-square bg-gray-100 border-2 border-gray-400 rounded-full shadow-md circlebox"></div>
-            <div id="circlebox-4" class="bottom-row-item max-fixed-width aspect-square bg-gray-100 border-2 border-gray-400 rounded-full shadow-md circlebox"></div>
-            <div id="circlebox-5" class="bottom-row-item max-fixed-width aspect-square bg-gray-100 border-2 border-gray-400 rounded-full shadow-md circlebox"></div>
-            <div id="circlebox-6" class="bottom-row-item max-fixed-width aspect-square bg-gray-100 border-2 border-gray-400 rounded-full shadow-md circlebox"></div>
-            <div id="circlebox-7" class="bottom-row-item max-fixed-width aspect-square bg-gray-100 border-2 border-gray-400 rounded-full shadow-md circlebox"></div>
-            <div id="circlebox-8" class="bottom-row-item max-fixed-width aspect-square bg-gray-100 border-2 border-gray-400 rounded-full shadow-md circlebox"></div>
+        <div class="absolute flex" style="top: 850px; left: 41px;">
+            <div id="circlebox-1" class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-full shadow-md m-0.5 circlebox"></div>
+            <div id="circlebox-2" class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-full shadow-md m-0.5 circlebox"></div>
+            <div id="circlebox-3" class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-full shadow-md m-0.5 circlebox"></div>
+            <div id="circlebox-4" class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-full shadow-md m-0.5 circlebox"></div>
+            <div id="circlebox-5" class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-full shadow-md m-0.5 circlebox"></div>
+            <div id="circlebox-6" class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-full shadow-md m-0.5 circlebox"></div>
+            <div id="circlebox-7" class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-full shadow-md m-0.5 circlebox"></div>
+            <div id="circlebox-8" class="w-[70px] h-[70px] bg-gray-100 border-2 border-gray-400 rounded-full shadow-md m-0.5 circlebox"></div>
         </div>
 
 
         <!-- Control buttons -->
-        <div class="mt-auto pb-4 pt-8 flex space-x-4"> <!-- mt-auto pushes it to the bottom -->
+        <div class="absolute bottom-6 flex space-x-4">
             <button id="startButton" class="px-6 py-2 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105">
                 Bắt đầu
             </button>
